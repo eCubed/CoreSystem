@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreSystem.AuthServer", "Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreSystem.ResourceServer", "CoreSystem.ResourceServer\CoreSystem.ResourceServer.csproj", "{BF6A5E23-65C8-4E1E-802B-5C545A397C87}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreSystem.FileServer", "CoreSystem.FileServer\CoreSystem.FileServer.csproj", "{8793F163-7DFA-451F-8179-05DF82CED52C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{BF6A5E23-65C8-4E1E-802B-5C545A397C87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF6A5E23-65C8-4E1E-802B-5C545A397C87}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF6A5E23-65C8-4E1E-802B-5C545A397C87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8793F163-7DFA-451F-8179-05DF82CED52C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8793F163-7DFA-451F-8179-05DF82CED52C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8793F163-7DFA-451F-8179-05DF82CED52C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8793F163-7DFA-451F-8179-05DF82CED52C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
