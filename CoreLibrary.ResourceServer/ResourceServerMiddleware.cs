@@ -77,7 +77,16 @@ namespace CoreLibrary.ResourceServer
                 }
             }
 
-            await _next.Invoke(context);
+            try
+            {
+                await _next.Invoke(context);
+            }
+            catch(Exception e)
+            {
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                context.Response.ContentType = "application/json;charset=utf-8";
+                await context.Response.WriteAsync($"[\"{e.Message}\"]");
+            }
         }
     }
 }

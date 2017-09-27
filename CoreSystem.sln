@@ -3,17 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreSystem.Documentation", "CoreSystem.Documentation\CoreSystem.Documentation.csproj", "{66CB798C-2747-45C2-B107-D371C75ED64B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreSystem.Documentation", "CoreSystem.Documentation\CoreSystem.Documentation.csproj", "{66CB798C-2747-45C2-B107-D371C75ED64B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreLibrary.AuthServer", "CoreLibrary.AuthServer\CoreLibrary.AuthServer.csproj", "{8B85ECFD-B759-44FD-8FDE-614AD225833A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreLibrary.AuthServer", "CoreLibrary.AuthServer\CoreLibrary.AuthServer.csproj", "{8B85ECFD-B759-44FD-8FDE-614AD225833A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreLibrary.Cryptography", "CoreLibrary.Cryptography\CoreLibrary.Cryptography.csproj", "{F1C6FBE4-814B-4D6E-97F0-D5070A93DADF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreLibrary.Cryptography", "CoreLibrary.Cryptography\CoreLibrary.Cryptography.csproj", "{F1C6FBE4-814B-4D6E-97F0-D5070A93DADF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreLibrary.NetSecurity", "CoreLibrary.NetSecurity\CoreLibrary.NetSecurity.csproj", "{2C8D3756-46FB-4F9E-BC0E-8A159A3E7981}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreLibrary.NetSecurity", "CoreLibrary.NetSecurity\CoreLibrary.NetSecurity.csproj", "{2C8D3756-46FB-4F9E-BC0E-8A159A3E7981}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreLibrary.ResourceServer", "CoreLibrary.ResourceServer\CoreLibrary.ResourceServer.csproj", "{0D4AA7FB-C895-4C6A-8C65-5CFA9496A276}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreLibrary.ResourceServer", "CoreLibrary.ResourceServer\CoreLibrary.ResourceServer.csproj", "{0D4AA7FB-C895-4C6A-8C65-5CFA9496A276}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreSystem.AuthServer", "CoreSystem.AuthServer\CoreSystem.AuthServer.csproj", "{1F059F5C-238C-4033-B530-1145B7748349}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreSystem.AuthServer", "CoreSystem.AuthServer\CoreSystem.AuthServer.csproj", "{1F059F5C-238C-4033-B530-1145B7748349}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreSystem.ResourceServer", "CoreSystem.ResourceServer\CoreSystem.ResourceServer.csproj", "{BF6A5E23-65C8-4E1E-802B-5C545A397C87}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{1F059F5C-238C-4033-B530-1145B7748349}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F059F5C-238C-4033-B530-1145B7748349}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F059F5C-238C-4033-B530-1145B7748349}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF6A5E23-65C8-4E1E-802B-5C545A397C87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF6A5E23-65C8-4E1E-802B-5C545A397C87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF6A5E23-65C8-4E1E-802B-5C545A397C87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF6A5E23-65C8-4E1E-802B-5C545A397C87}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
