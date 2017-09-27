@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreLibrary.NetSecurity", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreLibrary.ResourceServer", "CoreLibrary.ResourceServer\CoreLibrary.ResourceServer.csproj", "{0D4AA7FB-C895-4C6A-8C65-5CFA9496A276}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreSystem.AuthServer", "CoreSystem.AuthServer\CoreSystem.AuthServer.csproj", "{1F059F5C-238C-4033-B530-1145B7748349}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{0D4AA7FB-C895-4C6A-8C65-5CFA9496A276}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D4AA7FB-C895-4C6A-8C65-5CFA9496A276}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D4AA7FB-C895-4C6A-8C65-5CFA9496A276}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F059F5C-238C-4033-B530-1145B7748349}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F059F5C-238C-4033-B530-1145B7748349}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F059F5C-238C-4033-B530-1145B7748349}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F059F5C-238C-4033-B530-1145B7748349}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
