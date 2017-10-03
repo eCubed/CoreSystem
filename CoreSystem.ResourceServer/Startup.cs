@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using CoreLibrary.Cryptography;
+using CoreLibrary.ResourceServer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
-using CoreLibrary.Cryptography;
-using CoreLibrary.ResourceServer;
+using Newtonsoft.Json.Serialization;
 
 namespace CoreSystem.ResourceServer
 {
