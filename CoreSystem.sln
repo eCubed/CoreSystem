@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreLibrary", "CoreLibrary\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreLibrary.Linq", "CoreLibrary.Linq\CoreLibrary.Linq.csproj", "{4FC76796-EA68-478F-889C-F87882DDA023}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreSystem", "CoreSystem\CoreSystem.csproj", "{EF4CB4C5-6B22-4876-9F87-846ACAB6BE7F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{4FC76796-EA68-478F-889C-F87882DDA023}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4FC76796-EA68-478F-889C-F87882DDA023}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4FC76796-EA68-478F-889C-F87882DDA023}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF4CB4C5-6B22-4876-9F87-846ACAB6BE7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF4CB4C5-6B22-4876-9F87-846ACAB6BE7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF4CB4C5-6B22-4876-9F87-846ACAB6BE7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF4CB4C5-6B22-4876-9F87-846ACAB6BE7F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

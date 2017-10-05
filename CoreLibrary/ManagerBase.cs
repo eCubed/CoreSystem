@@ -151,11 +151,6 @@ namespace CoreLibrary
             }
 
             return new ManagerResult();
-        }
-
-        public virtual async Task<ManagerResult> DeleteAsync(T entity)
-        {
-            return await DeleteAsync(entity.Id);
-        }
+        }               
     }
 }
