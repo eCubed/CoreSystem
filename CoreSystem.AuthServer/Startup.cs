@@ -1,8 +1,11 @@
 ﻿using CoreLibrary.AuthServer;
 using CoreLibrary.Cryptography;
 using CoreSystem.AuthServer.Providers;
+using CoreSystem.EntityFramework;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -31,6 +34,31 @@ namespace CoreSystem.AuthServer
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            string connectionString = Configuration["ConnectionString"];
+
+            services.AddDbContext<CoreSystemDbContext>(options =>
+            {
+                options.UseSqlServer(connectionString, opts => {
+                    opts.UseRowNumberForPaging();
+                });
+            });
+
+            services.AddIdentity<CoreSystemUser, CoreSystemRole>()
+                .AddEntityFrameworkStores<CoreSystemDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddTransient<ICredentialsProvider, SimpleCredentialsProvider>();
+            services.AddTransient<IAdditionalClaimsProvider, AdditionalClaimsProvider>();
+            services.AddSingleton<ICrypter, Crypt>();
+
+            services.AddCors();
+
+            services.AddMvcCore().AddJsonFormatters(setupAction => {
+                setupAction.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                setupAction.DefaultValueHandling = DefaultValueHandling.Ignore;
+                setupAction.NullValueHandling = NullValueHandling.Ignore;
+            });
+
             services.AddTransient<ICredentialsProvider, SimpleCredentialsProvider>();
             services.AddTransient<IAdditionalClaimsProvider, AdditionalClaimsProvider>();
             services.AddSingleton<ICrypter, Crypt>();

@@ -14,7 +14,10 @@
 ## CoreSystem.AuthServer
 * Microsoft.AspNetCore (because it pre-installed 1.1.2, so we installed 2.0.0 instead)
 * Microsoft.AspNetCore.Cors
+* Microsoft.AspNetCore.Identity.EntityFrameworkCore
 * Microsoft.AspNetCore.Mvc
+* Microsoft.EntityFrameworkCore
+* Microsoft.EntityFrameworkCore.SqlServer
 * Newtonsoft.Json
 
 ## CoreSystem.EntityFramework
