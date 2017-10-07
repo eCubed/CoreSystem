@@ -14,7 +14,7 @@ export class ResponsiveService implements OnDestroy {
 	mediumToLargeThreshhold: number = 800;
 
 	currentWidth: number;
-	currentWidthIdentifier: Subject<string> = new Subject<string>();
+	currentWidthIdentifier$: Subject<string> = new Subject<string>();
   currentWidthIdentifierValue: string;
 
 	loadSubscription:Subscription;
@@ -35,35 +35,35 @@ export class ResponsiveService implements OnDestroy {
   	});
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
   	if (this.loadSubscription != null) 
   		this.loadSubscription.unsubscribe();
   	if (this.resizeSubscription != null)
   		this.resizeSubscription.unsubscribe();
   }
 
-  determinCurrentWidthIdentifier(){
-  	if (this.currentWidth <= this.smallToMediumThreshhold){
+  determinCurrentWidthIdentifier() {
+  	if (this.currentWidth <= this.smallToMediumThreshhold) {
       this.currentWidthIdentifierValue = "small";
-  		this.currentWidthIdentifier.next("small");
+  		this.currentWidthIdentifier$.next("small");
     }
   	else if ((this.currentWidth > this.smallToMediumThreshhold) &&
-  		(this.currentWidth <= this.mediumToLargeThreshhold)){
+  		(this.currentWidth <= this.mediumToLargeThreshhold)) {
       this.currentWidthIdentifierValue = "medium";
-      this.currentWidthIdentifier.next("medium");
+      this.currentWidthIdentifier$.next("medium");
     }
   	else{
       this.currentWidthIdentifierValue = "large";
-  		this.currentWidthIdentifier.next("large");
+  		this.currentWidthIdentifier$.next("large");
     }
   }
 
-  getWidthIdentifierChanged():Observable<string>{
-  	return this.currentWidthIdentifier.asObservable().distinctUntilChanged();
+  getWidthIdentifierChanged(): Observable<string> {
+  	return this.currentWidthIdentifier$.asObservable().distinctUntilChanged();
   }
 
-  getCurrentWidthIdentifier(){
-    if (this.currentWidthIdentifier == null){
+  getCurrentWidthIdentifier() {
+    if (this.currentWidthIdentifier$ == null) {
       this.determinCurrentWidthIdentifier();
     }
     return this.currentWidthIdentifierValue;

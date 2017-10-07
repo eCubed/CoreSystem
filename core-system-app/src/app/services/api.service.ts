@@ -7,8 +7,8 @@ import { LocalStorageService } from './local-storage.service';
 @Injectable()
 export class ApiService {
 
-	public readonly apiRoot: string = 'http://localhost:xxxxx/api/';
-	private readonly tokenEndpoint: string = 'http://localhost:yyyy/token';
+	public readonly API_ROOT: string = 'http://localhost:xxxxx/api/';
+	public readonly TOKEN_ENDPOINT: string = 'http://localhost:yyyy/token';
 
   constructor(private localStorageService: LocalStorageService,
               private http: HttpClient) { 
