@@ -1,5 +1,6 @@
 ﻿using CoreLibrary;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CoreSystem
@@ -29,7 +30,16 @@ namespace CoreSystem
             scvm.UpdateValues(newContact);
             newContact.UserId = userId;
 
-            return await base.CreateAsync(newContact);
+            // To do: save the id of the contact back to the scvm!
+            var res = await base.CreateAsync(newContact);
+
+            if (!res.Success)
+                return res;
+
+            scvm.Id = newContact.Id;
+
+            return new ManagerResult();
+
         }
 
         #endregion
@@ -94,7 +104,24 @@ namespace CoreSystem
 
             return await base.DeleteAsync(id);
         }
-        
+
+        #endregion
+
+        #region Get
+
+        public ResultSet<ContactListItemViewModel> SearchContacts(string startsWith, int page = 1, int pageSize = 10)
+        {
+            IQueryable<TContact> qContacts = GetContactStore().GetQueryableContacts();
+
+            if (!string.IsNullOrEmpty(startsWith))
+                qContacts = qContacts.Where(c => c.FirstName.StartsWith(startsWith) || c.LastName.StartsWith(startsWith));
+
+            return ResultSetHelper.Convert(ResultSetHelper.GetResults<TContact, int>(qContacts, page, pageSize), contact =>
+            {
+                return new ContactListItemViewModel(contact);
+            });
+        }
+
         #endregion
     }
 }

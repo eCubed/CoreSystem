@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CoreSystem.EntityFramework;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -7,14 +9,33 @@ namespace CoreSystem.ResourceServer.Utils
 {
     public static class ControllerExtensions
     {
-        public static async Task<bool> IsUserAdminAsync(this Controller controller)
+        public static async Task<bool> IsUserAdminAsync(this Controller controller, UserManager<CoreSystemUser> UM)
         {
             if (String.IsNullOrEmpty(controller.User.Identity.Name))
-                return await Task.FromResult(false);
+                return false;
 
-            return await Task.FromResult(controller.User.Identity.Name == "admin");           
+            CoreSystemUser user = await UM.FindByNameAsync(controller.User.Identity.Name);
+
+            if (user == null)
+                return false;
+
+            return await UM.IsInRoleAsync(user, RoleNames.Administrator);
         }
-        
+
+        public static async Task<AuthenticatedInfo> ResolveAuthenticatedEntitiesAsync(this Controller controller, CoreSystemDbContext context,
+            UserManager<CoreSystemUser> userManager)
+        {
+            string username = controller.Request.HttpContext.User?.Identity?.Name ?? "";
+            CoreSystemUser user = await userManager.FindByNameAsync(username);
+
+            int userId = user?.Id ?? 0;
+
+            return new AuthenticatedInfo
+            {
+                UserId = userId
+            };
+        }
+
         public static List<string> ValidateIncomingModel(this Controller controller)
         {
             if (!controller.ModelState.IsValid)

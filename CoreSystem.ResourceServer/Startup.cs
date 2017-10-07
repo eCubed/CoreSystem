@@ -1,8 +1,11 @@
 ﻿using CoreLibrary.Cryptography;
 using CoreLibrary.ResourceServer;
+using CoreSystem.EntityFramework;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -37,6 +40,24 @@ namespace CoreSystem.ResourceServer
                 setupAction.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 setupAction.DefaultValueHandling = DefaultValueHandling.Ignore;
                 setupAction.NullValueHandling = NullValueHandling.Ignore;
+            });
+
+            string connectionString = Configuration["ConnectionString"];
+            services.AddDbContext<CoreSystemDbContext>(options =>
+            {
+                options.UseSqlServer(connectionString, opts => {
+                    opts.UseRowNumberForPaging();
+                });
+            });
+
+            services.AddIdentity<CoreSystemUser, CoreSystemRole>()
+                .AddEntityFrameworkStores<CoreSystemDbContext>()
+                .AddDefaultTokenProviders();
+            
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = "JwtBearer";
+                options.DefaultChallengeScheme = "JwtBearer";
             });
 
             services.AddCors();
