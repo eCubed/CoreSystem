@@ -5,23 +5,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Providers\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CoreLibrary.Cryptography\CoreLibrary.Cryptography.csproj" />
-    <ProjectReference Include="..\CoreLibrary.NetSecurity\CoreLibrary.NetSecurity.csproj" />
-    <ProjectReference Include="..\CoreLibrary.ResourceServer\CoreLibrary.ResourceServer.csproj" />
     <ProjectReference Include="..\CoreSystem.EntityFramework\CoreSystem.EntityFramework.csproj" />
   </ItemGroup>
 

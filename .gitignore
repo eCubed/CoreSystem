@@ -3,7 +3,7 @@
 
 # Solution-Specific
 appsettings.json
-appseetings.*.json
+appsettings.*.json
 
 # User-specific files
 *.suo

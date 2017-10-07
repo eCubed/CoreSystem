@@ -1,26 +1,26 @@
 ﻿using CoreLibrary.AuthServer;
 using CoreLibrary.Cryptography;
+using CoreSystem.EntityFramework;
 using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
+using System.Linq;
 
 namespace CoreSystem.AuthServer.Providers
 {
     public class CoreSystemTokenIssuerMiddleware : TokenIssuerMiddlewareBase<CoreSystemAuthServerResponse>
     {
-        public CoreSystemTokenIssuerMiddleware(RequestDelegate next, ICrypter crypter, TokenIssuerOptions tokenIssuerOptions)
+        private UserManager<CoreSystemUser> um { get; set; }
+
+        public CoreSystemTokenIssuerMiddleware(UserManager<CoreSystemUser> userManager, RequestDelegate next, ICrypter crypter, TokenIssuerOptions tokenIssuerOptions)
             : base(next, crypter, tokenIssuerOptions)
         {
+            um = userManager;
         }
 
-        protected override void SetOtherAuthServerResponseProperties(AuthServerRequest authServerRequest, CoreSystemAuthServerResponse authServerResponse)
+        protected override void SetOtherAuthServerResponseProperties(AuthServerRequest authRequest, CoreSystemAuthServerResponse authServerResponse)
         {
-            List<string> roles = new List<string>();
-            roles.Add("user");
-
-            if (authServerRequest.Username == "admin")
-                roles.Add("admin");
-
-            authServerResponse.Roles = roles;
+            CoreSystemUser user = um.FindByNameAsync(authRequest.Username).Result;
+            authServerResponse.Roles = um.GetRolesAsync(user).Result.ToList();
         }
     }
 }
