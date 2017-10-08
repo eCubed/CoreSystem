@@ -23,8 +23,8 @@ export class LoginComponent implements OnInit {
     password: ""
   };
 
-  loginStatusListener:Subscription;
-  loginStatus:LoginStatus;
+  loginStatusSubscription: Subscription;
+  loginStatus: LoginStatus;
 
   constructor(private authService:AuthService,
               private localStorageService:LocalStorageService,
@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
 
     this.loginStatus = this.authService.getLoginStatus();
 
-    this.loginStatusListener = this.authService.getLoginStatusDispatcher().subscribe(loginStatus => {
+    this.loginStatusSubscription = this.authService.loginStatus$.subscribe(loginStatus => {
       this.loginStatus = loginStatus;
       this.router.navigate(['/dashboard']);
     });

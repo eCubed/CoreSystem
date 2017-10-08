@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, RequestOptions, Headers } from '@angular/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse, HttpParams, HttpRequest } from '@angular/common/http';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
 
@@ -12,8 +12,8 @@ import { LoginStatus } from './models/loginstatus';
 @Injectable()
 export class AuthService {
 
-  private loginInfo$: Subject<LoginInfo> = new Subject<LoginInfo>();
-  private loginStatus$: Subject<LoginStatus> = new Subject<LoginStatus>();
+  public loginInfo$: Subject<LoginInfo> = new Subject<LoginInfo>();
+  public loginStatus$: Subject<LoginStatus> = new Subject<LoginStatus>();
 
   private loginInfo: LoginInfo;
 
@@ -22,8 +22,8 @@ export class AuthService {
   private loginStatus: LoginStatus;
 
   constructor(private localStorageService: LocalStorageService,
-              private apiService:ApiService,
-              private http:Http) { 
+              private apiService: ApiService,
+              private http: HttpClient) { 
 
     this.loginInfo = localStorageService.resolveObject("loginInfo");
     this.loginInfo$.next(this.loginInfo);
@@ -61,7 +61,7 @@ export class AuthService {
 
   getLoginInfo = () => this.loginInfo;
 
-  getLoginStatusDispatcher = () => this.loginStatus$.asObservable();
+  getLoginStatus$ = () => this.loginStatus$.asObservable();
 
   login = (username: string, password: string) => {
 
@@ -69,20 +69,20 @@ export class AuthService {
     this.loginStatus$.next(loggingInStatus);
     this.localStorageService.setObject("loginStatus", loggingInStatus);
     
-    var requestOptions = new RequestOptions({
-       headers: new Headers({ 'Content-Type':'application/x-www-form-urlencoded'})
-    });
+    var requestOptions = {
+      headers: new HttpHeaders()
+        .set('Content-Type','application/x-www-form-urlencoded')
+    };   
 
     this.http.post(this.apiService.TOKEN_ENDPOINT, 
       `username=${username}&password=${password}&grant_type=password`, 
        requestOptions)
-      .map(res => res.json())
-      .subscribe((data) => 
-      {
+      .subscribe(data => 
+      {        
         this.loginInfo = new LoginInfo();
-        this.loginInfo.accessToken = data.accessToken
+        this.loginInfo.accessToken = data['accessToken']
         this.loginInfo.username = username;
-        this.loginInfo.roles = data.roles;
+        this.loginInfo.roles = data['roles'];
 
         this.loginInfo$.next(this.loginInfo);
         this.localStorageService.setObject("loginInfo", this.loginInfo);

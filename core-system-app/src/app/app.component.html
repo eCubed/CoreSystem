@@ -1,8 +1,15 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div>
-  <h1>
-    Welcome to {{title}}!
-  </h1>  
+<div> 
+  <ul class="main-nav" *ngIf="!isLoggedIn">
+    <li><a routerLink="/">Home</a></li>
+    <li><a routerLink="/about">About</a></li>
+    <li><a routerLink="/login" *ngIf="!isLoggedIn">Login</a></li>
+  </ul>
+  <ul class="toolbar" *ngIf="isLoggedIn">
+
+    <li><span *ngIf="isLoggedIn">Hello, {{username}}</span></li>
+    <li><a href="#" (click)="onLogout($event)" *ngIf="isLoggedIn">Logout</a></li>
+    <li><a routerLink="/dashboard">Dashboard</a></li>
+  </ul>
+  <router-outlet></router-outlet>
 </div>
-<router-outlet></router-outlet>
 
