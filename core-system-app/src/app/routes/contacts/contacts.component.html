@@ -7,6 +7,6 @@
 		<a [routerLink]="['/contact/edit/',contact.id]">
 			<span class="fa fa-edit"></span>
 		</a>
-		 
+		<span class="delete fa fa-times" (click)="onDeleteClick(contact.id)"></span>		 
 	</div>
 </ng-container>

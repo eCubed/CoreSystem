@@ -11,6 +11,7 @@ import { ApiService } from '../../services/api.service';
 export class ContactsComponent implements OnInit, OnDestroy {
 
 	getContactsSubscription: Subscription;
+  deleteContactSubscription: Subscription;
 	contactsResultSet: any;
 
   constructor(private apiService: ApiService) { 
@@ -18,17 +19,33 @@ export class ContactsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.loadContacts();  	
+  }
 
-  	this.getContactsSubscription = this.apiService.makeAuthorizedApiCall("get", `contacts/search/*/1/200`).subscribe(res => {
-  		this.contactsResultSet = res;
-  	},
-  	err => {
-  	});
+  loadContacts() {
+    this.getContactsSubscription = this.apiService.makeAuthorizedApiCall("get", `contacts/search/*/1/200`).subscribe(res => {
+      this.contactsResultSet = res;
+    },
+    err => {
+
+    });  
   }
 
   ngOnDestroy() {
   	if (this.getContactsSubscription != null)
   		this.getContactsSubscription.unsubscribe();
+
+    if (this.deleteContactSubscription != null)
+      this.deleteContactSubscription.unsubscribe();
+  }
+
+  onDeleteClick(id: number) {
+    this.deleteContactSubscription = this.apiService.makeAuthorizedApiCall("delete", `contacts/${id}`).subscribe(res => {
+      this.loadContacts();
+    },
+    err => {
+
+    });
   }
 
 }
