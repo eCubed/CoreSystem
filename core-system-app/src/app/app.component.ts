@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -12,7 +12,7 @@ import { LocalStorageService } from './services/local-storage.service';
 }) 
 export class AppComponent implements OnInit {
 	isLoggedIn: boolean;
-  loginInfoListener:Subscription;
+  loginInfoSubscription:Subscription;
   username:string;
 
   constructor(private authService:AuthService,
@@ -25,22 +25,26 @@ export class AppComponent implements OnInit {
 
     if (this.isLoggedIn)
       this.username = loginInfo.username;
-
-    /*
-    this.loginInfoListener = this.authService.loginInfo$
+    
+    this.loginInfoSubscription = this.authService.loginInfo$
       .subscribe(loginInfo => {
         this.isLoggedIn = (loginInfo != null);
 
         if (this.isLoggedIn)
           this.username = loginInfo.username;        
-      });
-    */
+    });
+    
   }
 
   ngOnInit(){
   }
 
-  onLogout(event){
+  ngOnDestroy() {
+    if (this.loginInfoSubscription != null)
+      this.loginInfoSubscription.unsubscribe();
+  }
+
+  onLogout(event) {
   	event.preventDefault();  	
   	this.authService.logout();
     this.router.navigate(['/login']);
