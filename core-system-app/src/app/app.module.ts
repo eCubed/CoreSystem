@@ -21,6 +21,9 @@ import { LoginComponent } from './routes/login/login.component';
 import { DashboardComponent } from './routes/dashboard/dashboard.component';
 import { UnauthorizedComponent } from './routes/unauthorized/unauthorized.component';
 import { ContactsComponent } from './routes/contacts/contacts.component';
+import { EditContactFormComponent } from './routes/contacts/edit-contact-form/edit-contact-form.component';
+import { CreateContactComponent } from './routes/contacts/create-contact/create-contact.component';
+import { EditContactComponent } from './routes/contacts/edit-contact/edit-contact.component';
 
 const appRoutes: Routes = [
 	{
@@ -46,7 +49,18 @@ const appRoutes: Routes = [
   },
   {
     path: 'contacts',
-    component: ContactsComponent
+    component: ContactsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'contact/new',
+    component: CreateContactComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'contact/edit/:id',
+    component: EditContactComponent,
+    canActivate: [AuthGuard]
   },
 	{
 		path: '**',
@@ -63,7 +77,10 @@ const appRoutes: Routes = [
     LoginComponent,
     DashboardComponent,
     UnauthorizedComponent,
-    ContactsComponent
+    ContactsComponent,
+    EditContactFormComponent,
+    CreateContactComponent,
+    EditContactComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

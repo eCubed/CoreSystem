@@ -17,6 +17,11 @@ namespace CoreSystem
             return (IContactStore<TContact>)Store;
         }
 
+        public async override Task<TContact> FindUniqueAsync(TContact matchAgainst)
+        {
+            return await GetContactStore().FindContactAsync(matchAgainst.FirstName, matchAgainst.LastName, matchAgainst.UserId);
+        }
+
         #region Create
 
         public override Task<ManagerResult> CreateAsync(TContact entity)
@@ -113,13 +118,26 @@ namespace CoreSystem
         {
             IQueryable<TContact> qContacts = GetContactStore().GetQueryableContacts();
 
-            if (!string.IsNullOrEmpty(startsWith))
+            if (!string.IsNullOrEmpty(startsWith) && (startsWith != "*"))
                 qContacts = qContacts.Where(c => c.FirstName.StartsWith(startsWith) || c.LastName.StartsWith(startsWith));
 
             return ResultSetHelper.Convert(ResultSetHelper.GetResults<TContact, int>(qContacts, page, pageSize), contact =>
             {
                 return new ContactListItemViewModel(contact);
             });
+        }
+
+        public async Task<ManagerResult<SaveContactViewModel>> GetContactAsync(int id, int requestorId)
+        {
+            TContact contact = await FindByIdAsync(id);
+
+            if (contact == null)
+                return new ManagerResult<SaveContactViewModel>(ManagerErrors.RecordNotFound);
+
+            if (contact.UserId != requestorId)
+                return new ManagerResult<SaveContactViewModel>(ManagerErrors.Unauthorized);
+
+            return new ManagerResult<SaveContactViewModel>(new SaveContactViewModel(contact));
         }
 
         #endregion
