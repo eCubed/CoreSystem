@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { LocalStorageService } from './local-storage.service';
 
@@ -13,5 +13,16 @@ export class ApiService {
   constructor(private localStorageService: LocalStorageService,
               private http: HttpClient) { 
   }
+	
+	private buildAuthorizationHeader() {
+
+		const loginInfo = this.localStorageService.resolveObject("loginInfo");
+		var accessToken = (loginInfo != null) ? loginInfo.accessToken : "";
+
+		return {
+			headers: new HttpHeaders()
+				.set('Authorization', `Bearer ${accessToken}`)
+		};
+	}  
 
 }

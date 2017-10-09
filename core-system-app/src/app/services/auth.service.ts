@@ -78,9 +78,10 @@ export class AuthService {
       `username=${username}&password=${password}&grant_type=password`, 
        requestOptions)
       .subscribe(data => 
-      {        
+      {      
+        
         this.loginInfo = new LoginInfo();
-        this.loginInfo.accessToken = data['accessToken']
+        this.loginInfo.accessToken = data['access_token']
         this.loginInfo.username = username;
         this.loginInfo.roles = data['roles'];
 
