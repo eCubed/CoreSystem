@@ -20,6 +20,7 @@ import { NotFoundComponent } from './routes/not-found/not-found.component';
 import { LoginComponent } from './routes/login/login.component';
 import { DashboardComponent } from './routes/dashboard/dashboard.component';
 import { UnauthorizedComponent } from './routes/unauthorized/unauthorized.component';
+import { ContactsComponent } from './routes/contacts/contacts.component';
 
 const appRoutes: Routes = [
 	{
@@ -57,7 +58,8 @@ const appRoutes: Routes = [
     NotFoundComponent,
     LoginComponent,
     DashboardComponent,
-    UnauthorizedComponent
+    UnauthorizedComponent,
+    ContactsComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
