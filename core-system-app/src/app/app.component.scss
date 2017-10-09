@@ -1,0 +1,54 @@
+@import '../scss/base';
+
+.main-nav{
+	padding: 0px;
+	background-color: $main-color;
+
+	@include clearfix();
+
+	&>li{
+		float: left;
+		list-style: none;
+	}
+
+	a {
+		color: white;
+		display: block;
+		font-weight: bold;
+		font-size: 110%;
+		text-decoration: none;
+		padding: $general-padding;
+
+		&:hover{
+			background-color: tint($main-color, 60%);
+		}
+	}
+}
+
+.toolbar{
+	margin: 0;
+	background-color: $main-color;
+	color: white;
+	@include clearfix();
+
+	&>li{
+		float: right;
+		list-style: none;
+	}
+
+	a, span {
+		color: white;
+		display: block;
+		font-weight: bold;
+		text-decoration: none;
+		padding: $general-padding;
+
+		&:hover{
+			background-color: tint($main-color, 60%);
+		}
+	}
+
+	span:hover{
+		background-color: $main-color;
+	}
+}

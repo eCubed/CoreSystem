@@ -1,0 +1,59 @@
+<form>
+	<fieldset>
+		<legend>Personal Info</legend>
+		<div *ngIf="contact.id > 0">
+			<label>Id</label>
+			{{ contact.id }}
+		</div>
+		<div>
+			<label>First Name</label>
+			<input type="text" name="firstName" [(ngModel)]="contact.firstName" />
+		</div>
+		<div>
+			<label>Last Name</label>
+			<input type="text" name="lastName" [(ngModel)]="contact.lastName" />
+		</div>
+	</fieldset>
+	<fieldset>
+		<legend>Location Info</legend>
+		<div>
+			<label>Address 1</label>
+			<input type="text" name="address1" [(ngModel)]="contact.address1" />
+		</div>
+		<div>
+			<label>Address 2</label>
+			<input type="text" name="address2" [(ngModel)]="contact.address2" />
+		</div>
+		<div>
+			<label>City</label>
+			<input type="text" name="city" [(ngModel)]="contact.city" />
+		</div>
+		<div>
+			<label>Region</label>
+			<input type="text" name="region" [(ngModel)]="contact.region" />
+		</div>
+		<div>
+			<label>Country</label>
+			<input type="text" name="country" [(ngModel)]="contact.country" />
+		</div>
+		<div>
+			<label>Postal Code</label>
+			<input type="text" name="postalCode" [(ngModel)]="contact.postalCode" />
+		</div>
+	</fieldset>
+	<fieldset>
+		<legend>Tech Access</legend>
+		<div>
+			<label>Phone</label>
+			<input type="text" name="phone" [(ngModel)]="contact.phone" />
+		</div>
+		<div>
+			<label>Email</label>
+			<input type="text" name="email" [(ngModel)]="contact.email" />
+		</div>
+	</fieldset>
+	<fieldset>
+		<legend>Actions</legend>
+		<button (click)="onSubmitClicked()">Save</button>
+	</fieldset>
+</form>

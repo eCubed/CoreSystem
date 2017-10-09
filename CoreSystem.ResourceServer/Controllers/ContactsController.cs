@@ -31,6 +31,20 @@ namespace CoreSystem.ResourceServer.Controllers
             return Ok(resultSet);
         }
 
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetAsync(int id)
+        {
+            AuthenticatedInfo authInfo = await this.ResolveAuthenticatedEntitiesAsync(db, userManager);
+
+            var res = await contactManager.GetContactAsync(id, authInfo.UserId);
+
+            if (!res.Success)
+                return BadRequest(res.Errors);
+
+            return Ok(res.Data);
+        }
+
         // POST api/values
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody]SaveContactViewModel scvm)

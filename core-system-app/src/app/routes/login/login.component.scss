@@ -1,0 +1,23 @@
+@import '../../../scss/base';
+
+.login-form{
+	text-align: center;
+	width: 400px;
+	margin: auto;
+	padding: $general-padding;
+	background-color: tint($main-color, 70%);
+
+	> button {
+		width: 100%;
+		padding: $general-padding;
+		font-size: 120%;
+		font-weight: bold;
+	}
+
+	> input {
+		margin-bottom: $general-padding;
+		box-sizing: border-box;
+		border: 0px;
+		width: 100%;
+	}
+}

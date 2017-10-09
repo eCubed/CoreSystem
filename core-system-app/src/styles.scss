@@ -1,0 +1,25 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Utility, Mixins, and Functions */ 
+@import './scss/variables'; 
+@import './scss/utils/clearfix'; 
+@import './scss/utils/tintshade'; 
+ 
+/* Reset */ 
+@import '~normalize.css/normalize.css'; 
+
+$fa-font-path: "../node_modules/font-awesome/fonts";
+@import '~font-awesome/scss/font-awesome.scss';
+ 
+body { 
+  font-family: Tahoma, Helvetica, sans-serif; 
+} 
+ 
+/* global styles */ 
+@import './scss/global-styles/border-box'; 
+@import './scss/global-styles/headings'; 
+@import './scss/global-styles/page';
+@import './scss/global-styles/formelements';
+@import './scss/global-styles/dataentryformlayout';
+
+

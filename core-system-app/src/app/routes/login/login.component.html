@@ -1,0 +1,21 @@
+<div class="page">
+	<form (submit)="login()" class="login-form">
+		<h1>Login to Frixxer</h1>
+		<input name="username"
+			autofocus
+			type="text"
+			[(ngModel)]="credentials.username"
+			placeholder="Username" />
+		<input name="password"
+			type="password"
+			[(ngModel)]="credentials.password"
+			placeholder="Password" />
+		<button [disabled]="loginStatus.name == 'Logging In'">
+			<ng-container *ngIf="loginStatus.name === 'Logging In'">Logging in...</ng-container>
+			<ng-container *ngIf="loginStatus.name !== 'Logging In'">Login</ng-container>
+		</button>
+		<div *ngIf="loginStatus.isError" [@fadeInAnimation]="loginStatus.isError">
+			{{loginStatus.name}}
+		</div>
+	</form>
+</div>
