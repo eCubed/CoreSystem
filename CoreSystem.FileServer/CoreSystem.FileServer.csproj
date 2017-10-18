@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CoreLibrary.Cryptography\CoreLibrary.Cryptography.csproj" />
+    <ProjectReference Include="..\CoreLibrary.FileServer\CoreLibrary.FileServer.csproj" />
     <ProjectReference Include="..\CoreLibrary.ResourceServer\CoreLibrary.ResourceServer.csproj" />
   </ItemGroup>
 

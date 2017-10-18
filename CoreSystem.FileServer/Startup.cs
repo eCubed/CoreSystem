@@ -1,5 +1,7 @@
 ﻿using CoreLibrary.Cryptography;
+using CoreLibrary.FileServer;
 using CoreLibrary.ResourceServer;
+using CoreSystem.FileServer.Providers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -42,6 +44,7 @@ namespace CoreSystem.FileServer
             services.AddCors();
 
             services.AddSingleton<ICrypter, Crypt>();
+            services.AddSingleton<PathsProviderBase, DateBasedPathsProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

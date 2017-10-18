@@ -19,17 +19,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreSystem.ResourceServer",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreSystem.FileServer", "CoreSystem.FileServer\CoreSystem.FileServer.csproj", "{8793F163-7DFA-451F-8179-05DF82CED52C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreLibrary.EntityFramework", "CoreLibrary.EntityFramework\CoreLibrary.EntityFramework.csproj", "{2CB67353-BEBA-447D-8910-6142DE09B383}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreLibrary.EntityFramework", "CoreLibrary.EntityFramework\CoreLibrary.EntityFramework.csproj", "{2CB67353-BEBA-447D-8910-6142DE09B383}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreLibrary", "CoreLibrary\CoreLibrary.csproj", "{D2332451-A7FE-4586-AE9E-0DCAB0FF1D2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreLibrary", "CoreLibrary\CoreLibrary.csproj", "{D2332451-A7FE-4586-AE9E-0DCAB0FF1D2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreLibrary.Linq", "CoreLibrary.Linq\CoreLibrary.Linq.csproj", "{4FC76796-EA68-478F-889C-F87882DDA023}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreLibrary.Linq", "CoreLibrary.Linq\CoreLibrary.Linq.csproj", "{4FC76796-EA68-478F-889C-F87882DDA023}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreSystem", "CoreSystem\CoreSystem.csproj", "{EF4CB4C5-6B22-4876-9F87-846ACAB6BE7F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreSystem", "CoreSystem\CoreSystem.csproj", "{EF4CB4C5-6B22-4876-9F87-846ACAB6BE7F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreSystem.EntityFramework", "CoreSystem.EntityFramework\CoreSystem.EntityFramework.csproj", "{2FB82E66-1078-4631-8814-EBED96C6C0B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreSystem.EntityFramework", "CoreSystem.EntityFramework\CoreSystem.EntityFramework.csproj", "{2FB82E66-1078-4631-8814-EBED96C6C0B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreSystem.DevDeploy", "CoreSystem.DevDeploy\CoreSystem.DevDeploy.csproj", "{39E35907-20F6-45CD-AB63-BDC57A6A2D4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreSystem.DevDeploy", "CoreSystem.DevDeploy\CoreSystem.DevDeploy.csproj", "{39E35907-20F6-45CD-AB63-BDC57A6A2D4D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreLibrary.FileServer", "CoreLibrary.FileServer\CoreLibrary.FileServer.csproj", "{614150B7-7072-49BB-82EB-2A4E36A35DF8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -93,6 +95,10 @@ Global
 		{39E35907-20F6-45CD-AB63-BDC57A6A2D4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39E35907-20F6-45CD-AB63-BDC57A6A2D4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39E35907-20F6-45CD-AB63-BDC57A6A2D4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{614150B7-7072-49BB-82EB-2A4E36A35DF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{614150B7-7072-49BB-82EB-2A4E36A35DF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{614150B7-7072-49BB-82EB-2A4E36A35DF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{614150B7-7072-49BB-82EB-2A4E36A35DF8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
