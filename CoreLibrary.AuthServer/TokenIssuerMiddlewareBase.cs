@@ -1,10 +1,5 @@
-﻿using CoreLibrary.Cryptography;
-using CoreLibrary.NetSecurity;
-using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Http;
 using System;
-using System.Collections.Generic;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace CoreLibrary.AuthServer
@@ -14,18 +9,16 @@ namespace CoreLibrary.AuthServer
     {
 
         private RequestDelegate _next;
-        private ICrypter _crypter;
         private TokenIssuerOptions _options;
 
         public TokenIssuerMiddlewareBase(RequestDelegate next,
-                                     ICrypter crypter,
                                      TokenIssuerOptions tokenIssuerOptions)
         {
             _next = next;
-            _crypter = crypter;
             _options = tokenIssuerOptions;
         }
 
+        /*
         protected string GenerateToken(AuthServerRequest authRequest, string issuer, IAdditionalClaimsProvider additionalClaimsProvider)
         {
             WebToken tokenObject = new WebToken();
@@ -58,11 +51,13 @@ namespace CoreLibrary.AuthServer
 
             return tokenObject.GenerateToken(_crypter, _options.CryptionKey);
         }
+        
 
         protected virtual void SetOtherAuthServerResponseProperties(AuthServerRequest authServerRequest, TAuthServerResponse authServerResponse)
         {
         }
 
+        
         protected async Task WriteResponseAsync(AuthServerRequest authRequest, string issuer, HttpResponse response, IAdditionalClaimsProvider additionalClaimsProvider)
         {
             TAuthServerResponse authServerResponse = new TAuthServerResponse();
@@ -72,7 +67,7 @@ namespace CoreLibrary.AuthServer
             response.ContentType = "application/json;charset=utf-8";
             await response.WriteAsync(JsonConvert.SerializeObject(authServerResponse));
         }
-
+        
         protected AuthServerRequest CreateAuthServerRequestObject(HttpRequest httpRequest)
         {
             AuthServerRequest request = new AuthServerRequest();
@@ -84,8 +79,10 @@ namespace CoreLibrary.AuthServer
 
             return request;
         }
+        */
 
-        public async Task Invoke(HttpContext context, ICredentialsProvider credentialsProvider, IAdditionalClaimsProvider additionalClaimsProvider)
+        //public async Task Invoke(HttpContext context, ICredentialsProvider credentialsProvider, IAdditionalClaimsProvider additionalClaimsProvider)
+        public async Task Invoke(HttpContext context, IGrantTypeProcessorFactory grantTypeProcessorFactory)
         {
             if (context.Request.Path.Value.Equals(_options.TokenEndpointPath))
             {
@@ -99,6 +96,16 @@ namespace CoreLibrary.AuthServer
 
                 try
                 {
+                    IGrantTypeProcessor grantTypeProcessor = grantTypeProcessorFactory.CreateInstance(context.Request.Form["grant_type"].ToString() ?? "", _options.CryptionKey);
+
+                    var res = await grantTypeProcessor.ProcessHttpRequestAsync(context.Request, context.Response);
+
+                    if (!res.Success)
+                        return;
+                    
+                    await grantTypeProcessor.WriteToHttpResponseAsync(context.Response, context.Request, _options.Issuer);
+                    return;
+                    /*
                     AuthServerRequest authRequest = CreateAuthServerRequestObject(context.Request);
 
                     // Now, we have to investigate authRequest
@@ -122,11 +129,12 @@ namespace CoreLibrary.AuthServer
                             return;
                         }
                     }
-
+                  
                     // Now, we construct the response
                     await WriteResponseAsync(authRequest, _options.Issuer, context.Response, additionalClaimsProvider);
                     return;
-
+                    */
+                    
                 }
                 catch (Exception e)
                 {

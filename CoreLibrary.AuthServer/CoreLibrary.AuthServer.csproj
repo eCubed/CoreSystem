@@ -12,6 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CoreLibrary.Cryptography\CoreLibrary.Cryptography.csproj" />
     <ProjectReference Include="..\CoreLibrary.NetSecurity\CoreLibrary.NetSecurity.csproj" />
+    <ProjectReference Include="..\CoreLibrary\CoreLibrary.csproj" />
   </ItemGroup>
 
 </Project>
