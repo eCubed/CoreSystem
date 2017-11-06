@@ -7,7 +7,6 @@ namespace CoreLibrary.AuthServer
     public class TokenIssuerMiddlewareBase<TAuthServerResponse>
         where TAuthServerResponse : IAuthServerResponse, new()
     {
-
         private RequestDelegate _next;
         private TokenIssuerOptions _options;
 
@@ -98,12 +97,12 @@ namespace CoreLibrary.AuthServer
                 {
                     IGrantTypeProcessor grantTypeProcessor = grantTypeProcessorFactory.CreateInstance(context.Request.Form["grant_type"].ToString() ?? "", _options.CryptionKey);
 
-                    var res = await grantTypeProcessor.ProcessHttpRequestAsync(context.Request, context.Response);
+                    var res = await grantTypeProcessor.ProcessCredentialsAsync(context.Request, context.Response);
 
                     if (!res.Success)
                         return;
                     
-                    await grantTypeProcessor.WriteToHttpResponseAsync(context.Response, context.Request, _options.Issuer);
+                    await grantTypeProcessor.WriteTokenResponseAsync(context.Response, context.Request, _options.Issuer);
                     return;
                     /*
                     AuthServerRequest authRequest = CreateAuthServerRequestObject(context.Request);

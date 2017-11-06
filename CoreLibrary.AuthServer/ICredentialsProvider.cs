@@ -4,7 +4,6 @@ namespace CoreLibrary.AuthServer
 {
     public interface ICredentialsProvider
     {
-        Task<bool> AreUserCredentialsValidAsync(string username, string password);
-        Task<bool> AreClientCredentialsValidAsync(string clientId, string secret);
+        Task<bool> AreCredentialsValidAsync(string uniqueIdentifier, string passCode);
     }
 }

@@ -2,6 +2,7 @@
 using CoreLibrary.NetSecurity;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,57 +10,55 @@ namespace CoreLibrary.AuthServer
 {
     public abstract class GrantTypeProcessorBase : IGrantTypeProcessor
     {
-        private ICrypter crypter { get; set; }
-        private string cryptionKey { get; set; }
+        private ICrypter Crypter { get; set; }
+        private string CryptionKey { get; set; }
+        private ICredentialsProvider CredentialsProvider { get; set; }
+        private IClaimsProvider ClaimsProvider { get; set; }
 
-        public GrantTypeProcessorBase(ICrypter crypter, string cryptionKey)
+        public GrantTypeProcessorBase(ICrypter crypter, string cryptionKey, ICredentialsProvider credentialsProvider,
+            IClaimsProvider claimsProvider)
         {
-            this.crypter = crypter;
-            this.cryptionKey = cryptionKey;
+            Crypter = crypter;
+            CryptionKey = cryptionKey;
+            CredentialsProvider = credentialsProvider;
+            ClaimsProvider = claimsProvider;
         }
 
-        protected abstract string InvalidCredentialsMessage { get; set; }
-
-        protected abstract bool AreCredentialsValid(string identifier, string passCode);
-
-        protected abstract IAuthServerRequest CreateAuthServerRequest(HttpRequest httpRequest);
-
-        protected abstract List<KeyValuePair<string, string>> GetAdditionalClaims(string uniqueIdentifier);
-
+        protected abstract string InvalidCredentialsMessage { get; }
+        
         protected abstract string ExtractUniqueIdentifier(HttpRequest request);
 
         protected abstract string ExtractPasscode(HttpRequest request);
-
-        protected abstract void AddSpecificGrantTypeClaims(WebToken token);
-
+        
         protected abstract IAuthServerResponse CreateNewAuthServerResponse();
 
         protected abstract void SetOtherAuthServerResponseProperties(string uniqueIdentifier, IAuthServerResponse authServerResponse);
+
+        private void LoadClaimsToToken(WebToken token, List<KeyValuePair<string, string>> claims)
+        {
+            if ((claims != null) && (claims.Count > 0))
+            {
+                foreach (var kvp in claims)
+                {
+                    token.AddClaim(kvp.Key, kvp.Value);
+                }
+            }
+        }
 
         private string GenerateToken(HttpRequest request, string issuer)
         {
             WebToken token = new WebToken();
             token.Issuer = issuer;
 
-            AddSpecificGrantTypeClaims(token);
+            LoadClaimsToToken(token, ClaimsProvider.GetBasicClaims(ExtractUniqueIdentifier(request), request));
+            LoadClaimsToToken(token, ClaimsProvider.GetAdditionalClaims(ExtractUniqueIdentifier(request)));           
 
-            List<KeyValuePair<string, string>> additionalClaims = GetAdditionalClaims(ExtractUniqueIdentifier(request));
-                        
-            if ((additionalClaims != null) && (additionalClaims.Count > 0))
-            {
-                foreach (var kvp in additionalClaims)
-                {
-                    token.AddClaim(kvp.Key, kvp.Value);
-                }
-            }
-
-            return token.GenerateToken(crypter, cryptionKey);
+            return token.GenerateToken(Crypter, CryptionKey);
         }
 
-
-        public async Task<ManagerResult> ProcessHttpRequestAsync(HttpRequest request, HttpResponse response)
+        public async Task<ManagerResult> ProcessCredentialsAsync(HttpRequest request, HttpResponse response)
         {
-            if (! AreCredentialsValid(ExtractUniqueIdentifier(request), ExtractPasscode(request)))
+            if (! (await CredentialsProvider.AreCredentialsValidAsync(ExtractUniqueIdentifier(request), ExtractPasscode(request))))
             {
                 response.StatusCode = StatusCodes.Status401Unauthorized;
                 response.ContentType = "application/json;charset=utf-8";
@@ -71,7 +70,7 @@ namespace CoreLibrary.AuthServer
             return new ManagerResult();
         }
 
-        public async Task WriteToHttpResponseAsync(HttpResponse response, HttpRequest request, string issuer)
+        public async Task WriteTokenResponseAsync(HttpResponse response, HttpRequest request, string issuer)
         {
             response.StatusCode = StatusCodes.Status200OK;
             response.ContentType = "application/json;charset=utf-8";
@@ -79,7 +78,7 @@ namespace CoreLibrary.AuthServer
             IAuthServerResponse newAuthServerResponse = CreateNewAuthServerResponse();
             newAuthServerResponse.AccessToken = GenerateToken(request, issuer);
             SetOtherAuthServerResponseProperties(ExtractUniqueIdentifier(request), newAuthServerResponse);
-            await response.WriteAsync(JsonConvert.SerializeObject("authServerResponse"));
+            await response.WriteAsync(JsonConvert.SerializeObject(newAuthServerResponse));
             /*
             TAuthServerResponse authServerResponse = new TAuthServerResponse();
             authServerResponse.AccessToken = GenerateToken(authRequest, issuer, additionalClaimsProvider);
@@ -88,7 +87,6 @@ namespace CoreLibrary.AuthServer
             response.ContentType = "application/json;charset=utf-8";
             await response.WriteAsync(JsonConvert.SerializeObject(authServerResponse));
             */
-        }
-
+        }        
     }
 }

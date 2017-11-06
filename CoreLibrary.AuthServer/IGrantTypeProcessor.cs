@@ -5,7 +5,8 @@ namespace CoreLibrary.AuthServer
 {
     public interface IGrantTypeProcessor
     {
-        Task WriteToHttpResponseAsync(HttpResponse response, HttpRequest request, string issuer);
-        Task<ManagerResult> ProcessHttpRequestAsync(HttpRequest request, HttpResponse response);
+        Task<ManagerResult> ProcessCredentialsAsync(HttpRequest request, HttpResponse response);
+        
+        Task WriteTokenResponseAsync(HttpResponse response, HttpRequest request, string issuer);
     }
 }
