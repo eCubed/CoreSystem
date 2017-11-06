@@ -14,14 +14,16 @@ namespace CoreLibrary.AuthServer
         private string CryptionKey { get; set; }
         private ICredentialsProvider CredentialsProvider { get; set; }
         private IClaimsProvider ClaimsProvider { get; set; }
+        private IAuthServerResponseProvider<TAuthServerResponse> AuthServerResponseProvider { get; set; }
 
         public GrantTypeProcessorBase(ICrypter crypter, string cryptionKey, ICredentialsProvider credentialsProvider,
-            IClaimsProvider claimsProvider)
+            IClaimsProvider claimsProvider, IAuthServerResponseProvider<TAuthServerResponse> authServerResponseProvider)
         {
             Crypter = crypter;
             CryptionKey = cryptionKey;
             CredentialsProvider = credentialsProvider;
             ClaimsProvider = claimsProvider;
+            AuthServerResponseProvider = authServerResponseProvider;
         }
 
         protected abstract string InvalidCredentialsMessage { get; }
@@ -30,7 +32,7 @@ namespace CoreLibrary.AuthServer
 
         protected abstract string ExtractPasscode(HttpRequest request);
 
-        protected abstract void SetOtherAuthServerResponseProperties(string uniqueIdentifier, TAuthServerResponse authServerResponse);
+        //protected abstract void SetOtherAuthServerResponseProperties(string uniqueIdentifier, TAuthServerResponse authServerResponse);
 
         private void LoadClaimsToToken(WebToken token, List<KeyValuePair<string, string>> claims)
         {
@@ -75,7 +77,7 @@ namespace CoreLibrary.AuthServer
 
             TAuthServerResponse newAuthServerResponse = new TAuthServerResponse();
             newAuthServerResponse.AccessToken = GenerateToken(request, issuer);
-            SetOtherAuthServerResponseProperties(ExtractUniqueIdentifier(request), newAuthServerResponse);
+            AuthServerResponseProvider.FillValues(ExtractUniqueIdentifier(request), newAuthServerResponse);
             await response.WriteAsync(JsonConvert.SerializeObject(newAuthServerResponse));
             /*
             TAuthServerResponse authServerResponse = new TAuthServerResponse();

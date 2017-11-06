@@ -10,8 +10,9 @@ namespace CoreLibrary.AuthServer
         private IPasswordCredentialsProvider PasswordCredentialsProvider { get; set; }
 
         public PasswordGrantTypeProcessor(ICrypter crypter, string cryptionKey,
-            IPasswordCredentialsProvider passwordCredentialsProvider, IPasswordClaimsProvider passwordClaimsProvider) 
-            : base(crypter, cryptionKey, passwordCredentialsProvider, passwordClaimsProvider)
+            IPasswordCredentialsProvider passwordCredentialsProvider, IPasswordClaimsProvider passwordClaimsProvider,
+            IAuthServerResponseProvider<TAuthServerResponse> authServerResponseProvider) 
+            : base(crypter, cryptionKey, passwordCredentialsProvider, passwordClaimsProvider, authServerResponseProvider)
         {
             PasswordCredentialsProvider = passwordCredentialsProvider;
         }
@@ -36,10 +37,6 @@ namespace CoreLibrary.AuthServer
         {
             return request.Form["username"].ToString();
         }
-
-        protected override void SetOtherAuthServerResponseProperties(string uniqueIdentifier, TAuthServerResponse authServerResponse)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

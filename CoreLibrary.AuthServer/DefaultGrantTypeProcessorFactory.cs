@@ -12,7 +12,7 @@ namespace CoreLibrary.AuthServer
 
         public DefaultGrantTypeProcessorFactory(ICrypter crypter, IPasswordCredentialsProvider passwordCredentialsProvider, 
             IPasswordClaimsProvider passwordClaimsProvider, IClientCredentialsProvider clientCredentialsProvider,
-            IClientClaimsProvider clientClaimsProvider)
+            IClientClaimsProvider clientClaimsProvider, IAuthServerResponseProvider<AuthServerResponse> authServerResponseProvider)
         {
             this.crypter = crypter;
 
@@ -23,7 +23,7 @@ namespace CoreLibrary.AuthServer
 
             // Password.
             grantTypeProcessors.Add("password", new PasswordGrantTypeProcessor<AuthServerResponse>(crypter, "", passwordCredentialsProvider,
-                passwordClaimsProvider));
+                passwordClaimsProvider, authServerResponseProvider));
 
             // Client
         }
