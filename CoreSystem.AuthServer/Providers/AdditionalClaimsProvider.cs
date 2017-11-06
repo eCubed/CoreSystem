@@ -6,7 +6,7 @@ using System.Security.Claims;
 
 namespace CoreSystem.AuthServer.Providers
 {
-    public class AdditionalClaimsProvider : IAdditionalClaimsProvider
+    public class AdditionalClaimsProvider
     {
         private UserManager<CoreSystemUser> userManager { get; set; }
 

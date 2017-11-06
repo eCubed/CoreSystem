@@ -1,18 +1,18 @@
 ﻿using CoreLibrary.Cryptography;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace CoreLibrary.AuthServer
 {
-    public class DefaultGrantTypeProcessorFactory : IGrantTypeProcessorFactory
+    public class DefaultGrantTypeProcessorFactory<TAuthServerResponse> : IGrantTypeProcessorFactory<TAuthServerResponse>
+        where TAuthServerResponse : class, IAuthServerResponse,  new()
     {
         private ICrypter crypter { get; set; }
         private Dictionary<string, IGrantTypeProcessor> grantTypeProcessors { get; set; }
 
         public DefaultGrantTypeProcessorFactory(ICrypter crypter, IPasswordCredentialsProvider passwordCredentialsProvider, 
             IPasswordClaimsProvider passwordClaimsProvider, IClientCredentialsProvider clientCredentialsProvider,
-            IClientClaimsProvider clientClaimsProvider, IAuthServerResponseProvider<AuthServerResponse> authServerResponseProvider)
+            IClientClaimsProvider clientClaimsProvider, IAuthServerResponseProvider<TAuthServerResponse> authServerResponseProvider)
         {
             this.crypter = crypter;
 
@@ -22,12 +22,12 @@ namespace CoreLibrary.AuthServer
              */
 
             // Password.
-            grantTypeProcessors.Add("password", new PasswordGrantTypeProcessor<AuthServerResponse>(crypter, "", passwordCredentialsProvider,
-                passwordClaimsProvider, authServerResponseProvider));
-
+            grantTypeProcessors.Add("password", new PasswordGrantTypeProcessor<TAuthServerResponse>(crypter, "", passwordCredentialsProvider,
+                passwordClaimsProvider,  authServerResponseProvider));
+            
             // Client
 
-            grantTypeProcessors.Add("client", new ClientGrantTypeProcessor<AuthServerResponse>(crypter, "", clientCredentialsProvider,
+            grantTypeProcessors.Add("client", new ClientGrantTypeProcessor<TAuthServerResponse>(crypter, "", clientCredentialsProvider,
                 clientClaimsProvider, authServerResponseProvider));
         }
 

@@ -47,9 +47,13 @@ namespace CoreSystem.AuthServer
                 .AddEntityFrameworkStores<CoreSystemDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddTransient<ICredentialsProvider, SimpleCredentialsProvider>();
-            services.AddTransient<IAdditionalClaimsProvider, AdditionalClaimsProvider>();
             services.AddSingleton<ICrypter, Crypt>();
+            services.AddTransient<IPasswordCredentialsProvider, PasswordCredentialsProvider>();
+            services.AddTransient<IClientCredentialsProvider, ClientCredentialsProvider>();
+            services.AddTransient<IPasswordClaimsProvider, PasswordClaimsProvider>();
+            services.AddTransient<IClientClaimsProvider, ClientClaimsProvider>();
+            services.AddTransient<IAuthServerResponseProvider<CoreSystemAuthServerResponse>, AuthServerResponseProvider>();
+            services.AddTransient<IGrantTypeProcessorFactory<CoreSystemAuthServerResponse>, DefaultGrantTypeProcessorFactory<CoreSystemAuthServerResponse>>();
 
             services.AddCors();
 
@@ -58,11 +62,7 @@ namespace CoreSystem.AuthServer
                 setupAction.DefaultValueHandling = DefaultValueHandling.Ignore;
                 setupAction.NullValueHandling = NullValueHandling.Ignore;
             });
-
-            services.AddTransient<ICredentialsProvider, SimpleCredentialsProvider>();
-            services.AddTransient<IAdditionalClaimsProvider, AdditionalClaimsProvider>();
-            services.AddSingleton<ICrypter, Crypt>();
-
+            
             services.AddCors();
 
             services.AddMvcCore().AddJsonFormatters(setupAction => {
