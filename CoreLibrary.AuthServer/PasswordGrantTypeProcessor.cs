@@ -1,18 +1,17 @@
 ﻿using CoreLibrary.Cryptography;
-using CoreLibrary.NetSecurity;
 using Microsoft.AspNetCore.Http;
 using System;
-using System.Collections.Generic;
 
 namespace CoreLibrary.AuthServer
 {
-    public class PasswordGrantTypeProcessor : GrantTypeProcessorBase
+    public class PasswordGrantTypeProcessor<TAuthServerResponse> : GrantTypeProcessorBase<TAuthServerResponse>
+        where TAuthServerResponse : class, IAuthServerResponse, new()
     {
         private IPasswordCredentialsProvider PasswordCredentialsProvider { get; set; }
 
         public PasswordGrantTypeProcessor(ICrypter crypter, string cryptionKey,
-            IPasswordCredentialsProvider passwordCredentialsProvider, IClaimsProvider claimsProvider) 
-            : base(crypter, cryptionKey, passwordCredentialsProvider, claimsProvider)
+            IPasswordCredentialsProvider passwordCredentialsProvider, IPasswordClaimsProvider passwordClaimsProvider) 
+            : base(crypter, cryptionKey, passwordCredentialsProvider, passwordClaimsProvider)
         {
             PasswordCredentialsProvider = passwordCredentialsProvider;
         }
@@ -27,12 +26,7 @@ namespace CoreLibrary.AuthServer
                 token.AddClaim("ClientId", request.Form["client_id"].ToString());
         }
         */
-                
-        protected override IAuthServerResponse CreateNewAuthServerResponse()
-        {
-            throw new NotImplementedException();
-        }
-
+    
         protected override string ExtractPasscode(HttpRequest request)
         {
             return request.Form["password"].ToString();
@@ -43,7 +37,7 @@ namespace CoreLibrary.AuthServer
             return request.Form["username"].ToString();
         }
 
-        protected override void SetOtherAuthServerResponseProperties(string uniqueIdentifier, IAuthServerResponse authServerResponse)
+        protected override void SetOtherAuthServerResponseProperties(string uniqueIdentifier, TAuthServerResponse authServerResponse)
         {
             throw new NotImplementedException();
         }

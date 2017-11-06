@@ -2,13 +2,13 @@
 using CoreLibrary.NetSecurity;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace CoreLibrary.AuthServer
 {
-    public abstract class GrantTypeProcessorBase : IGrantTypeProcessor
+    public abstract class GrantTypeProcessorBase<TAuthServerResponse> : IGrantTypeProcessor
+        where TAuthServerResponse : class, IAuthServerResponse, new()
     {
         private ICrypter Crypter { get; set; }
         private string CryptionKey { get; set; }
@@ -29,10 +29,8 @@ namespace CoreLibrary.AuthServer
         protected abstract string ExtractUniqueIdentifier(HttpRequest request);
 
         protected abstract string ExtractPasscode(HttpRequest request);
-        
-        protected abstract IAuthServerResponse CreateNewAuthServerResponse();
 
-        protected abstract void SetOtherAuthServerResponseProperties(string uniqueIdentifier, IAuthServerResponse authServerResponse);
+        protected abstract void SetOtherAuthServerResponseProperties(string uniqueIdentifier, TAuthServerResponse authServerResponse);
 
         private void LoadClaimsToToken(WebToken token, List<KeyValuePair<string, string>> claims)
         {
@@ -75,7 +73,7 @@ namespace CoreLibrary.AuthServer
             response.StatusCode = StatusCodes.Status200OK;
             response.ContentType = "application/json;charset=utf-8";
 
-            IAuthServerResponse newAuthServerResponse = CreateNewAuthServerResponse();
+            TAuthServerResponse newAuthServerResponse = new TAuthServerResponse();
             newAuthServerResponse.AccessToken = GenerateToken(request, issuer);
             SetOtherAuthServerResponseProperties(ExtractUniqueIdentifier(request), newAuthServerResponse);
             await response.WriteAsync(JsonConvert.SerializeObject(newAuthServerResponse));

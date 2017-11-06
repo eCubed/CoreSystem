@@ -10,7 +10,9 @@ namespace CoreLibrary.AuthServer
         private ICrypter crypter { get; set; }
         private Dictionary<string, IGrantTypeProcessor> grantTypeProcessors { get; set; }
 
-        public DefaultGrantTypeProcessorFactory(ICrypter crypter)
+        public DefaultGrantTypeProcessorFactory(ICrypter crypter, IPasswordCredentialsProvider passwordCredentialsProvider, 
+            IPasswordClaimsProvider passwordClaimsProvider, IClientCredentialsProvider clientCredentialsProvider,
+            IClientClaimsProvider clientClaimsProvider)
         {
             this.crypter = crypter;
 
@@ -18,6 +20,12 @@ namespace CoreLibrary.AuthServer
 
             /* It is here that we manually add GrantTypeProcessors!!!
              */
+
+            // Password.
+            grantTypeProcessors.Add("password", new PasswordGrantTypeProcessor<AuthServerResponse>(crypter, "", passwordCredentialsProvider,
+                passwordClaimsProvider));
+
+            // Client
         }
 
         public IGrantTypeProcessor CreateInstance(string grantType, string cryptionKey)
