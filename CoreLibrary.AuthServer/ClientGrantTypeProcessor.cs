@@ -3,20 +3,20 @@ using Microsoft.AspNetCore.Http;
 
 namespace CoreLibrary.AuthServer
 {
-    public class PasswordGrantTypeProcessor<TAuthServerResponse> : GrantTypeProcessorBase<TAuthServerResponse>
+    public class ClientGrantTypeProcessor<TAuthServerResponse> : GrantTypeProcessorBase<TAuthServerResponse>
         where TAuthServerResponse : class, IAuthServerResponse, new()
     {
-        private IPasswordCredentialsProvider PasswordCredentialsProvider { get; set; }
+        private IClientCredentialsProvider ClientCredentialsProvider { get; set; }
 
-        public PasswordGrantTypeProcessor(ICrypter crypter, string cryptionKey,
-            IPasswordCredentialsProvider passwordCredentialsProvider, IPasswordClaimsProvider passwordClaimsProvider,
-            IAuthServerResponseProvider<TAuthServerResponse> authServerResponseProvider) 
+        public ClientGrantTypeProcessor(ICrypter crypter, string cryptionKey,
+            IClientCredentialsProvider passwordCredentialsProvider, IClientClaimsProvider passwordClaimsProvider,
+            IAuthServerResponseProvider<TAuthServerResponse> authServerResponseProvider)
             : base(crypter, cryptionKey, passwordCredentialsProvider, passwordClaimsProvider, authServerResponseProvider)
         {
-            PasswordCredentialsProvider = passwordCredentialsProvider;
+            ClientCredentialsProvider = passwordCredentialsProvider;
         }
 
-        protected override string InvalidCredentialsMessage => AuthServerMessages.InvalidUserCredentials;
+        protected override string InvalidCredentialsMessage => AuthServerMessages.InvalidClientCredentials;
 
         /*
         protected override void AddSpecificGrantTypeClaims(WebToken token, HttpRequest request)
@@ -26,16 +26,16 @@ namespace CoreLibrary.AuthServer
                 token.AddClaim("ClientId", request.Form["client_id"].ToString());
         }
         */
-    
+
         protected override string ExtractPasscode(HttpRequest request)
         {
-            return request.Form["password"].ToString();
+            return request.Form["client_secret"].ToString();
         }
 
         protected override string ExtractUniqueIdentifier(HttpRequest request)
         {
-            return request.Form["username"].ToString();
+            return request.Form["client_id"].ToString();
         }
-        
+
     }
 }

@@ -26,6 +26,9 @@ namespace CoreLibrary.AuthServer
                 passwordClaimsProvider, authServerResponseProvider));
 
             // Client
+
+            grantTypeProcessors.Add("client", new ClientGrantTypeProcessor<AuthServerResponse>(crypter, "", clientCredentialsProvider,
+                clientClaimsProvider, authServerResponseProvider));
         }
 
         public IGrantTypeProcessor CreateInstance(string grantType, string cryptionKey)
