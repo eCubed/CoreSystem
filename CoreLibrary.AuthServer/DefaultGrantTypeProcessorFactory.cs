@@ -1,42 +1,47 @@
 ﻿using CoreLibrary.Cryptography;
 using System;
-using System.Collections.Generic;
 
 namespace CoreLibrary.AuthServer
 {
-    public class DefaultGrantTypeProcessorFactory<TAuthServerResponse> : IGrantTypeProcessorFactory<TAuthServerResponse>
+    public abstract class DefaultGrantTypeProcessorFactory<TAuthServerResponse> : IGrantTypeProcessorFactory<TAuthServerResponse>
         where TAuthServerResponse : class, IAuthServerResponse,  new()
     {
         private ICrypter crypter { get; set; }
-        private Dictionary<string, IGrantTypeProcessor> grantTypeProcessors { get; set; }
+        private IPasswordCredentialsProvider PasswordCredentialsProvider { get; set; }
+        private IPasswordClaimsProvider PasswordClaimsProvider { get; set; }
+        private IClientCredentialsProvider ClientCredentialsProvider { get; set; }
+        private IClientClaimsProvider ClientClaimsProvider { get; set; }
+        private IAuthServerResponseProvider<TAuthServerResponse> AuthServerResponseProvider { get; set; }
 
         public DefaultGrantTypeProcessorFactory(ICrypter crypter, IPasswordCredentialsProvider passwordCredentialsProvider, 
             IPasswordClaimsProvider passwordClaimsProvider, IClientCredentialsProvider clientCredentialsProvider,
             IClientClaimsProvider clientClaimsProvider, IAuthServerResponseProvider<TAuthServerResponse> authServerResponseProvider)
         {
             this.crypter = crypter;
+            PasswordCredentialsProvider = passwordCredentialsProvider;
+            PasswordClaimsProvider = passwordClaimsProvider;
+            ClientCredentialsProvider = clientCredentialsProvider;
+            ClientClaimsProvider = clientClaimsProvider;
+            AuthServerResponseProvider = authServerResponseProvider;            
+        }
 
-            grantTypeProcessors = new Dictionary<string, IGrantTypeProcessor>();
-
-            /* It is here that we manually add GrantTypeProcessors!!!
-             */
-
-            // Password.
-            grantTypeProcessors.Add("password", new PasswordGrantTypeProcessor<TAuthServerResponse>(crypter, "", passwordCredentialsProvider,
-                passwordClaimsProvider,  authServerResponseProvider));
-            
-            // Client
-
-            grantTypeProcessors.Add("client", new ClientGrantTypeProcessor<TAuthServerResponse>(crypter, "", clientCredentialsProvider,
-                clientClaimsProvider, authServerResponseProvider));
+        protected virtual IGrantTypeProcessor CreateAdditionalGrantTypeProcessorInstances(string grantType, string cryptionKey)
+        {
+            throw new Exception(AuthServerMessages.InvalidGrantType);
         }
 
         public IGrantTypeProcessor CreateInstance(string grantType, string cryptionKey)
         {
-            if (!grantTypeProcessors.ContainsKey(grantType))
-                throw new Exception(AuthServerMessages.InvalidGrantType);
+            if (grantType == GrantTypeNames.Password)
+                return new PasswordGrantTypeProcessor<TAuthServerResponse>(crypter, cryptionKey, PasswordCredentialsProvider,
+                    PasswordClaimsProvider, AuthServerResponseProvider);
+            else if (grantType == GrantTypeNames.Client)
+                return new ClientGrantTypeProcessor<TAuthServerResponse>(crypter, cryptionKey, ClientCredentialsProvider,
+                    ClientClaimsProvider, AuthServerResponseProvider);
+            else
+                return CreateAdditionalGrantTypeProcessorInstances(grantType, cryptionKey);
 
-            return grantTypeProcessors.GetValueOrDefault(grantType);
+            throw new Exception(AuthServerMessages.InvalidGrantType);
         }
     }
 }
