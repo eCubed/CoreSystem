@@ -13,6 +13,7 @@ namespace CoreSystem.AuthServer.Providers
 
         public AuthServerResponseProvider(UserManager<CoreSystemUser> userManager)
         {
+            UserManager = userManager;
         }
 
         public void FillValues(string uniqueIdentifier, CoreSystemAuthServerResponse authServerResponse)
@@ -24,9 +25,7 @@ namespace CoreSystem.AuthServer.Providers
                 IList<string> roles = UserManager.GetRolesAsync(user).Result;
 
                 authServerResponse.Roles = roles.ToList();
-            }
-
-            throw new NotImplementedException();
+            }            
         }
     }
 }
