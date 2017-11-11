@@ -3,7 +3,7 @@ using System;
 
 namespace CoreLibrary.AuthServer
 {
-    public class DefaultGrantTypeProcessorFactory<TAuthServerResponse> : IGrantTypeProcessorFactory<TAuthServerResponse>
+    public abstract class DefaultGrantTypeProcessorFactory<TAuthServerResponse> : IGrantTypeProcessorFactory<TAuthServerResponse>
         where TAuthServerResponse : class, IAuthServerResponse,  new()
     {
         private ICrypter crypter { get; set; }
@@ -22,17 +22,12 @@ namespace CoreLibrary.AuthServer
             PasswordClaimsProvider = passwordClaimsProvider;
             ClientCredentialsProvider = clientCredentialsProvider;
             ClientClaimsProvider = clientClaimsProvider;
-            AuthServerResponseProvider = authServerResponseProvider;
-            /* 
-            // Password.
-            grantTypeProcessors.Add("password", new PasswordGrantTypeProcessor<TAuthServerResponse>(crypter, "", passwordCredentialsProvider,
-                passwordClaimsProvider,  authServerResponseProvider));
-            
-            // Client
+            AuthServerResponseProvider = authServerResponseProvider;            
+        }
 
-            grantTypeProcessors.Add("client", new ClientGrantTypeProcessor<TAuthServerResponse>(crypter, "", clientCredentialsProvider,
-                clientClaimsProvider, authServerResponseProvider));
-            */
+        protected virtual IGrantTypeProcessor CreateAdditionalGrantTypeProcessorInstances(string grantType, string cryptionKey)
+        {
+            throw new Exception(AuthServerMessages.InvalidGrantType);
         }
 
         public IGrantTypeProcessor CreateInstance(string grantType, string cryptionKey)
@@ -43,6 +38,8 @@ namespace CoreLibrary.AuthServer
             else if (grantType == GrantTypeNames.Client)
                 return new ClientGrantTypeProcessor<TAuthServerResponse>(crypter, cryptionKey, ClientCredentialsProvider,
                     ClientClaimsProvider, AuthServerResponseProvider);
+            else
+                return CreateAdditionalGrantTypeProcessorInstances(grantType, cryptionKey);
 
             throw new Exception(AuthServerMessages.InvalidGrantType);
         }
