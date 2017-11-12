@@ -89,11 +89,20 @@ namespace CoreLibrary.ResourceServer
             {
                 await _next.Invoke(context);
             }
-            catch(Exception e)
+            catch(InvalidOperationException e)
             {
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 context.Response.ContentType = "application/json;charset=utf-8";
-                UnauthorizedApiResponse response = new UnauthorizedApiResponse(ResourceServerMessages.ServerError,
+                UnauthorizedApiResponse response = new UnauthorizedApiResponse(ResourceServerMessages.InsufficientCredentials,
+                    new List<string> { e.Message });
+                await context.Response.WriteAsync(response.JsonSerialize());
+                return;
+            }
+            catch(Exception e)
+            {
+                context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                context.Response.ContentType = "application/json;charset=utf-8";
+                InternalServerErrorApiResponse response = new InternalServerErrorApiResponse(ResourceServerMessages.ServerError,
                     new List<string> { e.Message });
                 await context.Response.WriteAsync(response.JsonSerialize());
                 return;
