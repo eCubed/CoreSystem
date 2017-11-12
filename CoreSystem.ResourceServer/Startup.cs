@@ -81,7 +81,7 @@ namespace CoreSystem.ResourceServer
                 options.AllowAnyMethod();
                 options.AllowAnyHeader();
             });
-
+            
             ResourceServerOptions rsOptions = new ResourceServerOptions();
             rsOptions.CryptionKey = Configuration["CryptionKey"];
             rsOptions.Issuer = "CoreSystem Issuer";
@@ -89,11 +89,12 @@ namespace CoreSystem.ResourceServer
             app.UseResourceServerMiddleware(rsOptions);
 
             app.UseMvc();
-
+            
+            app.UseErrorWrappingMiddleware();
             app.Run(async (context) =>
             {
                 await context.Response.WriteAsync("Hello World!");
-            });            
+            });     
         }
     }
 }
