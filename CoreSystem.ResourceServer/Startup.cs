@@ -91,10 +91,12 @@ namespace CoreSystem.ResourceServer
             app.UseMvc();
             
             app.UseErrorWrappingMiddleware();
+            /*
             app.Run(async (context) =>
             {
                 await context.Response.WriteAsync("Hello World!");
             });     
+            */
         }
     }
 }
