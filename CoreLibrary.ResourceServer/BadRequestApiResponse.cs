@@ -21,7 +21,7 @@ namespace CoreLibrary.ResourceServer
                 .Select(x => x.ErrorMessage).ToArray();
         }
 
-        public BadRequestApiResponse(string appSpecificCode, IEnumerable<string> errors) : base(400, appSpecificCode)
+        public BadRequestApiResponse(string appSpecificCode, IEnumerable<string> errors = null) : base(400, appSpecificCode)
         {
             Errors = errors;
         }

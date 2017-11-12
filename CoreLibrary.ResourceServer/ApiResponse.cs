@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 /// <summary>
 /// Courtesy: https://www.devtrends.co.uk/blog/handling-errors-in-asp.net-core-web-api
@@ -25,6 +26,15 @@ namespace CoreLibrary.ResourceServer
             HttpStatusCode = statusCode;
             AppSpecificCode = appSpecificCode;
             Message = message;
+        }
+
+        public string JsonSerialize()
+        {
+            return JsonConvert.SerializeObject(this, new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                NullValueHandling = NullValueHandling.Ignore
+            });
         }
     }
 }

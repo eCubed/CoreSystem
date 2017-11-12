@@ -35,15 +35,8 @@ namespace CoreLibrary.ResourceServer
             if (!context.Response.HasStarted)
             {
                 context.Response.ContentType = "application/json";
-
-                var badResponse = new BadRequestApiResponse("invalid-route", new List<string> { "invalid-route" });
-
-                var json = JsonConvert.SerializeObject(badResponse, new JsonSerializerSettings
-                {
-                    ContractResolver = new CamelCasePropertyNamesContractResolver()
-                });
-
-                await context.Response.WriteAsync(json);
+                var badResponse = new BadRequestApiResponse("invalid-route", new List<string> { "invalid-route" });                
+                await context.Response.WriteAsync(badResponse.JsonSerialize());
             }
         }
     }
