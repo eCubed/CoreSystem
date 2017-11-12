@@ -6,5 +6,8 @@
         public static readonly string IssuersDoNotMatch = "issuers-do-not-match";
         public static readonly string AuthorizationBearerRequired = "authorization-bearer-required";
         public static readonly string TokenExpired = "token-expired";
+        public static readonly string ServerError = "server-error";
+        public static readonly string InvalidToken = "invalid-token";
+        public static readonly string InsufficientCredentials = "insufficient-credentials";
     }
 }

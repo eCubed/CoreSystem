@@ -1,4 +1,6 @@
-﻿using CoreSystem.EntityFramework;
+﻿using CoreLibrary;
+using CoreLibrary.ResourceServer;
+using CoreSystem.EntityFramework;
 using CoreSystem.ResourceServer.Utils;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +30,7 @@ namespace CoreSystem.ResourceServer.Controllers
         public IActionResult Search(string startsWith, int page, int pageSize)
         {
             var resultSet = contactManager.SearchContacts(startsWith, page, pageSize);
-            return Ok(resultSet);
+            return Ok(new OkApiResponse<ResultSet<ContactListItemViewModel>>(resultSet));
         }
 
         [HttpGet]
@@ -42,7 +44,7 @@ namespace CoreSystem.ResourceServer.Controllers
             if (!res.Success)
                 return BadRequest(res.Errors);
 
-            return Ok(res.Data);
+            return Ok(new OkApiResponse<SaveContactViewModel>(res.Data));
         }
 
         // POST api/values
@@ -56,7 +58,7 @@ namespace CoreSystem.ResourceServer.Controllers
             if (!res.Success)
                 return BadRequest(res.Errors);
 
-            return StatusCode(201, new { Id = scvm.Id });
+            return StatusCode(201, new CreatedApiResponse<int?>(scvm.Id));
         }
 
         // PUT api/values/5
@@ -70,7 +72,7 @@ namespace CoreSystem.ResourceServer.Controllers
             if (!res.Success)
                 return BadRequest(res.Errors);
 
-            return Ok();
+            return Ok(new OkApiResponse<object>(new { Id = scvm.Id }));
         }
 
         // DELETE api/values/5

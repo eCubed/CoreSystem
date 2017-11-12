@@ -3,6 +3,7 @@ using CoreLibrary.NetSecurity;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,10 +29,11 @@ namespace CoreLibrary.ResourceServer
                 string[] values = context.Request.Headers["Authorization"].ToString().Split(' ');
 
                 if (values.Length != 2)
-                {
+                {                    
                     context.Response.StatusCode = StatusCodes.Status400BadRequest;
                     context.Response.ContentType = "application/json;charset=utf-8";
-                    await context.Response.WriteAsync($"[\"{ResourceServerMessages.InvalidAuthorizationHeader}\"]");
+                    BadRequestApiResponse response = new BadRequestApiResponse(ResourceServerMessages.InvalidAuthorizationHeader);
+                    await context.Response.WriteAsync(response.JsonSerialize());
                     return;
                 }
 
@@ -39,7 +41,8 @@ namespace CoreLibrary.ResourceServer
                 {
                     context.Response.StatusCode = StatusCodes.Status400BadRequest;
                     context.Response.ContentType = "application/json;charset=utf-8";
-                    await context.Response.WriteAsync($"[\"{ResourceServerMessages.AuthorizationBearerRequired}\"]");
+                    BadRequestApiResponse response = new BadRequestApiResponse(ResourceServerMessages.AuthorizationBearerRequired);
+                    await context.Response.WriteAsync(response.JsonSerialize());
                     return;
                 }
 
@@ -52,7 +55,8 @@ namespace CoreLibrary.ResourceServer
                     {
                         context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                         context.Response.ContentType = "application/json;charset=utf-8";
-                        await context.Response.WriteAsync($"[\"{ResourceServerMessages.IssuersDoNotMatch}\"]");
+                        UnauthorizedApiResponse response = new UnauthorizedApiResponse(ResourceServerMessages.IssuersDoNotMatch);
+                        await context.Response.WriteAsync(response.JsonSerialize());
                         return;
                     }
 
@@ -62,7 +66,8 @@ namespace CoreLibrary.ResourceServer
                     {
                         context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                         context.Response.ContentType = "application/json;charset=utf-8";
-                        await context.Response.WriteAsync($"[\"{ResourceServerMessages.TokenExpired}\"]");
+                        UnauthorizedApiResponse response = new UnauthorizedApiResponse(ResourceServerMessages.TokenExpired);
+                        await context.Response.WriteAsync(response.JsonSerialize());
                         return;
                     }
 
@@ -73,7 +78,10 @@ namespace CoreLibrary.ResourceServer
                 {
                     context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                     context.Response.ContentType = "application/json;charset=utf-8";
-                    await context.Response.WriteAsync($"[\"{e.Message}\"]");
+                    UnauthorizedApiResponse response = new UnauthorizedApiResponse(ResourceServerMessages.InvalidToken,
+                        new List<string> { e.Message });
+                    await context.Response.WriteAsync(response.JsonSerialize());
+                    return;
                 }
             }
 
@@ -81,11 +89,23 @@ namespace CoreLibrary.ResourceServer
             {
                 await _next.Invoke(context);
             }
-            catch(Exception e)
+            catch(InvalidOperationException e)
             {
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 context.Response.ContentType = "application/json;charset=utf-8";
-                await context.Response.WriteAsync($"[\"{e.Message}\"]");
+                UnauthorizedApiResponse response = new UnauthorizedApiResponse(ResourceServerMessages.InsufficientCredentials,
+                    new List<string> { e.Message });
+                await context.Response.WriteAsync(response.JsonSerialize());
+                return;
+            }
+            catch(Exception e)
+            {
+                context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                context.Response.ContentType = "application/json;charset=utf-8";
+                InternalServerErrorApiResponse response = new InternalServerErrorApiResponse(ResourceServerMessages.ServerError,
+                    new List<string> { e.Message });
+                await context.Response.WriteAsync(response.JsonSerialize());
+                return;
             }
         }
     }
