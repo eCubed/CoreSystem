@@ -16,7 +16,7 @@ namespace CoreLibrary.FileServer
 
             Paths paths = new Paths();
             string generatedFilename = GenerateServerFilename(filename);
-            string absoluteLocalPath = $"{hostingEnvironment.WebRootPath }{GenerateRelativePath(forUrl: false)}";
+            string absoluteLocalPath = $"{hostingEnvironment.WebRootPath}\\{GenerateRelativePath(forUrl: false)}";
             paths.AbsoluteLocalPath = $"{absoluteLocalPath}\\{generatedFilename}";
             
             if (!Directory.Exists(absoluteLocalPath))
