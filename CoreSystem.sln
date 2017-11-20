@@ -33,9 +33,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreSystem.DevDeploy", "Cor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreLibrary.FileServer", "CoreLibrary.FileServer\CoreLibrary.FileServer.csproj", "{614150B7-7072-49BB-82EB-2A4E36A35DF8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreLibrary.Net", "CoreLibrary.Net\CoreLibrary.Net.csproj", "{800EBBF6-9C78-4F95-B6D2-7322E868E40C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreLibrary.Net", "CoreLibrary.Net\CoreLibrary.Net.csproj", "{800EBBF6-9C78-4F95-B6D2-7322E868E40C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{019F72BC-A090-49C0-A597-2B40E4AFCA76}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{019F72BC-A090-49C0-A597-2B40E4AFCA76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreLibrary.Net.Sockets", "CoreLibrary.Net.Sockets\CoreLibrary.Net.Sockets.csproj", "{D3A70280-FDAD-48E3-A97E-80AD3536B712}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -111,6 +113,10 @@ Global
 		{019F72BC-A090-49C0-A597-2B40E4AFCA76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{019F72BC-A090-49C0-A597-2B40E4AFCA76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{019F72BC-A090-49C0-A597-2B40E4AFCA76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3A70280-FDAD-48E3-A97E-80AD3536B712}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3A70280-FDAD-48E3-A97E-80AD3536B712}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3A70280-FDAD-48E3-A97E-80AD3536B712}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3A70280-FDAD-48E3-A97E-80AD3536B712}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
