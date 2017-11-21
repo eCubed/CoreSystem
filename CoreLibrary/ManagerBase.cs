@@ -23,11 +23,14 @@ namespace CoreLibrary
             throw new NotImplementedException();
         }
 
+        /*
         public virtual ManagerResult OnCreateLogicCheck(T entity)
         {
             return new ManagerResult();
         }
+        */
 
+        /*
         public virtual async Task<ManagerResult> CreateAsync(T entity)
         {
             try
@@ -60,6 +63,7 @@ namespace CoreLibrary
 
             return new ManagerResult();
         }
+        */
 
         /// <summary>
         /// This function is called only after the record to update was found
