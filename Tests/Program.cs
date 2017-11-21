@@ -16,7 +16,8 @@ namespace Tests
             //var result = HttpRequestFactory.UploadAsync<object>("http://localhost:49943/api/upload", "C:/FlixMLFiles/2017/10/201710172208120017_paella001.jpg").Result;
 
             var dummy = 3;
-            EntitiesTests.CreateTest();
+            //EntitiesTests.CreateTest();
+            EntitiesTests.DeleteTest();
         }
     }
 }

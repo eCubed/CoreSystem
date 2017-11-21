@@ -17,53 +17,8 @@ namespace CoreLibrary
         {
             return await Store.FindByIdAsync(id);
         }
-
-        public virtual Task<T> FindUniqueAsync(T matchAgainst)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         /*
-        public virtual ManagerResult OnCreateLogicCheck(T entity)
-        {
-            return new ManagerResult();
-        }
-        */
-
-        /*
-        public virtual async Task<ManagerResult> CreateAsync(T entity)
-        {
-            try
-            {
-                T duplicate = await FindUniqueAsync(entity);
-
-                if (duplicate != null)
-                    return new ManagerResult(ManagerErrors.DuplicateOnCreate);
-
-                ManagerResult logicCheckResult = OnCreateLogicCheck(entity);
-
-                if (!logicCheckResult.Success)
-                    return logicCheckResult;
-
-                await Store.CreateAsync(entity);
-            }
-            catch (NotImplementedException)
-            {
-                ManagerResult logicCheckResult = OnCreateLogicCheck(entity);
-
-                if (!logicCheckResult.Success)
-                    return logicCheckResult;
-
-                await Store.CreateAsync(entity);
-            }
-            catch (Exception e)
-            {
-                return e.CreateManagerResult();
-            }
-
-            return new ManagerResult();
-        }
-        */
 
         /// <summary>
         /// This function is called only after the record to update was found
@@ -128,6 +83,9 @@ namespace CoreLibrary
             return new ManagerResult();
         }
 
+        */
+
+            /*
         public virtual ManagerResult OnDeleteLogicCheck(T entity)
         {
             return new ManagerResult();
@@ -155,6 +113,7 @@ namespace CoreLibrary
             }
 
             return new ManagerResult();
-        }               
+        }  
+        */
     }
 }

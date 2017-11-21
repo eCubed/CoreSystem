@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace CoreLibrary
 {
-    public static class DataRoutines
+    public static class DataUtils
     {
         public static async Task<ManagerResult> CreateAsync<T, TKey>(T entity, IAsyncStore<T, TKey> store,
             Func<T, Task<T>> findUniqueAsync)
@@ -15,24 +15,33 @@ namespace CoreLibrary
 
                 if (duplicate != null)
                     return new ManagerResult(ManagerErrors.DuplicateOnCreate);
-
-                /*
-                ManagerResult logicCheckResult = onCreateLogicCheck.Invoke(entity);
-
-                if (!logicCheckResult.Success)
-                    return logicCheckResult;
-                */
+                
                 await store.CreateAsync(entity);
             }
             catch (NotImplementedException)
             {
-                /*
-                ManagerResult logicCheckResult = onCreateLogicCheck.Invoke(entity);
-
-                if (!logicCheckResult.Success)
-                    return logicCheckResult;
-                */
                 await store.CreateAsync(entity);
+            }
+            catch (Exception e)
+            {
+                return e.CreateManagerResult();
+            }
+
+            return new ManagerResult();
+        }
+
+        public static async Task<ManagerResult> DeleteAsync<T, TKey>(TKey id, IAsyncStore<T, TKey> store)
+             where T : class, IIdentifiable<TKey>
+        {
+            try
+            {
+                T found = await store.FindByIdAsync(id);
+
+                if (found == null)
+                    return new ManagerResult(ManagerErrors.RecordNotFound);
+                
+
+                await store.DeleteAsync(found);
             }
             catch (Exception e)
             {
