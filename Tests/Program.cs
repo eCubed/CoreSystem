@@ -17,7 +17,8 @@ namespace Tests
 
             var dummy = 3;
             //EntitiesTests.CreateTest();
-            EntitiesTests.DeleteTest();
+            //EntitiesTests.DeleteTest();
+            EntitiesTests.UpdateTest();
         }
     }
 }

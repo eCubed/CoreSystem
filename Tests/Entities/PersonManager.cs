@@ -1,5 +1,4 @@
 ﻿using CoreLibrary;
-using System;
 using System.Threading.Tasks;
 
 namespace Tests.Entities
@@ -14,6 +13,23 @@ namespace Tests.Entities
         protected IPersonStore<TPerson> GetPersonStore()
         {
             return (IPersonStore<TPerson>)Store;
+        }
+        
+        /// <summary>
+        /// In the old way, we had a virtual FindUniqueAsync function right at the ManagerBase. Though virtual, it automatically
+        /// returned an exception, and that exception was read by the old CreateAsync and UpdateAsync routines as a bypass, that is,
+        /// uniqueness was not going to be checked against. We always had to override this function when our entity had uniqueness
+        /// rules.
+        /// 
+        /// We now have to explicitly create a find unique function if we truly have uniqueness-by-property-values rules, and then pass
+        /// that to the utility CreateAsync and UpdateAsync functions that we call from this manager's own CreateAsync and UpdateAsync
+        /// functions.
+        /// </summary>
+        /// <param name="person"></param>
+        /// <returns></returns>
+        protected async Task<TPerson> FindUniqueAsync(TPerson person)
+        {
+            return await GetPersonStore().FindAsync(person.FirstName, person.LastName);
         }
 
         /// <summary>
@@ -40,10 +56,7 @@ namespace Tests.Entities
 
             /* We then call the utility CreateAsync function to do the job.
              */
-            return await DataUtils.CreateAsync(person, GetPersonStore(), async (p) =>
-            {
-                return await GetPersonStore().FindAsync(p.FirstName, p.LastName);
-            });
+            return await DataUtils.CreateAsync(person, GetPersonStore(), FindUniqueAsync);
         }
 
         /// <summary>
@@ -65,11 +78,21 @@ namespace Tests.Entities
             return await DataUtils.DeleteAsync(id, GetPersonStore());
         }
 
-        /*
-        public override void OnUpdatePropertyValues(TPerson original, TPerson entityWithNewValues)
+        /// <summary>
+        /// In the old way, we automatically assumed that every entity's record ought to be updated, which was why we put the update routine
+        /// right on to the ManagerBase. Also, our update routine was very complicated and at times, resulted in setting values twice and looked up
+        /// the entity by id twice, which was very inefficient and even cumbersome to implement.
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public async Task<ManagerResult> UpdateAsync(TPerson entity)
         {
-            throw new NotImplementedException();
+            /* We would perform any validation (besides uniqueness, since the update routine takes care of it) here to ensure that the
+             * incoming entity can be updated.
+             */
+
+            return await DataUtils.UpdateAsync(entity, GetPersonStore(), FindUniqueAsync);
         }
-        */
+        
     }
 }
