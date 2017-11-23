@@ -6,22 +6,18 @@ namespace CoreLibrary
     public static class DataUtils
     {
         public static async Task<ManagerResult> CreateAsync<T, TKey>(T entity, IAsyncStore<T, TKey> store,
-            Func<T, Task<T>> findUniqueAsync)
+            Func<T, Task<T>> findUniqueAsync = null)
             where T : class, IIdentifiable<TKey>
         {
-            try
+            if (findUniqueAsync != null)
             {
                 T duplicate = await findUniqueAsync.Invoke(entity);
 
                 if (duplicate != null)
                     return new ManagerResult(ManagerErrors.DuplicateOnCreate);
-                
-                await store.CreateAsync(entity);
             }
-            catch (Exception e)
-            {
-                return e.CreateManagerResult();
-            }
+
+            await store.CreateAsync(entity);           
 
             return new ManagerResult();
         }
@@ -48,7 +44,7 @@ namespace CoreLibrary
         }
 
         public static async Task<ManagerResult> UpdateAsync<T, TKey>(T entity, IAsyncStore<T, TKey> store,
-            Func<T, Task<T>> findUniqueAsync)
+            Func<T, Task<T>> findUniqueAsync = null)
             where T : class, IIdentifiable<TKey>
         {
             T recordToUpdate = await store.FindByIdAsync(entity.Id);
@@ -56,20 +52,16 @@ namespace CoreLibrary
             if (recordToUpdate == null)
                 return new ManagerResult(ManagerErrors.RecordNotFound);
 
-            try
+            if (findUniqueAsync != null)
             {
                 T possibleDuplicate = await findUniqueAsync(entity);
 
                 if ((possibleDuplicate != null) && (!possibleDuplicate.Id.Equals(recordToUpdate.Id)))
                     return new ManagerResult(ManagerErrors.DuplicateOnUpdate);
+            }                
                 
-                await store.UpdateAsync(recordToUpdate);
-            }
-            catch (Exception e)
-            {
-                return e.CreateManagerResult();
-            }
-
+            await store.UpdateAsync(recordToUpdate);
+           
             return new ManagerResult();
         }
     }
