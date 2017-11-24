@@ -91,7 +91,7 @@ namespace Tests.Entities
              * incoming entity can be updated.
              */
 
-            return await DataUtils.UpdateAsync(entity, GetPersonStore(), FindUniqueAsync);
+            return await DataUtils.UpdateAsync(entity.Id, GetPersonStore(), FindUniqueAsync);
         }
         
     }
