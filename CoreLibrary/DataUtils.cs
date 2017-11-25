@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CoreLibrary
 {
     public static class DataUtils
     {
+
+        #region Create
         public static async Task<ManagerResult> CreateAsync<T, TKey>(T entity, IAsyncStore<T, TKey> store,
             Func<T, Task<T>> findUniqueAsync = null, Func<T, ManagerResult> canCreate = null)
             where T : class, IIdentifiable<TKey>
@@ -55,6 +58,10 @@ namespace CoreLibrary
             return await CreateAsync<T, TKey>(newData, store, findUniqueAsync, canCreate);
         }
 
+        #endregion Create
+
+
+        #region Delete
         public static async Task<ManagerResult> DeleteAsync<T, TKey>(TKey id, IAsyncStore<T, TKey> store,
             Func<T, ManagerResult> canDelete = null)
              where T : class, IIdentifiable<TKey>
@@ -84,6 +91,9 @@ namespace CoreLibrary
             return new ManagerResult();
         }
 
+        #endregion Delete
+
+        #region Update
         public static async Task<ManagerResult> UpdateAsync<T, TKey>(TKey id, IAsyncStore<T, TKey> store,
             Func<T, Task<T>> findUniqueAsync = null, Func<T, ManagerResult> canUpdate = null,
             Action<T> fillNewValues = null)
@@ -137,5 +147,45 @@ namespace CoreLibrary
             return await UpdateAsync(viewModel.GetUniqueIdentifier(), store, findUniqueAsync, canUpdate,
                 fillNewValues: data => viewModel.UpdateValues(data));
         }
+
+        #endregion Update
+
+        #region Get
+        public static async Task<ManagerResult<TViewModel>> GetOneRecordAsync<T, TKey, TViewModel>(TKey id, IAsyncStore<T, TKey> store,
+            Func<T, ManagerResult> canGet = null)
+            where T : class, IIdentifiable<TKey>, new()
+            where TViewModel : class, IViewModel<T, TKey>, new()
+        {
+            T data = await store.FindByIdAsync(id);
+
+            if (data == null)
+                return new ManagerResult<TViewModel>(ManagerErrors.RecordNotFound);
+
+            if (canGet != null)
+            {
+                var canGetResult = canGet.Invoke(data);
+                if (!canGetResult.Success)
+                    return new ManagerResult<TViewModel>(canGetResult.Errors);
+            }
+
+            TViewModel viewModel = new TViewModel();
+            viewModel.SetValues(data);
+
+            return new ManagerResult<TViewModel>(viewModel);
+        }
+
+        public static ResultSet<TViewModel> GetMany<T, TKey, TViewModel>(IQueryable<T> filteredQueryable, int page = 1, int pageSize = 10)
+            where T : class, IIdentifiable<TKey>
+            where TViewModel : class, IViewModel<T, TKey>, new()
+        {
+            return ResultSetHelper.Convert(ResultSetHelper.GetResults<T, TKey>(filteredQueryable, page, pageSize), data =>
+            {
+                TViewModel viewModel = new TViewModel();
+                viewModel.SetValues(data);
+                return viewModel;
+            });
+        }
+
+        #endregion Get
     }
 }

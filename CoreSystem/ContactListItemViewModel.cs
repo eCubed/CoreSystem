@@ -1,6 +1,9 @@
-﻿namespace CoreSystem
+﻿using CoreLibrary;
+
+namespace CoreSystem
 {
-    public class ContactListItemViewModel
+    public class ContactListItemViewModel<TContact> : IViewModel<TContact, int>
+        where TContact : class, IContact
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
@@ -11,12 +14,27 @@
         {
         }
 
-        public ContactListItemViewModel(IContact contact)
+        public ContactListItemViewModel(TContact contact)
+        {
+            SetValues(contact);
+        }
+
+        public void UpdateValues(TContact data)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void SetValues(TContact contact, bool uniqueIdentifierOnly = false)
         {
             Id = contact.Id;
             FirstName = contact.FirstName;
             LastName = contact.LastName;
             Phone = contact.Phone;
+        }
+
+        public int GetUniqueIdentifier()
+        {
+            return Id;
         }
     }
 }

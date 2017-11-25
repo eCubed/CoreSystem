@@ -59,7 +59,8 @@ namespace Tests
             ContactManager<Contact> contactManager = new ContactManager<Contact>(new ContactStore(db));
 
             //ContactsTests.CreateContactTest(contactManager);
-            ContactsTests.GetAndUpdateTest(contactManager);
+            //ContactsTests.GetAndUpdateTest(contactManager);
+            ContactsTests.GetManyTest(contactManager);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using CoreSystem;
+﻿using CoreLibrary;
+using CoreSystem;
 using CoreSystem.EntityFramework;
 
 namespace Tests
@@ -27,17 +28,34 @@ namespace Tests
 
         public static void GetAndUpdateTest(ContactManager<Contact> contactManager)
         {
+            /*
             Contact contact = contactManager.FindByIdAsync(15).Result;
-            contact.Address1 = "1527 Locust St";
+            contact.Address1 = "3527 Locust St";
             contact.City = "Attleboro";
-            contact.FirstName = "Amanda";
-            contact.LastName = "Surgens";
+            contact.FirstName = "Robert";
 
             SaveContactViewModel<Contact> scvm = new SaveContactViewModel<Contact>(contact);
+            */
 
-            var updateRes = contactManager.UpdateAsync(scvm, userId: 1).Result;
+            var getRes = contactManager.GetContactAsync(15, requestorId: 2).Result;
+
+            if (getRes.Success)
+            {
+                SaveContactViewModel<Contact> scvm = getRes.Data;
+                scvm.FirstName = "Roberto";
+                scvm.Address1 = "1000 Park Street";
+
+                var updateRes = contactManager.UpdateAsync(scvm, userId: 1).Result;
+            }
 
             var dummy = 3;
+        }
+
+        public static void GetManyTest(ContactManager<Contact> contactManager)
+        {
+            ResultSet<ContactListItemViewModel<Contact>> contacts = contactManager.SearchContacts("*", 1, 12);
+
+            var dummy = 12;
         }
     }
 }

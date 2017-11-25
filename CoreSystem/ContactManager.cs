@@ -63,30 +63,31 @@ namespace CoreSystem
 
         #region Get
 
-        public ResultSet<ContactListItemViewModel> SearchContacts(string startsWith, int page = 1, int pageSize = 10)
+        public ResultSet<ContactListItemViewModel<TContact>> SearchContacts(string startsWith, int page = 1, int pageSize = 10)
         {
             IQueryable<TContact> qContacts = GetContactStore().GetQueryableContacts();
 
             if (!string.IsNullOrEmpty(startsWith) && (startsWith != "*"))
                 qContacts = qContacts.Where(c => c.FirstName.StartsWith(startsWith) || c.LastName.StartsWith(startsWith));
+            
+            return DataUtils.GetMany<TContact, int, ContactListItemViewModel<TContact>>(qContacts, page, pageSize);
 
-            return ResultSetHelper.Convert(ResultSetHelper.GetResults<TContact, int>(qContacts, page, pageSize), contact =>
-            {
-                return new ContactListItemViewModel(contact);
-            });
         }
 
+        /* This function already hardcodes the exact view model we want to return! If we wanted a different view model
+         * to return a different set of data, we would create a separate function with nearly the same code, except a
+         * different third parameter for the specific view model we want.
+         */
         public async Task<ManagerResult<SaveContactViewModel<TContact>>> GetContactAsync(int id, int requestorId)
-        {
-            TContact contact = await FindByIdAsync(id);
-
-            if (contact == null)
-                return new ManagerResult<SaveContactViewModel<TContact>>(ManagerErrors.RecordNotFound);
-
-            if (contact.UserId != requestorId)
-                return new ManagerResult<SaveContactViewModel<TContact>>(ManagerErrors.Unauthorized);
-
-            return new ManagerResult<SaveContactViewModel<TContact>>(new SaveContactViewModel<TContact>(contact));
+        {           
+            return await DataUtils.GetOneRecordAsync<TContact, int, SaveContactViewModel<TContact>>(id, GetContactStore(),
+                canGet: (contact) =>
+                {
+                    if (contact.UserId != requestorId)
+                        return new ManagerResult(ManagerErrors.Unauthorized);
+                    else
+                        return new ManagerResult();
+                });
         }
 
         #endregion
