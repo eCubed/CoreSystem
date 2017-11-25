@@ -1,8 +1,5 @@
 ﻿using CoreSystem;
 using CoreSystem.EntityFramework;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Tests
 {
@@ -10,17 +7,17 @@ namespace Tests
     {
         public static void CreateContactTest(ContactManager<Contact> contactManager)
         {
-            SaveContactViewModel scvm = new SaveContactViewModel()
+            SaveContactViewModel<Contact> scvm = new SaveContactViewModel<Contact>()
             {
-                FirstName = "Amanda",
-                LastName = "Surgens",
-                Address1 = "12 Huckleberry Ln",
-                City = "Bridgewater",
+                FirstName = "Rob",
+                LastName = "Geddes",
+                Address1 = "120 Maple Street",
+                City = "Attleboro",
                 Region = "MA",
-                PostalCode = "03157",
+                PostalCode = "02703",
                 Country = "US",
-                Email = "amanda@bwstate.edu",
-                Phone = "508-768-9771"
+                Email = "rgeddes@attleboro.gov",
+                Phone = "508-222-1005"
             };
 
             var createRes = contactManager.CreateAsync(scvm, userId: 1).Result;
@@ -30,14 +27,15 @@ namespace Tests
 
         public static void GetAndUpdateTest(ContactManager<Contact> contactManager)
         {
-            Contact contact = contactManager.FindByIdAsync(10).Result;
-            contact.Address1 = "227 Oak Hill Avenue";
+            Contact contact = contactManager.FindByIdAsync(15).Result;
+            contact.Address1 = "1527 Locust St";
             contact.City = "Attleboro";
-            contact.Phone = "508-222-7297";
+            contact.FirstName = "Amanda";
+            contact.LastName = "Surgens";
 
-            SaveContactViewModel scvm = new SaveContactViewModel(contact);
+            SaveContactViewModel<Contact> scvm = new SaveContactViewModel<Contact>(contact);
 
-            var updateRes = contactManager.UpdateAsync(scvm, userId: 2).Result;
+            var updateRes = contactManager.UpdateAsync(scvm, userId: 1).Result;
 
             var dummy = 3;
         }

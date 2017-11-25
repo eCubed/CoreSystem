@@ -30,6 +30,31 @@ namespace CoreLibrary
             return new ManagerResult();
         }
 
+        public static async Task<ManagerResult> CreateAsync<T, TKey, TViewModel>(TViewModel viewModel, IAsyncStore<T, TKey> store,
+            Func<T, Task<T>> findUniqueAsync = null, Func<T, ManagerResult> canCreate = null)
+            where T : class, IIdentifiable<TKey>, new()
+            where TViewModel : class, IViewModel<T, TKey>
+        {
+            T newData = new T();
+            viewModel.UpdateValues(newData);
+            viewModel.SetValues(newData, uniqueIdentifierOnly: true);
+
+            return await CreateAsync<T, TKey>(newData, store, findUniqueAsync, canCreate);
+        }
+
+        public static async Task<ManagerResult> CreateAsync<T, TKey, TViewModel, TArgs>(TViewModel viewModel, IAsyncStore<T, TKey> store,
+            Func<T, Task<T>> findUniqueAsync = null, Func<T, ManagerResult> canCreate = null, TArgs args = null)
+            where T : class, IIdentifiable<TKey>, new()
+            where TArgs : class, IViewModelArgs
+            where TViewModel : class, IViewModel<T, TKey, TArgs>
+        {
+            T newData = new T();
+            viewModel.UpdateValues(newData, args);
+            viewModel.SetValues(newData, uniqueIdentifierOnly: true, args: args);
+
+            return await CreateAsync<T, TKey>(newData, store, findUniqueAsync, canCreate);
+        }
+
         public static async Task<ManagerResult> DeleteAsync<T, TKey>(TKey id, IAsyncStore<T, TKey> store,
             Func<T, ManagerResult> canDelete = null)
              where T : class, IIdentifiable<TKey>
@@ -92,6 +117,25 @@ namespace CoreLibrary
             await store.UpdateAsync(recordToUpdate);
            
             return new ManagerResult();
+        }
+
+        public static async Task<ManagerResult> UpdateAsync<T, TKey, TViewModel>(TViewModel viewModel, IAsyncStore<T, TKey> store,
+            Func<T, Task<T>> findUniqueAsync = null, Func<T, ManagerResult> canUpdate = null)
+            where T : class, IIdentifiable<TKey>, new()
+            where TViewModel : class, IViewModel<T, TKey>
+        {            
+            return await UpdateAsync(viewModel.GetUniqueIdentifier(), store, findUniqueAsync, canUpdate,
+                fillNewValues: data => viewModel.UpdateValues(data));
+        }
+
+        public static async Task<ManagerResult> UpdateAsync<T, TKey, TViewModel, TArgs>(TViewModel viewModel, IAsyncStore<T, TKey> store,
+            Func<T, Task<T>> findUniqueAsync = null, Func<T, ManagerResult> canUpdate = null, TArgs args = null)
+            where T : class, IIdentifiable<TKey>, new()
+            where TArgs : class, IViewModelArgs
+            where TViewModel : class, IViewModel<T, TKey, TArgs>
+        {
+            return await UpdateAsync(viewModel.GetUniqueIdentifier(), store, findUniqueAsync, canUpdate,
+                fillNewValues: data => viewModel.UpdateValues(data));
         }
     }
 }

@@ -23,28 +23,17 @@ namespace CoreSystem
 
         #region Create
         
-        public virtual async Task<ManagerResult> CreateAsync(SaveContactViewModel scvm, int userId)
+        public virtual async Task<ManagerResult> CreateAsync(SaveContactViewModel<TContact> scvm, int userId)
         {
-            TContact newContact = new TContact();
-            scvm.UpdateValues(newContact);
-            newContact.UserId = userId;
-
-            // To do: save the id of the contact back to the scvm!
-            var res = await DataUtils.CreateAsync(newContact, GetContactStore(), FindUniqueAsync);
-
-            if (!res.Success)
-                return res;
-
-            scvm.Id = newContact.Id;
-
-            return new ManagerResult();
+            scvm.UserId = userId;
+            return await DataUtils.CreateAsync(scvm, GetContactStore(), FindUniqueAsync);
         }
 
         #endregion
 
         #region Update
         
-        public virtual async Task<ManagerResult> UpdateAsync(SaveContactViewModel scvm, int userId)
+        public virtual async Task<ManagerResult> UpdateAsync(SaveContactViewModel<TContact> scvm, int userId)
         {
             return await DataUtils.UpdateAsync(scvm.Id.Value, GetContactStore(), FindUniqueAsync, contact =>
             {
@@ -87,17 +76,17 @@ namespace CoreSystem
             });
         }
 
-        public async Task<ManagerResult<SaveContactViewModel>> GetContactAsync(int id, int requestorId)
+        public async Task<ManagerResult<SaveContactViewModel<TContact>>> GetContactAsync(int id, int requestorId)
         {
             TContact contact = await FindByIdAsync(id);
 
             if (contact == null)
-                return new ManagerResult<SaveContactViewModel>(ManagerErrors.RecordNotFound);
+                return new ManagerResult<SaveContactViewModel<TContact>>(ManagerErrors.RecordNotFound);
 
             if (contact.UserId != requestorId)
-                return new ManagerResult<SaveContactViewModel>(ManagerErrors.Unauthorized);
+                return new ManagerResult<SaveContactViewModel<TContact>>(ManagerErrors.Unauthorized);
 
-            return new ManagerResult<SaveContactViewModel>(new SaveContactViewModel(contact));
+            return new ManagerResult<SaveContactViewModel<TContact>>(new SaveContactViewModel<TContact>(contact));
         }
 
         #endregion

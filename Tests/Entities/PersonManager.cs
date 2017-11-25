@@ -56,7 +56,7 @@ namespace Tests.Entities
 
             /* We then call the utility CreateAsync function to do the job.
              */
-            return await DataUtils.CreateAsync(person, GetPersonStore(), FindUniqueAsync);
+            return await DataUtils.CreateAsync<TPerson, int>(person, GetPersonStore(), FindUniqueAsync);
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace Tests.Entities
              * incoming entity can be updated.
              */
 
-            return await DataUtils.UpdateAsync(entity.Id, GetPersonStore(), FindUniqueAsync);
+            return await DataUtils.UpdateAsync<TPerson, int>(entity.Id, GetPersonStore(), FindUniqueAsync);
         }
         
     }
