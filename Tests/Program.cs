@@ -58,9 +58,9 @@ namespace Tests
             CoreSystemDbContext db = ServiceProvider.GetService<CoreSystemDbContext>();
             ContactManager<Contact> contactManager = new ContactManager<Contact>(new ContactStore(db));
 
-            //ContactsTests.CreateContactTest(contactManager);
+            ContactsTests.CreateContactTest(contactManager);
             //ContactsTests.GetAndUpdateTest(contactManager);
-            ContactsTests.GetManyTest(contactManager);
+            //ContactsTests.GetManyTest(contactManager);
         }
     }
 }

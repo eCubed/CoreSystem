@@ -10,15 +10,15 @@ namespace Tests
         {
             SaveContactViewModel<Contact> scvm = new SaveContactViewModel<Contact>()
             {
-                FirstName = "Rob",
-                LastName = "Geddes",
-                Address1 = "120 Maple Street",
+                FirstName = "Richard",
+                LastName = "LaCivita",
+                Address1 = "1427 Augsburger Drive",
                 City = "Attleboro",
                 Region = "MA",
                 PostalCode = "02703",
                 Country = "US",
-                Email = "rgeddes@attleboro.gov",
-                Phone = "508-222-1005"
+                Email = "rlacivita@attleboro.gov",
+                Phone = "508-222-0101"
             };
 
             var createRes = contactManager.CreateAsync(scvm, userId: 1).Result;

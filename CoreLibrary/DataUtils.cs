@@ -34,28 +34,32 @@ namespace CoreLibrary
         }
 
         public static async Task<ManagerResult> CreateAsync<T, TKey, TViewModel>(TViewModel viewModel, IAsyncStore<T, TKey> store,
-            Func<T, Task<T>> findUniqueAsync = null, Func<T, ManagerResult> canCreate = null)
+            Func<T, Task<T>> findUniqueAsync = null, Func<T, ManagerResult> canCreate = null, Action<T> setNonViewModelData = null)
             where T : class, IIdentifiable<TKey>, new()
             where TViewModel : class, IViewModel<T, TKey>
         {
             T newData = new T();
             viewModel.UpdateValues(newData);
-            viewModel.SetValues(newData, uniqueIdentifierOnly: true);
 
-            return await CreateAsync<T, TKey>(newData, store, findUniqueAsync, canCreate);
+            if (setNonViewModelData != null)
+                setNonViewModelData.Invoke(newData);
+
+            return await CreateAsync(newData, store, findUniqueAsync, canCreate);
         }
 
         public static async Task<ManagerResult> CreateAsync<T, TKey, TViewModel, TArgs>(TViewModel viewModel, IAsyncStore<T, TKey> store,
-            Func<T, Task<T>> findUniqueAsync = null, Func<T, ManagerResult> canCreate = null, TArgs args = null)
+            Func<T, Task<T>> findUniqueAsync = null, Func<T, ManagerResult> canCreate = null, Action<T> setNonViewModelData = null, TArgs args = null)
             where T : class, IIdentifiable<TKey>, new()
             where TArgs : class, IViewModelArgs
             where TViewModel : class, IViewModel<T, TKey, TArgs>
         {
             T newData = new T();
             viewModel.UpdateValues(newData, args);
-            viewModel.SetValues(newData, uniqueIdentifierOnly: true, args: args);
 
-            return await CreateAsync<T, TKey>(newData, store, findUniqueAsync, canCreate);
+            if (setNonViewModelData != null)
+                setNonViewModelData.Invoke(newData);
+
+            return await CreateAsync(newData, store, findUniqueAsync, canCreate);
         }
 
         #endregion Create

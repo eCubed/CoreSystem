@@ -4,7 +4,7 @@
         where T : class, IIdentifiable<TKey>
     {
         void UpdateValues(T data);
-        void SetValues(T data, bool uniqueIdentifierOnly = false);
+        void SetValues(T data);
         TKey GetUniqueIdentifier();
     }
 
@@ -13,7 +13,7 @@
         where TArgs : class, IViewModelArgs
     {
         void UpdateValues(T data, TArgs args = null);
-        void SetValues(T data, bool uniqueIdentifierOnly = false, TArgs args = null);
+        void SetValues(T data, TArgs args = null);
         TKey GetUniqueIdentifier();
     }
 }

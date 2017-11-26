@@ -25,8 +25,9 @@ namespace CoreSystem
         
         public virtual async Task<ManagerResult> CreateAsync(SaveContactViewModel<TContact> scvm, int userId)
         {
-            scvm.UserId = userId;
-            return await DataUtils.CreateAsync(scvm, GetContactStore(), FindUniqueAsync);
+            return await DataUtils.CreateAsync(scvm, GetContactStore(), FindUniqueAsync, 
+                canCreate: contact => new ManagerResult(),
+                setNonViewModelData: contact => contact.UserId = userId);
         }
 
         #endregion
@@ -50,13 +51,14 @@ namespace CoreSystem
         
         public async Task<ManagerResult> DeleteAsync(int id, int userId)
         {
-            return await DataUtils.DeleteAsync(id, GetContactStore(), c =>
-            {
-                if (c.UserId != userId)
-                    return new ManagerResult(ManagerErrors.Unauthorized);
+            return await DataUtils.DeleteAsync(id, GetContactStore(), 
+                canDelete: c =>
+                {
+                    if (c.UserId != userId)
+                        return new ManagerResult(ManagerErrors.Unauthorized);
 
-                return new ManagerResult();
-            }); // base.DeleteAsync(id);
+                    return new ManagerResult();
+                }); // base.DeleteAsync(id);
         }
 
         #endregion

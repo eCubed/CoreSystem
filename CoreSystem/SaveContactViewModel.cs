@@ -17,10 +17,7 @@ namespace CoreSystem
         public string PostalCode { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
-
-        [JsonIgnore]
-        public int UserId { get; set; }
-
+        
         public SaveContactViewModel()
         {
         }
@@ -42,32 +39,26 @@ namespace CoreSystem
             contact.Phone = Phone;
             contact.PostalCode = PostalCode;
             contact.Region = Region;
-            contact.UserId = UserId;
         }
 
-        public void SetValues(TContact contact, bool uniqueIdentifierOnly = false)
+        public void SetValues(TContact contact)
         {
-            Id = contact.Id;
-
-            if (!uniqueIdentifierOnly)
-            {
-                Address1 = contact.Address1;
-                Address2 = contact.Address2;
-                City = contact.City;
-                Country = contact.Country;
-                Email = contact.Email;
-                FirstName = contact.FirstName;
-                LastName = contact.LastName;
-                Phone = contact.Phone;
-                PostalCode = contact.PostalCode;
-                Region = contact.Region;
-                UserId = contact.UserId;
-            }
+            Id = contact.Id;            
+            Address1 = contact.Address1;
+            Address2 = contact.Address2;
+            City = contact.City;
+            Country = contact.Country;
+            Email = contact.Email;
+            FirstName = contact.FirstName;
+            LastName = contact.LastName;
+            Phone = contact.Phone;
+            PostalCode = contact.PostalCode;
+            Region = contact.Region;            
         }
 
         public int GetUniqueIdentifier()
         {
-            return this.Id.Value;
+            return Id.Value;
         }
     }
 }

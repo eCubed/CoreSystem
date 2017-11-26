@@ -24,7 +24,7 @@ namespace CoreSystem
             throw new System.NotImplementedException();
         }
 
-        public void SetValues(TContact contact, bool uniqueIdentifierOnly = false)
+        public void SetValues(TContact contact)
         {
             Id = contact.Id;
             FirstName = contact.FirstName;
