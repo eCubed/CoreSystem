@@ -1,6 +1,10 @@
-﻿namespace CoreSystem
+﻿using CoreLibrary;
+using Newtonsoft.Json;
+
+namespace CoreSystem
 {
-    public class SaveContactViewModel
+    public class SaveContactViewModel<TContact> : IViewModel<TContact, int>
+        where TContact : class, IContact
     {
         public int? Id { get; set; }
         public string FirstName { get; set; }
@@ -13,27 +17,17 @@
         public string PostalCode { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
-
+        
         public SaveContactViewModel()
         {
         }
 
-        public SaveContactViewModel(IContact contact)
+        public SaveContactViewModel(TContact contact)
         {
-            Id = contact.Id;
-            Address1 = contact.Address1;
-            Address2 = contact.Address2;
-            City = contact.City;
-            Country = contact.Country;
-            Email = contact.Email;
-            FirstName = contact.FirstName;
-            LastName = contact.LastName;
-            Phone = contact.Phone;
-            PostalCode = contact.PostalCode;
-            Region = contact.Region;
+            SetValues(contact);
         }
 
-        public void UpdateValues(IContact contact)
+        public void UpdateValues(TContact contact)
         {
             contact.Address1 = Address1;
             contact.Address2 = Address2;
@@ -45,6 +39,26 @@
             contact.Phone = Phone;
             contact.PostalCode = PostalCode;
             contact.Region = Region;
+        }
+
+        public void SetValues(TContact contact)
+        {
+            Id = contact.Id;            
+            Address1 = contact.Address1;
+            Address2 = contact.Address2;
+            City = contact.City;
+            Country = contact.Country;
+            Email = contact.Email;
+            FirstName = contact.FirstName;
+            LastName = contact.LastName;
+            Phone = contact.Phone;
+            PostalCode = contact.PostalCode;
+            Region = contact.Region;            
+        }
+
+        public int GetUniqueIdentifier()
+        {
+            return Id.Value;
         }
     }
 }
