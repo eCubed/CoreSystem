@@ -30,7 +30,7 @@ namespace CoreSystem.ResourceServer.Controllers
         public IActionResult Search(string startsWith, int page, int pageSize)
         {
             var resultSet = contactManager.SearchContacts(startsWith, page, pageSize);
-            return Ok(new OkApiResponse<ResultSet<ContactListItemViewModel>>(resultSet));
+            return Ok(new OkApiResponse<ResultSet<ContactListItemViewModel<Contact>>>(resultSet));
         }
 
         [HttpGet]
@@ -44,12 +44,12 @@ namespace CoreSystem.ResourceServer.Controllers
             if (!res.Success)
                 return BadRequest(res.Errors);
 
-            return Ok(new OkApiResponse<SaveContactViewModel>(res.Data));
+            return Ok(new OkApiResponse<SaveContactViewModel<Contact>>(res.Data));
         }
 
         // POST api/values
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody]SaveContactViewModel scvm)
+        public async Task<IActionResult> PostAsync([FromBody]SaveContactViewModel<Contact> scvm)
         {
             AuthenticatedInfo authInfo = await this.ResolveAuthenticatedEntitiesAsync(db, userManager);
 
@@ -63,7 +63,7 @@ namespace CoreSystem.ResourceServer.Controllers
 
         // PUT api/values/5
         [HttpPut]
-        public async Task<IActionResult> PutAsync([FromBody]SaveContactViewModel scvm)
+        public async Task<IActionResult> PutAsync([FromBody]SaveContactViewModel<Contact> scvm)
         {
             AuthenticatedInfo authInfo = await this.ResolveAuthenticatedEntitiesAsync(db, userManager);
 

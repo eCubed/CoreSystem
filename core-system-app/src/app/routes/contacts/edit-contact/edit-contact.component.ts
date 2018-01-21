@@ -29,7 +29,7 @@ export class EditContactComponent implements OnInit, OnDestroy {
   		var id = params['id'] || 0;
 
   		this.getContactSubscription = this.apiService.makeAuthorizedApiCall("get", `contacts/${id}`).subscribe(res => {
-  			this.contact = res;
+  			this.contact = res.data;
   		},
   		error => {
 

@@ -1,0 +1,34 @@
+@import '../../../scss/base';
+
+:host {
+	@include clearfix();
+
+	section {
+		float: left;		
+		width: 300px;
+		margin-right: #{10 * $general-padding};
+		margin-bottom: #{5 * $general-padding};
+
+		h3 {
+			margin-bottom: $general-padding;
+		}
+
+		div {
+			display: inline-block;
+			text-align: center;
+			margin-right: #{2 * $general-padding};
+
+			a {
+				display: block;
+				text-decoration: none;
+				color: $main-color;
+
+				&:first-child {
+					font-size: 200%;
+				}
+			}
+
+		}
+
+	}
+}

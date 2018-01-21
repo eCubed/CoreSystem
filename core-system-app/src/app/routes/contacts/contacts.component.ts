@@ -24,7 +24,7 @@ export class ContactsComponent implements OnInit, OnDestroy {
 
   loadContacts() {
     this.getContactsSubscription = this.apiService.makeAuthorizedApiCall("get", `contacts/search/*/1/200`).subscribe(res => {
-      this.contactsResultSet = res;
+      this.contactsResultSet = res.data;
     },
     err => {
 
