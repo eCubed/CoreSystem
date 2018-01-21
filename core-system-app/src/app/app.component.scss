@@ -52,3 +52,7 @@
 		background-color: $main-color;
 	}
 }
+
+.router-outlet {
+	padding: $general-padding;
+}

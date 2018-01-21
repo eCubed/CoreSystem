@@ -6,10 +6,14 @@ import { ApiService } from '../../../services/api.service';
 
 import { SaveContactViewModel } from '../models/savecontactviewmodel';
 
+import { fadeInAnimation } from '../../../animations/animations';
+
 @Component({
   selector: 'app-edit-contact',
   templateUrl: './edit-contact.component.html',
-  styleUrls: ['./edit-contact.component.scss']
+  styleUrls: ['./edit-contact.component.scss'],
+  animations: [fadeInAnimation],
+  host: { '[@fadeInAnimation]': ''}
 })
 export class EditContactComponent implements OnInit, OnDestroy {
 

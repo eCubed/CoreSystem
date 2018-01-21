@@ -3,10 +3,14 @@ import { Subscription } from 'rxjs';
 
 import { ApiService } from '../../services/api.service';
 
+import { fadeInAnimation} from '../../animations/animations';
+
 @Component({
   selector: 'app-contacts',
   templateUrl: './contacts.component.html',
-  styleUrls: ['./contacts.component.scss']
+  styleUrls: ['./contacts.component.scss'],
+  animations: [fadeInAnimation],
+  host: { '[@fadeInAnimation]': ''}
 })
 export class ContactsComponent implements OnInit, OnDestroy {
 
