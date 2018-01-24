@@ -5,11 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <ProjectReference Include="..\CoreLibrary.Cryptography\CoreLibrary.Cryptography.csproj" />
+    <ProjectReference Include="..\CoreLibrary.FileServer\CoreLibrary.FileServer.csproj" />
+    <ProjectReference Include="..\CoreLibrary.ResourceServer\CoreLibrary.ResourceServer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
 </Project>
