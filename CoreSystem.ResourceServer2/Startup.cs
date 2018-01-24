@@ -1,6 +1,5 @@
-﻿using CoreLibrary.AuthServer;
-using CoreLibrary.Cryptography;
-using CoreSystem.AuthServer.Providers;
+﻿using CoreLibrary.Cryptography;
+using CoreLibrary.ResourceServer;
 using CoreSystem.EntityFramework;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,7 +11,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace CoreSystem.AuthServer
+namespace CoreSystem.ResourceServer2
 {
     public class Startup
     {
@@ -29,11 +28,12 @@ namespace CoreSystem.AuthServer
 
             Configuration = builder.Build();
         }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
+
             services.AddMvcCore().AddJsonFormatters(setupAction => {
                 setupAction.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 setupAction.DefaultValueHandling = DefaultValueHandling.Ignore;
@@ -41,7 +41,6 @@ namespace CoreSystem.AuthServer
             });
 
             string connectionString = Configuration["ConnectionString"];
-
             services.AddDbContext<CoreSystemDbContext>(options =>
             {
                 options.UseSqlServer(connectionString, opts => {
@@ -53,11 +52,15 @@ namespace CoreSystem.AuthServer
                 .AddEntityFrameworkStores<CoreSystemDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddTransient<ICredentialsProvider, SimpleCredentialsProvider>();
-            services.AddTransient<IAdditionalClaimsProvider, AdditionalClaimsProvider>();
-            services.AddSingleton<ICrypter, Crypt>();
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = "JwtBearer";
+                options.DefaultChallengeScheme = "JwtBearer";
+            });
 
             services.AddCors();
+
+            services.AddSingleton<ICrypter, Crypt>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -77,13 +80,15 @@ namespace CoreSystem.AuthServer
                 options.AllowAnyHeader();
             });
 
-            TokenIssuerOptions tokenIssuerOptions = new TokenIssuerOptions();
-            tokenIssuerOptions.Issuer = "CoreSystem Issuer";
-            tokenIssuerOptions.CryptionKey = Configuration["CryptionKey"];
+            ResourceServerOptions rsOptions = new ResourceServerOptions();
+            rsOptions.CryptionKey = Configuration["CryptionKey"];
+            rsOptions.Issuer = "CoreSystem Issuer";
 
-            app.UseTokenIssuerMiddleware<CoreSystemTokenIssuerMiddleware,CoreSystemAuthServerResponse>(tokenIssuerOptions);
+            app.UseResourceServerMiddleware(rsOptions);
 
             app.UseMvc();
+
+            app.UseErrorWrappingMiddleware();
         }
     }
 }
