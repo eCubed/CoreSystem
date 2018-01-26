@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>eCubed</Authors>
+    <Company>eCubed</Company>
+    <Copyright>2018</Copyright>
+    <Description>This library is a dependency of the FCore.AuthServer and FCore.ResourceServer libraries. It contains a simple WebToken class that becomes the access token issued by the auth server, and passed as a Bearer token to authorized resource server calls.</Description>
+    <PackageTags>webtoken jwt</PackageTags>
+    <PackageReleaseNotes>Updated dependency to the correct FCore.Security, version 1.0.1</PackageReleaseNotes>
+    <Version>1.0.1</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FCore.Cryptography" Version="1.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+  </ItemGroup>
+
+</Project>
