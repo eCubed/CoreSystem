@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>FCore.Foundations</id>
+    <version>1.0.0</version>
+    <title>FCore.Foundations</title>
+    <authors>eCubed</authors>
+    <owners>eCubed</owners>
+    <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
+    <projectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</projectUrl>
+    <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Foundational classes and functionality for managing data, independent of storage mechanism. Includes
+      base routines for CRUD operations, including paginated result set, view models, and communicating errors.
+    </description>
+    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <copyright>Copyright 2018</copyright>
+    <tags>foundation foundations core crud abstract</tags>
+  </metadata>
+</package>
