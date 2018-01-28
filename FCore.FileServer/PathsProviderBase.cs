@@ -15,17 +15,22 @@ namespace FCore.FileServer
         /// </summary>
         /// <param name="forUrl"></param>
         /// <returns></returns>
-        protected abstract string GenerateRelativePath(bool forUrl);
+        protected abstract string GenerateRelativePath(string extension, bool forUrl);
 
         public UploadedFilePaths GenerateUploadedFilePaths(IHostingEnvironment hostingEnvironment, HttpRequest httpRequest, string filename)
         {
             if (filename.Contains("\\"))
                 filename = filename.Substring(filename.LastIndexOf("\\") + 1);
 
-            UploadedFilePaths paths = new UploadedFilePaths();
+            string extension = Path.GetExtension(filename);
+
             string generatedFilename = GenerateServerFilename(filename);
-            string absoluteLocalPath = $"{hostingEnvironment.WebRootPath}\\{GenerateRelativePath(forUrl: false)}";
+            string absoluteLocalPath = $"{hostingEnvironment.WebRootPath}\\{GenerateRelativePath(extension: extension, forUrl: false)}";
+            
+            UploadedFilePaths paths = new UploadedFilePaths();
             paths.AbsoluteLocalPath = $"{absoluteLocalPath}\\{generatedFilename}";
+            paths.FileExtension = extension;
+
             if (!Directory.Exists(absoluteLocalPath))
             {
                 Directory.CreateDirectory(absoluteLocalPath);
@@ -33,7 +38,7 @@ namespace FCore.FileServer
 
             string protocol = httpRequest.IsHttps ? "https" : "http";
             paths.AbsoluteUrlDomainOnly = $"{protocol}://{httpRequest.Host.Value}";
-            paths.AbsoluteUrl = $"{paths.AbsoluteUrlDomainOnly}//{GenerateRelativePath(forUrl: true)}//{generatedFilename}";
+            paths.AbsoluteUrl = $"{paths.AbsoluteUrlDomainOnly}//{GenerateRelativePath(extension: extension, forUrl: true)}//{generatedFilename}";
 
             return paths;
         }
