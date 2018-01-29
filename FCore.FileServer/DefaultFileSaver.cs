@@ -6,7 +6,7 @@ using System;
 
 namespace FCore.FileServer
 {
-    public class DefaultFileSaver<TUploadedFileInfo> : IFileSaver<TUploadedFileInfo>
+    public class DefaultFileSaver<TUploadedFileInfo> 
         where TUploadedFileInfo : class, IUploadedFileInfo, new()
     {
         private PathsProviderBase PathsProvider { get; set; }

@@ -6,10 +6,10 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
 using CoreLibrary.Cryptography;
-using CoreLibrary.FileServer;
 using CoreSystem.FileServer2.Providers;
 using Microsoft.Extensions.Logging;
 using CoreLibrary.ResourceServer;
+using FCore.FileServer;
 
 namespace CoreSystem.FileServer2
 {
@@ -45,6 +45,7 @@ namespace CoreSystem.FileServer2
 
             services.AddSingleton<ICrypter, Crypt>();
             services.AddSingleton<PathsProviderBase, DateBasedPathsProvider>();
+            services.AddTransient<IFileSavingMechanism, DefaultFileSavingMechanism>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

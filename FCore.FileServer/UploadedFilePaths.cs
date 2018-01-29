@@ -4,7 +4,9 @@
     {        
         public string AbsoluteLocalPath { get; set; }
         public string AbsoluteUrl { get; set; }
-        public string AbsoluteUrlDomainOnly { get; set; }
+        public string AbsoluteUrlDomain { get; set; }
+        public string RelativeUrlPath { get; set; }
+        public string RelativeLocalPath { get; set; }
         public string FileExtension { get; set; }
     }
 }
