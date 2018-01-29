@@ -26,22 +26,23 @@ namespace FCore.FileServer
             string extension = Path.GetExtension(filename);
 
             string generatedFilename = GenerateServerFilename(filename);
-            paths.RelativeLocalPath = GenerateRelativePath(extension: extension, forUrl: false);
-            string absoluteLocalPath = $"{hostingEnvironment.WebRootPath}\\{paths.RelativeLocalPath}";
-            
+            paths.RelativeLocalPath = $@"{GenerateRelativePath(extension: extension, forUrl: false)}\{generatedFilename}";
+            paths.AbsoluteLocalPath = $@"{hostingEnvironment.WebRootPath}\{paths.RelativeLocalPath}";
+
+            paths.RelativeLocalPath = paths.RelativeLocalPath.Replace(@"\\", @"\");
+            paths.AbsoluteLocalPath = paths.AbsoluteLocalPath.Replace(@"\\", @"\");
            
-            paths.AbsoluteLocalPath = $"{absoluteLocalPath}\\{generatedFilename}";
             paths.FileExtension = extension;
 
-            if (!Directory.Exists(absoluteLocalPath))
+            if (!Directory.Exists(paths.AbsoluteLocalPath))
             {
-                Directory.CreateDirectory(absoluteLocalPath);
+                Directory.CreateDirectory(paths.AbsoluteLocalPath);
             }
 
             string protocol = httpRequest.IsHttps ? "https" : "http";
             paths.AbsoluteUrlDomain = $"{protocol}://{httpRequest.Host.Value}";
-            paths.RelativeUrlPath = GenerateRelativePath(extension: extension, forUrl: true);
-            paths.AbsoluteUrl = $"{paths.AbsoluteUrlDomain}//{paths.RelativeUrlPath}//{generatedFilename}";
+            paths.RelativeUrlPath = $"{GenerateRelativePath(extension: extension, forUrl: true)}/{generatedFilename}";
+            paths.AbsoluteUrl = $"{paths.AbsoluteUrlDomain}/{paths.RelativeUrlPath}";
             
             return paths;
         }

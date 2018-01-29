@@ -53,6 +53,8 @@ namespace FlixML.FileServer2.Controllers
                          * a file record and a domain record, and having that file record point to that domain record,
                          * the ability to associate a file record with a file type (by the extension), if we needed.
                          */
+
+                        var dummy = 12;
                     });
                 uploadedFileInfos.Add(uploadedFileInformation);
             }

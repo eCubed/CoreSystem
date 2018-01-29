@@ -7,8 +7,9 @@
     <Description>Foundational interfaces, classes, and utilities to build a simple file server.</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Copyright>2018</Copyright>
-    <PackageReleaseNotes>First release</PackageReleaseNotes>
+    <PackageReleaseNotes>Corrects URL generation</PackageReleaseNotes>
     <PackageTags>upload uploads file-server fileserver webapi http web-api</PackageTags>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

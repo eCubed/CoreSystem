@@ -53,15 +53,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FCore.Foundations", "FCore.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FCore.Cryptography", "FCore.Cryptography\FCore.Cryptography.csproj", "{694FA503-0966-469A-B99D-73D8D9923BB2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FCore.Net", "FCore.Net\FCore.Net.csproj", "{412379E7-F15C-4341-AC6E-1A2BAE15363B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCore.Net", "FCore.Net\FCore.Net.csproj", "{412379E7-F15C-4341-AC6E-1A2BAE15363B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FCore.Net.Security", "FCore.Net.Security\FCore.Net.Security.csproj", "{DB3F4983-36C7-4582-8E29-6204E1B44939}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCore.Net.Security", "FCore.Net.Security\FCore.Net.Security.csproj", "{DB3F4983-36C7-4582-8E29-6204E1B44939}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FCore.AuthServer", "FCore.AuthServer\FCore.AuthServer.csproj", "{26168AB1-9579-4239-AD48-FD8AD2933111}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCore.AuthServer", "FCore.AuthServer\FCore.AuthServer.csproj", "{26168AB1-9579-4239-AD48-FD8AD2933111}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FCore.ResourceServer", "FCore.ResourceServer\FCore.ResourceServer.csproj", "{8097039F-E479-48AD-82FF-FAFA87721D6D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCore.FileServer", "FCore.FileServer\FCore.FileServer.csproj", "{D8700B39-3170-40B0-87B1-A01B2D66CED8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FCore.FileServer", "FCore.FileServer\FCore.FileServer.csproj", "{8FA840EE-A02D-43A7-A137-7B37AC57A8CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -181,14 +179,10 @@ Global
 		{26168AB1-9579-4239-AD48-FD8AD2933111}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26168AB1-9579-4239-AD48-FD8AD2933111}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26168AB1-9579-4239-AD48-FD8AD2933111}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8097039F-E479-48AD-82FF-FAFA87721D6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8097039F-E479-48AD-82FF-FAFA87721D6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8097039F-E479-48AD-82FF-FAFA87721D6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8097039F-E479-48AD-82FF-FAFA87721D6D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D8700B39-3170-40B0-87B1-A01B2D66CED8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D8700B39-3170-40B0-87B1-A01B2D66CED8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D8700B39-3170-40B0-87B1-A01B2D66CED8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D8700B39-3170-40B0-87B1-A01B2D66CED8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FA840EE-A02D-43A7-A137-7B37AC57A8CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FA840EE-A02D-43A7-A137-7B37AC57A8CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FA840EE-A02D-43A7-A137-7B37AC57A8CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FA840EE-A02D-43A7-A137-7B37AC57A8CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

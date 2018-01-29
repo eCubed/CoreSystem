@@ -8,7 +8,7 @@ namespace CoreSystem.FileServer2.Providers
         protected override string GenerateRelativePath(string extension, bool forUrl)
         {
             DateTime now = DateTime.Now;
-            string slash = (forUrl) ? "//" : "\\";
+            string slash = (forUrl) ? "/" : "\\";
             return $"{ now.Year}{slash}{ now.Month}";
         }
 
