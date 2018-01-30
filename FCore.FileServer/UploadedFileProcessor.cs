@@ -1,16 +1,12 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System;
-using System.IO;
 using System.Net.Http.Headers;
 
 namespace FCore.FileServer
 {
     public static class UploadedFileProcessor 
-    {
-        //private PathsProviderBase PathsProvider { get; set; }
-        //private IHostingEnvironment HostingEnvironment { get; set; }
-        
+    {   
         public static TUploadedFileInfo ProcessFile<TUploadedFileInfo>(IFormFile formFile, HttpRequest httpRequest,
             PathsProviderBase pathsProvider, IHostingEnvironment hostingEnvironment,
             IFileSavingMechanism fileSavingMechanism,

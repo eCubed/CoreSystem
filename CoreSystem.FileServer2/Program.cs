@@ -13,6 +13,7 @@ namespace CoreSystem.FileServer2
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .UseWebRoot("wwwroot/")
                 .UseDefaultServiceProvider(options =>
                     options.ValidateScopes = false)
                 .Build();
