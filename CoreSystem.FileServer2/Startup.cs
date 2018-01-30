@@ -66,15 +66,15 @@ namespace CoreSystem.FileServer2
                 options.AllowAnyMethod();
                 options.AllowAnyHeader();
             });
-
+                        
             ResourceServerOptions rsOptions = new ResourceServerOptions();
             rsOptions.CryptionKey = Configuration["CryptionKey"];
             rsOptions.Issuer = "CoreSystem Issuer";
 
             app.UseResourceServerMiddleware(rsOptions);
-
+            
             app.UseMvc();
-
+            
             app.Run(async (context) =>
             {
                 await context.Response.WriteAsync("Hello World!");

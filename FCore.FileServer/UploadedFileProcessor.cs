@@ -21,7 +21,7 @@ namespace FCore.FileServer
             string filename = ContentDispositionHeaderValue.Parse(formFile.ContentDisposition).FileName.Trim('"');
 
             UploadedFilePaths paths = pathsProvider.GenerateUploadedFilePaths(hostingEnvironment, httpRequest, filename);
-
+           
             fileSavingMechanism.SaveFile(formFile, paths.AbsoluteLocalPath);
             
             TUploadedFileInfo uploadedFileInfo = new TUploadedFileInfo();

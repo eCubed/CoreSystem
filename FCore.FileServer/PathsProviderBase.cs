@@ -26,19 +26,13 @@ namespace FCore.FileServer
             string extension = Path.GetExtension(filename);
 
             string generatedFilename = GenerateServerFilename(filename);
-            paths.RelativeLocalPath = $@"{GenerateRelativePath(extension: extension, forUrl: false)}\{generatedFilename}";
-            paths.AbsoluteLocalPath = $@"{hostingEnvironment.WebRootPath}\{paths.RelativeLocalPath}";
-
-            paths.RelativeLocalPath = paths.RelativeLocalPath.Replace(@"\\", @"\");
-            paths.AbsoluteLocalPath = paths.AbsoluteLocalPath.Replace(@"\\", @"\");
-           
+            string relativeFolder = GenerateRelativePath(extension: extension, forUrl: false);
+            paths.AbsoluteLocalFolder = Path.Combine(hostingEnvironment.WebRootPath, relativeFolder);
+            paths.RelativeLocalPath = Path.Combine(relativeFolder, generatedFilename);
+            paths.AbsoluteLocalPath = Path.Combine(paths.AbsoluteLocalFolder, generatedFilename);
+            
             paths.FileExtension = extension;
-
-            if (!Directory.Exists(paths.AbsoluteLocalPath))
-            {
-                Directory.CreateDirectory(paths.AbsoluteLocalPath);
-            }
-
+            
             string protocol = httpRequest.IsHttps ? "https" : "http";
             paths.AbsoluteUrlDomain = $"{protocol}://{httpRequest.Host.Value}";
             paths.RelativeUrlPath = $"{GenerateRelativePath(extension: extension, forUrl: true)}/{generatedFilename}";
