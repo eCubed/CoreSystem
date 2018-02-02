@@ -43,8 +43,15 @@ namespace FCore.Foundations
 
             if (setNonViewModelData != null)
                 setNonViewModelData.Invoke(newData);
+            
+            var createRes = await CreateAsync(newData, store, findUniqueAsync, canCreate);
 
-            return await CreateAsync(newData, store, findUniqueAsync, canCreate);
+            if (!createRes.Success)
+                return createRes;
+
+            viewModel.Id = newData.Id;
+
+            return createRes;
         }
 
         public static async Task<ManagerResult> CreateAsync<T, TKey, TViewModel, TArgs>(TViewModel viewModel, IAsyncStore<T, TKey> store,
@@ -59,7 +66,14 @@ namespace FCore.Foundations
             if (setNonViewModelData != null)
                 setNonViewModelData.Invoke(newData);
 
-            return await CreateAsync(newData, store, findUniqueAsync, canCreate);
+            var createRes = await CreateAsync(newData, store, findUniqueAsync, canCreate);
+
+            if (!createRes.Success)
+                return createRes;
+
+            viewModel.Id = newData.Id;
+
+            return createRes;
         }
 
         #endregion Create
@@ -138,7 +152,7 @@ namespace FCore.Foundations
             where T : class, IIdentifiable<TKey>, new()
             where TViewModel : class, IViewModel<T, TKey>
         {            
-            return await UpdateAsync(viewModel.GetUniqueIdentifier(), store, findUniqueAsync, canUpdate,
+            return await UpdateAsync(viewModel.Id, store, findUniqueAsync, canUpdate,
                 fillNewValues: data => viewModel.UpdateValues(data));
         }
 
@@ -148,7 +162,7 @@ namespace FCore.Foundations
             where TArgs : class, IViewModelArgs
             where TViewModel : class, IViewModel<T, TKey, TArgs>
         {
-            return await UpdateAsync(viewModel.GetUniqueIdentifier(), store, findUniqueAsync, canUpdate,
+            return await UpdateAsync(viewModel.Id, store, findUniqueAsync, canUpdate,
                 fillNewValues: data => viewModel.UpdateValues(data));
         }
 
