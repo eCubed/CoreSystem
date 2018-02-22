@@ -148,22 +148,28 @@ namespace FCore.Foundations
         }
 
         public static async Task<ManagerResult> UpdateAsync<T, TKey, TViewModel>(TViewModel viewModel, IAsyncStore<T, TKey> store,
-            Func<T, Task<T>> findUniqueAsync = null, Func<T, ManagerResult> canUpdate = null)
+            Func<T, Task<T>> findUniqueAsync = null, Func<T, ManagerResult> canUpdate = null, Action<T> setNonViewModelData = null)
             where T : class, IIdentifiable<TKey>, new()
             where TViewModel : class, IViewModel<T, TKey>
-        {            
+        {
             return await UpdateAsync(viewModel.Id, store, findUniqueAsync, canUpdate,
-                fillNewValues: data => viewModel.UpdateValues(data));
+                fillNewValues: data => {
+                    viewModel.UpdateValues(data);
+                    setNonViewModelData?.Invoke(data);
+                });
         }
 
         public static async Task<ManagerResult> UpdateAsync<T, TKey, TViewModel, TArgs>(TViewModel viewModel, IAsyncStore<T, TKey> store,
-            Func<T, Task<T>> findUniqueAsync = null, Func<T, ManagerResult> canUpdate = null, TArgs args = null)
+            Func<T, Task<T>> findUniqueAsync = null, Func<T, ManagerResult> canUpdate = null, Action<T> setNonViewModelData = null, TArgs args = null)
             where T : class, IIdentifiable<TKey>, new()
             where TArgs : class, IViewModelArgs
             where TViewModel : class, IViewModel<T, TKey, TArgs>
         {
             return await UpdateAsync(viewModel.Id, store, findUniqueAsync, canUpdate,
-                fillNewValues: data => viewModel.UpdateValues(data));
+                fillNewValues: data => {
+                    viewModel.UpdateValues(data);
+                    setNonViewModelData?.Invoke(data);
+                });
         }
 
         #endregion Update
