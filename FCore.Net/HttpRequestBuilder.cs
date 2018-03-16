@@ -91,16 +91,19 @@ namespace FCore.Net
         public async Task<HttpResponseMessage> SendAsync()
         {
             var request = new HttpRequestMessage { Method = Method, RequestUri = new Uri(this.Url) };
-            
+
             // The auth bearer if specified
             if (!string.IsNullOrEmpty(BearerToken))
                 request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", BearerToken);
 
             // Other headers.
-            Headers.ForEach(headerKvp =>
+            if (Headers != null)
             {
-                request.Headers.Add(headerKvp.Key, headerKvp.Value);
-            });
+                Headers.ForEach(headerKvp =>
+                {
+                    request.Headers.Add(headerKvp.Key, headerKvp.Value);
+                });
+            }
 
             // Accept headers
             request.Headers.Accept.Clear();
