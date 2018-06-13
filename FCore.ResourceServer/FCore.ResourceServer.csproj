@@ -2,13 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>eCubed</Authors>
     <Company>eCubed</Company>
     <Description>Base functionality for a simple resource server (Web API web application) including classes for consistent response objects and middleware for token validation</Description>
     <Copyright>2018</Copyright>
     <PackageTags>web-api webapi resource-server oauth token authorization</PackageTags>
     <NeutralLanguage></NeutralLanguage>
+    <Version>1.0.1</Version>
+    <PackageReleaseNotes>Adds ApiRequestBody and ApiResponseBody. We will later remove ApiResponse and its derived classes for a simpler system. Those will stay intact for now because many of our websites still depend on them.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

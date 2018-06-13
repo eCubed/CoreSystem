@@ -61,11 +61,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FCore.AuthServer", "FCore.A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FCore.FileServer", "FCore.FileServer\FCore.FileServer.csproj", "{8FA840EE-A02D-43A7-A137-7B37AC57A8CB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCore.EntityFramework", "FCore.EntityFramework\FCore.EntityFramework.csproj", "{3E1B7BC0-E916-4C91-B598-A1E6E9A17B12}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FCore.EntityFramework", "FCore.EntityFramework\FCore.EntityFramework.csproj", "{3E1B7BC0-E916-4C91-B598-A1E6E9A17B12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCore.Interactions", "FCore.Interactions\FCore.Interactions.csproj", "{92CF45F5-52AE-476A-BE89-45A188AED383}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FCore.Interactions", "FCore.Interactions\FCore.Interactions.csproj", "{92CF45F5-52AE-476A-BE89-45A188AED383}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCore.Interactions.EntityFramework", "FCore.Interactions.EntityFramework\FCore.Interactions.EntityFramework.csproj", "{5E8B4F11-EFB4-4058-8F2D-832B9D714F3E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FCore.Interactions.EntityFramework", "FCore.Interactions.EntityFramework\FCore.Interactions.EntityFramework.csproj", "{5E8B4F11-EFB4-4058-8F2D-832B9D714F3E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FCore.ResourceServer", "FCore.ResourceServer\FCore.ResourceServer.csproj", "{C99BCFEB-2800-4257-9CAA-92071254FE2D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -201,6 +203,10 @@ Global
 		{5E8B4F11-EFB4-4058-8F2D-832B9D714F3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E8B4F11-EFB4-4058-8F2D-832B9D714F3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E8B4F11-EFB4-4058-8F2D-832B9D714F3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C99BCFEB-2800-4257-9CAA-92071254FE2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C99BCFEB-2800-4257-9CAA-92071254FE2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C99BCFEB-2800-4257-9CAA-92071254FE2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C99BCFEB-2800-4257-9CAA-92071254FE2D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
