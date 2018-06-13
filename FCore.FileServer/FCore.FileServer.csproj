@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <Authors>eCubed</Authors>
+    <Company>eCubed</Company>
+    <Description>Foundational interfaces, classes, and utilities to build a simple file server.</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Copyright>2018</Copyright>
+    <PackageReleaseNotes>DefaultFileSavingMechanism now creates the folder if it didn't exist. Included in this release is a sample DateBasedPathsProvider, which creates a two-level folder hierarchy in the format {year}/{month} and creates a
+new filename based on the current timestamp.</PackageReleaseNotes>
+    <PackageTags>upload uploads file-server fileserver webapi http web-api</PackageTags>
+    <Version>1.0.3</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="IFileSaver.cs" />
+  </ItemGroup>
+ 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.0.1" />
+  </ItemGroup>
+
+</Project>

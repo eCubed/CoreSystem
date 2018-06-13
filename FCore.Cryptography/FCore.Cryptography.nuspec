@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>FCore.Cryptography</id>
+    <version>1.0.0</version>
+    <title>FCore.Cryptography</title>
+    <authors>eCubed</authors>
+    <owners>eCubed</owners>    
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A very simple library that encrypts and decrypts using a string key. The ICrypter is provided in case the implementer
+    wants to create a different set of encryption and decryption algorithms, and would like to use a cryptography service in ASP.net Core's
+    DI in a web application.
+    </description>
+    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <copyright>Copyright 2018</copyright>
+    <tags>Tag1 Tag2</tags>
+  </metadata>
+</package>

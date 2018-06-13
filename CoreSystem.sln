@@ -47,7 +47,27 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreSystem.FileServer2", "C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreSystem.ResourceServer2", "CoreSystem.ResourceServer2\CoreSystem.ResourceServer2.csproj", "{E0ED43E9-66E5-485E-BEFB-9E3FC6D2F5B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreSystem.DevDeploy2", "CoreSystem.DevDeploy2\CoreSystem.DevDeploy2.csproj", "{2630918B-6350-4F16-886B-10A34104B0EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreSystem.DevDeploy2", "CoreSystem.DevDeploy2\CoreSystem.DevDeploy2.csproj", "{2630918B-6350-4F16-886B-10A34104B0EA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FCore.Foundations", "FCore.Foundations\FCore.Foundations.csproj", "{67F054C3-8682-4BFF-AF68-BBA5A945821B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FCore.Cryptography", "FCore.Cryptography\FCore.Cryptography.csproj", "{694FA503-0966-469A-B99D-73D8D9923BB2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FCore.Net", "FCore.Net\FCore.Net.csproj", "{412379E7-F15C-4341-AC6E-1A2BAE15363B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FCore.Net.Security", "FCore.Net.Security\FCore.Net.Security.csproj", "{DB3F4983-36C7-4582-8E29-6204E1B44939}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FCore.AuthServer", "FCore.AuthServer\FCore.AuthServer.csproj", "{26168AB1-9579-4239-AD48-FD8AD2933111}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FCore.FileServer", "FCore.FileServer\FCore.FileServer.csproj", "{8FA840EE-A02D-43A7-A137-7B37AC57A8CB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FCore.EntityFramework", "FCore.EntityFramework\FCore.EntityFramework.csproj", "{3E1B7BC0-E916-4C91-B598-A1E6E9A17B12}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FCore.Interactions", "FCore.Interactions\FCore.Interactions.csproj", "{92CF45F5-52AE-476A-BE89-45A188AED383}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FCore.Interactions.EntityFramework", "FCore.Interactions.EntityFramework\FCore.Interactions.EntityFramework.csproj", "{5E8B4F11-EFB4-4058-8F2D-832B9D714F3E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FCore.ResourceServer", "FCore.ResourceServer\FCore.ResourceServer.csproj", "{C99BCFEB-2800-4257-9CAA-92071254FE2D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -147,6 +167,46 @@ Global
 		{2630918B-6350-4F16-886B-10A34104B0EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2630918B-6350-4F16-886B-10A34104B0EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2630918B-6350-4F16-886B-10A34104B0EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67F054C3-8682-4BFF-AF68-BBA5A945821B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67F054C3-8682-4BFF-AF68-BBA5A945821B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67F054C3-8682-4BFF-AF68-BBA5A945821B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67F054C3-8682-4BFF-AF68-BBA5A945821B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{694FA503-0966-469A-B99D-73D8D9923BB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{694FA503-0966-469A-B99D-73D8D9923BB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{694FA503-0966-469A-B99D-73D8D9923BB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{694FA503-0966-469A-B99D-73D8D9923BB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{412379E7-F15C-4341-AC6E-1A2BAE15363B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{412379E7-F15C-4341-AC6E-1A2BAE15363B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{412379E7-F15C-4341-AC6E-1A2BAE15363B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{412379E7-F15C-4341-AC6E-1A2BAE15363B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB3F4983-36C7-4582-8E29-6204E1B44939}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB3F4983-36C7-4582-8E29-6204E1B44939}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB3F4983-36C7-4582-8E29-6204E1B44939}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB3F4983-36C7-4582-8E29-6204E1B44939}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26168AB1-9579-4239-AD48-FD8AD2933111}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26168AB1-9579-4239-AD48-FD8AD2933111}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26168AB1-9579-4239-AD48-FD8AD2933111}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26168AB1-9579-4239-AD48-FD8AD2933111}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FA840EE-A02D-43A7-A137-7B37AC57A8CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FA840EE-A02D-43A7-A137-7B37AC57A8CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FA840EE-A02D-43A7-A137-7B37AC57A8CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FA840EE-A02D-43A7-A137-7B37AC57A8CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E1B7BC0-E916-4C91-B598-A1E6E9A17B12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E1B7BC0-E916-4C91-B598-A1E6E9A17B12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E1B7BC0-E916-4C91-B598-A1E6E9A17B12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E1B7BC0-E916-4C91-B598-A1E6E9A17B12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92CF45F5-52AE-476A-BE89-45A188AED383}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92CF45F5-52AE-476A-BE89-45A188AED383}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92CF45F5-52AE-476A-BE89-45A188AED383}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92CF45F5-52AE-476A-BE89-45A188AED383}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E8B4F11-EFB4-4058-8F2D-832B9D714F3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E8B4F11-EFB4-4058-8F2D-832B9D714F3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E8B4F11-EFB4-4058-8F2D-832B9D714F3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E8B4F11-EFB4-4058-8F2D-832B9D714F3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C99BCFEB-2800-4257-9CAA-92071254FE2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C99BCFEB-2800-4257-9CAA-92071254FE2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C99BCFEB-2800-4257-9CAA-92071254FE2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C99BCFEB-2800-4257-9CAA-92071254FE2D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <Authors>eCubed</Authors>
+    <Company>eCubed</Company>
+    <Description>A very simple library that encrypts and decrypts using a string key. The ICrypter is provided in case the implementor wants to create a different set of encryption and decryption algorithms, and would like to use a cryptography service in ASP.net Core's DI in an application.</Description>
+    <Copyright>2018</Copyright>
+    <PackageTags>cryptography secret key hash</PackageTags>
+    <PackageReleaseNotes>Now contains an easy-to-use Hasher class that hashes strings into MD5, SHA 1, 256,  and 512</PackageReleaseNotes>
+    <Version>1.0.2</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+</Project>
