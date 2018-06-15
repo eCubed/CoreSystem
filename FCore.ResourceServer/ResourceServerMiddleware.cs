@@ -1,5 +1,6 @@
 ﻿using FCore.Cryptography;
 using FCore.Net.Security;
+using FCore.WebApiServerBase;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
@@ -29,13 +30,13 @@ namespace FCore.ResourceServer
 
                 if (values.Length != 2)
                 {
-                    await ResourceServerMiddlewareHelpers.WriteErrorResponseAsync(context, StatusCodes.Status400BadRequest, ResourceServerMessages.InvalidAuthorizationHeader);
+                    await WebApiMiddlewareHelpers.WriteErrorResponseAsync(context, StatusCodes.Status400BadRequest, ResourceServerMessages.InvalidAuthorizationHeader);
                     return;
                 }
 
                 if (values.First() != "Bearer")
                 {
-                    await ResourceServerMiddlewareHelpers.WriteErrorResponseAsync(context, StatusCodes.Status400BadRequest, ResourceServerMessages.AuthorizationBearerRequired);
+                    await WebApiMiddlewareHelpers.WriteErrorResponseAsync(context, StatusCodes.Status400BadRequest, ResourceServerMessages.AuthorizationBearerRequired);
                     return;
                 }
 
@@ -46,7 +47,7 @@ namespace FCore.ResourceServer
 
                     if (webToken.Issuer != _resourceServerOptions.Issuer)
                     {
-                        await ResourceServerMiddlewareHelpers.WriteErrorResponseAsync(context, StatusCodes.Status401Unauthorized, ResourceServerMessages.IssuersDoNotMatch);
+                        await WebApiMiddlewareHelpers.WriteErrorResponseAsync(context, StatusCodes.Status401Unauthorized, ResourceServerMessages.IssuersDoNotMatch);
                         return;
                     }
 
@@ -54,7 +55,7 @@ namespace FCore.ResourceServer
 
                     if (DateTime.Now > tokenExpiration)
                     {
-                        await ResourceServerMiddlewareHelpers.WriteErrorResponseAsync(context, StatusCodes.Status401Unauthorized, ResourceServerMessages.TokenExpired);
+                        await WebApiMiddlewareHelpers.WriteErrorResponseAsync(context, StatusCodes.Status401Unauthorized, ResourceServerMessages.TokenExpired);
                         return;
                     }
 
@@ -63,7 +64,7 @@ namespace FCore.ResourceServer
                 }
                 catch (Exception e)
                 {
-                    await ResourceServerMiddlewareHelpers.WriteErrorResponseAsync(context, StatusCodes.Status401Unauthorized, ResourceServerMessages.InvalidToken, e);
+                    await WebApiMiddlewareHelpers.WriteErrorResponseAsync(context, StatusCodes.Status401Unauthorized, ResourceServerMessages.InvalidToken, e);
                     return;
                 }
             }
@@ -74,12 +75,12 @@ namespace FCore.ResourceServer
             }
             catch(InvalidOperationException e)
             {
-                await ResourceServerMiddlewareHelpers.WriteErrorResponseAsync(context, StatusCodes.Status401Unauthorized, ResourceServerMessages.InsufficientCredentials, e);
+                await WebApiMiddlewareHelpers.WriteErrorResponseAsync(context, StatusCodes.Status401Unauthorized, ResourceServerMessages.InsufficientCredentials, e);
                 return;
             }
             catch(Exception e)
             {
-                await ResourceServerMiddlewareHelpers.WriteErrorResponseAsync(context, StatusCodes.Status500InternalServerError, ResourceServerMessages.ServerError, e);
+                await WebApiMiddlewareHelpers.WriteErrorResponseAsync(context, StatusCodes.Status500InternalServerError, WebApiServerMessages.ServerError, e);
                 return;
             }
         }
