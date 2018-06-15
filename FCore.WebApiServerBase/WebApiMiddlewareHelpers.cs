@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace FCore.ResourceServer
+namespace FCore.WebApiServerBase
 {
-    public static class ResourceServerMiddlewareHelpers
+    public static class WebApiMiddlewareHelpers
     {
         public static async Task WriteErrorResponseAsync(HttpContext context, int statusCode, string errorMessage, Exception e = null)
         {

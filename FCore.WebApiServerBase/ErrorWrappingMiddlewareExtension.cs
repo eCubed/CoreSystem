@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 
-namespace FCore.ResourceServer
+namespace FCore.WebApiServerBase
 {
     public static class ErrorWrappingMiddlewareExtension
     {
