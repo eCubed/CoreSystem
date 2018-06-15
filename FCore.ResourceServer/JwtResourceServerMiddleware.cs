@@ -1,26 +1,22 @@
-﻿using FCore.Cryptography;
-using FCore.Net.Security;
+﻿using FCore.Net.Security;
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace FCore.ResourceServer
 {
-    public class ResourceServerMiddleware
+    public class JwtResourceServerMiddleware
     {
         private RequestDelegate _next;
-        private ICrypter _crypter;
-        private ResourceServerOptions _resourceServerOptions;
+        private JwtResourceServerOptions _resourceServerOptions;
 
-        public ResourceServerMiddleware(RequestDelegate next, ICrypter crypter, ResourceServerOptions resourceServerOptions)
+        public JwtResourceServerMiddleware(RequestDelegate next, JwtResourceServerOptions resourceServerOptions)
         {
             _next = next;
-            _crypter = crypter;
             _resourceServerOptions = resourceServerOptions;
         }
-
+        
         public async Task Invoke(HttpContext context)
         {
             if (context.Request.Headers.ContainsKey("Authorization"))
@@ -41,8 +37,7 @@ namespace FCore.ResourceServer
 
                 try
                 {
-                    string webTokenJsonString = _crypter.Decrypt(values[1], _resourceServerOptions.CryptionKey);
-                    WebToken webToken = JsonConvert.DeserializeObject<WebToken>(webTokenJsonString);
+                    JsonWebToken webToken = JsonWebToken.Parse(values[1], _resourceServerOptions.CryptionKey);
 
                     if (webToken.Issuer != _resourceServerOptions.Issuer)
                     {
@@ -58,7 +53,6 @@ namespace FCore.ResourceServer
                         return;
                     }
 
-                    // Now, we have to write the claims to the ClaimsPrincipal!
                     context.User = webToken.ConvertToClaimsPrincipal();
                 }
                 catch (Exception e)
@@ -72,12 +66,12 @@ namespace FCore.ResourceServer
             {
                 await _next.Invoke(context);
             }
-            catch(InvalidOperationException e)
+            catch (InvalidOperationException e)
             {
                 await ResourceServerMiddlewareHelpers.WriteErrorResponseAsync(context, StatusCodes.Status401Unauthorized, ResourceServerMessages.InsufficientCredentials, e);
                 return;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 await ResourceServerMiddlewareHelpers.WriteErrorResponseAsync(context, StatusCodes.Status500InternalServerError, ResourceServerMessages.ServerError, e);
                 return;

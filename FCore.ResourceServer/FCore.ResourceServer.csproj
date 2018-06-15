@@ -9,16 +9,16 @@
     <Copyright>2018</Copyright>
     <PackageTags>web-api webapi resource-server oauth token authorization</PackageTags>
     <NeutralLanguage></NeutralLanguage>
-    <Version>1.0.1</Version>
-    <PackageReleaseNotes>Adds ApiRequestBody and ApiResponseBody. We will later remove ApiResponse and its derived classes for a simpler system. Those will stay intact for now because many of our websites still depend on them.</PackageReleaseNotes>
+    <Version>1.1.0</Version>
+    <PackageReleaseNotes>Adds Jwt middleware</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FCore.Cryptography" Version="1.0.1" />
-    <PackageReference Include="FCore.Net.Security" Version="1.0.1" />
+    <PackageReference Include="FCore.Cryptography" Version="1.0.2" />
+    <PackageReference Include="FCore.Net.Security" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.0.2" />
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
 
 </Project>

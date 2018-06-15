@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <Version>1.0.3</Version>
+    <Version>1.1.0</Version>
     <Authors>eCubed</Authors>
     <Company>eCubed</Company>
     <Description>Foundational classes and functionality for managing data, independent of storage mechanism. Includes base routines for CRUD operations, including paginated result set, view models, and communicating errors.</Description>
     <Copyright>2018</Copyright>
     <PackageTags>foundation base core rudiments</PackageTags>
-    <PackageReleaseNotes>Adds new variant of BasicListingViewModel, new message</PackageReleaseNotes>
+    <PackageReleaseNotes>Adds manipulation of primitive values, like string tools, randomizer, base64 encode/decode</PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
