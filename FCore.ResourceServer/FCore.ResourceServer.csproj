@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Authors>eCubed</Authors>
     <Company>eCubed</Company>
     <Description>Base functionality for a simple resource server (Web API web application) including classes for consistent response objects and middleware for token validation</Description>
@@ -12,6 +12,10 @@
     <Version>1.1.0</Version>
     <PackageReleaseNotes>Adds Jwt middleware</PackageReleaseNotes>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="JwtResourceServerMiddlewareExtension.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="FCore.Cryptography" Version="1.0.2" />

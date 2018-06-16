@@ -4,7 +4,7 @@ namespace FCore.ResourceServer
 {
     public static class JwtResourceServerMiddlewareExtension
     {
-        public static void UseJwtResourceServerMiddleware(this IApplicationBuilder app, JwtResourceServerOptions resourceServerOptions)
+        public static void UseJwtResourceServerMiddleware(this IApplicationBuilder app, ResourceServerOptions resourceServerOptions)
         {
             app.UseMiddleware<JwtResourceServerMiddleware>(resourceServerOptions);
         }

@@ -9,7 +9,7 @@
     <PackageTags>cryptography secret key hash</PackageTags>
     <PackageReleaseNotes>Now contains an easy-to-use Hasher class that hashes strings into MD5, SHA 1, 256,  and 512</PackageReleaseNotes>
     <Version>1.0.2</Version>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
 </Project>
