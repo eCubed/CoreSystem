@@ -58,8 +58,7 @@ namespace FCore.ResourceServer
                         await WebApiMiddlewareHelpers.WriteErrorResponseAsync(context, StatusCodes.Status401Unauthorized, ResourceServerMessages.TokenExpired);
                         return;
                     }
-
-                    // Now, we have to write the claims to the ClaimsPrincipal!
+                    
                     context.User = webToken.ConvertToClaimsPrincipal();
                 }
                 catch (Exception e)

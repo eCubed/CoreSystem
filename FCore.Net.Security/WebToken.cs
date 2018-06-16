@@ -1,53 +1,38 @@
 ﻿using FCore.Cryptography;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
 
 namespace FCore.Net.Security
 {
     /// <summary>
     /// This is a simplified Jwt
     /// </summary>
-    public class WebToken
+    public class WebToken : WebTokenBase
     {
-        public List<KeyValuePair<string, string>> Claims { get; set; }
-        public string Issuer { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public override string Issuer { get; set; }
+        public override DateTime CreatedDate { get; set; }
+        private ICrypter Crypter { get; set; }
 
-        public WebToken()
+        public WebToken() : base()
         {
-            Claims = new List<KeyValuePair<string, string>>();
             CreatedDate = DateTime.Now;
         }
 
-        public string GenerateToken(ICrypter crypter, string key)
+        public WebToken(ICrypter crypter) : this()
         {
-            return crypter.Encrypt(JsonConvert.SerializeObject(this), key);
+            Crypter = crypter;
         }
 
-        public void AddClaim(string claimType, string value)
+        public override string GenerateToken(string key)
         {
-            Claims.Add(new KeyValuePair<string, string>(claimType, value));
+            return Crypter.Encrypt(JsonConvert.SerializeObject(this), key);
         }
 
-        public ClaimsPrincipal ConvertToClaimsPrincipal()
+        public override IWebToken Parse(string stringToken, string key)
         {
-            ClaimsPrincipal principal = new ClaimsPrincipal();
+            string jsonString = Crypter.Decrypt(stringToken, key);
 
-            List<Claim> claims = new List<Claim>();
-
-            Claims.ToList().ForEach(kvp =>
-            {
-                claims.Add(new Claim(kvp.Key, kvp.Value));
-            });
-
-            ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims);
-
-            principal.AddIdentity(claimsIdentity);
-
-            return principal;
+            return JsonConvert.DeserializeObject<WebToken>(jsonString);
         }
 
         public static WebToken DecryptToken(string tokenString, ICrypter crypter, string key)
