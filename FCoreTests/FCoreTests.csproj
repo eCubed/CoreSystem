@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FCore.Net.Security\FCore.Net.Security.csproj" />
+    <ProjectReference Include="..\FCore.Cryptography\FCore.Cryptography.csproj" />
   </ItemGroup>
 
 </Project>

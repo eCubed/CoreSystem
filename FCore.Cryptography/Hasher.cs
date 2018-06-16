@@ -51,70 +51,74 @@ namespace FCore.Cryptography
 
         private static string GetMD5(string text)
         {
-            UnicodeEncoding UE = new UnicodeEncoding();
-            byte[] hashValue;
-            byte[] message = UE.GetBytes(text);
+            MD5 md5 = MD5.Create();
 
-            MD5 hashString = new MD5CryptoServiceProvider();
-            string hex = "";
+            byte[] inputBytes = Encoding.ASCII.GetBytes(text);
 
-            hashValue = hashString.ComputeHash(message);
-            foreach (byte x in hashValue)
+            byte[] hash = md5.ComputeHash(inputBytes);
+
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < hash.Length; i++)
             {
-                hex += String.Format("{0:x2}", x);
+                sb.Append(hash[i].ToString("X2"));
             }
-            return hex;
+
+            return sb.ToString();
         }
 
         private static string GetSHA1(string text)
         {
-            UnicodeEncoding UE = new UnicodeEncoding();
-            byte[] hashValue;
-            byte[] message = UE.GetBytes(text);
+            SHA1 sha1 = SHA1.Create();
 
-            SHA1Managed hashString = new SHA1Managed();
-            string hex = "";
+            byte[] inputBytes = Encoding.ASCII.GetBytes(text);
 
-            hashValue = hashString.ComputeHash(message);
-            foreach (byte x in hashValue)
+            byte[] hash = sha1.ComputeHash(inputBytes);
+
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < hash.Length; i++)
             {
-                hex += String.Format("{0:x2}", x);
+                sb.Append(hash[i].ToString("X2"));
             }
-            return hex;
+
+            return sb.ToString();
         }
 
         private static string GetSHA256(string text)
         {
-            UnicodeEncoding UE = new UnicodeEncoding();
-            byte[] hashValue;
-            byte[] message = UE.GetBytes(text);
+            SHA256 sha256 = SHA256.Create();
 
-            SHA256Managed hashString = new SHA256Managed();
-            string hex = "";
+            byte[] inputBytes = Encoding.ASCII.GetBytes(text);
 
-            hashValue = hashString.ComputeHash(message);
-            foreach (byte x in hashValue)
+            byte[] hash = sha256.ComputeHash(inputBytes);
+
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < hash.Length; i++)
             {
-                hex += String.Format("{0:x2}", x);
+                sb.Append(hash[i].ToString("X2"));
             }
-            return hex;
+
+            return sb.ToString();
         }
 
         private static string GetSHA512(string text)
         {
-            UnicodeEncoding UE = new UnicodeEncoding();
-            byte[] hashValue;
-            byte[] message = UE.GetBytes(text);
+            SHA512 sha512 = SHA512.Create();
 
-            SHA512Managed hashString = new SHA512Managed();
-            string hex = "";
+            byte[] inputBytes = Encoding.ASCII.GetBytes(text);
 
-            hashValue = hashString.ComputeHash(message);
-            foreach (byte x in hashValue)
+            byte[] hash = sha512.ComputeHash(inputBytes);
+
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < hash.Length; i++)
             {
-                hex += String.Format("{0:x2}", x);
+                sb.Append(hash[i].ToString("X2"));
             }
-            return hex;
+
+            return sb.ToString();
         }
     }
 }

@@ -1,7 +1,5 @@
 ﻿using FCore.Cryptography;
-using FCore.Net.Security;
 using System;
-using System.Security.Claims;
 
 namespace FCoreTests
 {
@@ -11,7 +9,7 @@ namespace FCoreTests
         {
             Console.WriteLine("Hello World!");
 
-            
+            /*
             JsonWebToken token = new JsonWebToken();
             
             token.Issuer = "FCore Test Issuer";
@@ -20,7 +18,7 @@ namespace FCoreTests
             token.AddClaim(ClaimTypes.Role, "member");
 
             string tokenString = token.GenerateToken("test-test-test--");
-            
+            */
             /*
             WebToken token = new WebToken(new Crypt());
             token.Issuer = "FCore Test Issuer";
@@ -30,8 +28,9 @@ namespace FCoreTests
             
             string tokenString = token.GenerateToken("test-test-test--");
             */
-            Console.WriteLine(tokenString);
-            
+            //Console.WriteLine(tokenString);
+
+            string md5Hash = Hasher.GetHash("This is my message", Hasher.HashType.SHA512);
             
             Console.ReadLine();
         }
