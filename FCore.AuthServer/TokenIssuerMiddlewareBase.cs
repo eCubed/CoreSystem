@@ -1,5 +1,5 @@
-﻿using FCore.Cryptography;
-using FCore.Net.Security;
+﻿using FCore.Net.Security;
+using FCore.WebApiServerBase;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
@@ -9,27 +9,27 @@ using System.Threading.Tasks;
 
 namespace FCore.AuthServer
 {
-    public class TokenIssuerMiddlewareBase<TAuthServerResponse>
+    public abstract class TokenIssuerMiddlewareBase<TAuthServerResponse, TWebToken>
         where TAuthServerResponse : IAuthServerResponse, new()
+        where TWebToken : class, IWebToken
     {
-
-        private RequestDelegate _next;
-        private ICrypter _crypter;
-        private TokenIssuerOptions _options;
+        private RequestDelegate Next;
+        private TokenIssuerOptions TokenIssuerOptions;
 
         public TokenIssuerMiddlewareBase(RequestDelegate next,
-                                     ICrypter crypter,
                                      TokenIssuerOptions tokenIssuerOptions)
         {
-            _next = next;
-            _crypter = crypter;
-            _options = tokenIssuerOptions;
+            Next = next;
+            TokenIssuerOptions = tokenIssuerOptions;
         }
+
+        protected abstract IWebToken CreateStarterTokenInstance();
 
         protected string GenerateToken(AuthServerRequest authRequest, string issuer, IAdditionalClaimsProvider additionalClaimsProvider)
         {
             WebToken tokenObject = new WebToken();
             tokenObject.Issuer = issuer;
+            tokenObject.CreatedDate = DateTime.Now;
 
             List<KeyValuePair<string, string>> additionalClaims = null;
 
@@ -56,7 +56,7 @@ namespace FCore.AuthServer
                 }
             }
 
-            return tokenObject.GenerateToken(_crypter, _options.CryptionKey);
+            return tokenObject.GenerateToken(TokenIssuerOptions.CryptionKey);
         }
 
         protected virtual void SetOtherAuthServerResponseProperties(AuthServerRequest authServerRequest, TAuthServerResponse authServerResponse)
@@ -87,13 +87,11 @@ namespace FCore.AuthServer
 
         public async Task Invoke(HttpContext context, ICredentialsProvider credentialsProvider, IAdditionalClaimsProvider additionalClaimsProvider)
         {
-            if (context.Request.Path.Value.Equals(_options.TokenEndpointPath))
+            if (context.Request.Path.Value.Equals(TokenIssuerOptions.TokenEndpointPath))
             {
                 if (context.Request.ContentType != "application/x-www-form-urlencoded")
                 {
-                    context.Response.StatusCode = StatusCodes.Status400BadRequest;
-                    context.Response.ContentType = "application/json;charset=utf-8";
-                    await context.Response.WriteAsync("[\"invalid-content-type\"]");
+                    await WebApiMiddlewareHelpers.WriteErrorResponseAsync(context, StatusCodes.Status400BadRequest, AuthServerMessages.InvalidContentType);
                     return;
                 }
 
@@ -106,38 +104,32 @@ namespace FCore.AuthServer
                     {
                         if (!(await credentialsProvider.AreUserCredentialsValidAsync(authRequest.Username, authRequest.Password)))
                         {
-                            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                            context.Response.ContentType = "application/json;charset=utf-8";
-                            await context.Response.WriteAsync($"[\"{AuthServerMessages.InvalidUserCredentials}\"]");
+                            await WebApiMiddlewareHelpers.WriteErrorResponseAsync(context, StatusCodes.Status401Unauthorized, AuthServerMessages.InvalidUserCredentials);
                             return;
                         }
                     }
                     else if (authRequest.GrantType == "client") // private client
                     {
                         if (!(await credentialsProvider.AreClientCredentialsValidAsync(authRequest.ClientId, authRequest.ClientSecret)))
-                        {
-                            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                            context.Response.ContentType = "application/json;charset=utf-8";
-                            await context.Response.WriteAsync($"[\"{AuthServerMessages.InvalidUserCredentials}\"]");
+                        {                          
+                            await WebApiMiddlewareHelpers.WriteErrorResponseAsync(context, StatusCodes.Status401Unauthorized, AuthServerMessages.InvalidUserCredentials);
                             return;
                         }
                     }
 
                     // Now, we construct the response
-                    await WriteResponseAsync(authRequest, _options.Issuer, context.Response, additionalClaimsProvider);
+                    await WriteResponseAsync(authRequest, TokenIssuerOptions.Issuer, context.Response, additionalClaimsProvider);
                     return;
 
                 }
                 catch (Exception e)
                 {
-                    context.Response.StatusCode = StatusCodes.Status400BadRequest;
-                    context.Response.ContentType = "application/json;charset=utf-8";
-                    await context.Response.WriteAsync($"[\"{e.Message}\"]");
+                    await WebApiMiddlewareHelpers.WriteErrorResponseAsync(context, StatusCodes.Status400BadRequest, WebApiServerMessages.ServerError, e);
                     return;
                 }
             }
 
-            await _next.Invoke(context);
+            await Next.Invoke(context);
         }
     }
 }

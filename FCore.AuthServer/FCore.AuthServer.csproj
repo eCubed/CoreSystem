@@ -2,18 +2,21 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Authors>eCubed</Authors>
     <Company>eCubed</Company>
     <Description>Foundations of a simple authorization server, including token-issuing middleware and interfaces prompt for providing validation of user credentials and implementation of a custom response object.</Description>
     <PackageTags>token token-issuing auth-server authentication webapi oauth</PackageTags>
+    <Version>1.2.0</Version>
+    <PackageReleaseNotes>Updated to new cryptography and security, reworked</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FCore.Cryptography" Version="1.0.1" />
-    <PackageReference Include="FCore.Net.Security" Version="1.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.0.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="FCore.Cryptography" Version="1.2.0" />
+    <PackageReference Include="FCore.Net.Security" Version="1.2.0" />
+    <PackageReference Include="FCore.WebApiServerBase" Version="1.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
 
 </Project>

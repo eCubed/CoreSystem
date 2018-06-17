@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using FCore.Net.Security;
+using Microsoft.AspNetCore.Builder;
 
 namespace FCore.AuthServer
 {
@@ -11,7 +12,7 @@ namespace FCore.AuthServer
 
         public static void UseTokenIssuerMiddleware<TTokenIssuerMiddleware, TAuthServerResponse>(this IApplicationBuilder app, TokenIssuerOptions tokenIssuerOptions)
             where TAuthServerResponse : class, IAuthServerResponse, new()
-            where TTokenIssuerMiddleware : TokenIssuerMiddlewareBase<TAuthServerResponse>
+            where TTokenIssuerMiddleware : TokenIssuerMiddlewareBase<TAuthServerResponse, WebToken>
         {
             app.UseMiddleware<TTokenIssuerMiddleware>(tokenIssuerOptions);
         }
