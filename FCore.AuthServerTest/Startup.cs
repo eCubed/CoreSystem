@@ -70,11 +70,6 @@ namespace FCore.AuthServerTest
             tokenIssuerOptions.CryptionKey = "my-babys-got-a-secret";
 
             app.UseNewTokenIssuerMiddleware(tokenIssuerOptions);
-
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
-            });
         }
     }
 }

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Serialization;
@@ -73,8 +68,8 @@ namespace FCore.ResourceServerTest
             });
 
             ResourceServerOptions rsOptions = new ResourceServerOptions();
-            rsOptions.CryptionKey = "test-test-test--";
-            rsOptions.Issuer = "FCore Test Issuer";
+            rsOptions.CryptionKey = "my-babys-got-a-secret";
+            rsOptions.Issuer = "New FCore Issuer";
 
             //app.UseResourceServerMiddleware(rsOptions);
             app.UseJwtResourceServerMiddleware(rsOptions);
