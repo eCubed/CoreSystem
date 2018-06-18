@@ -1,4 +1,5 @@
 ﻿using FCore.Foundations;
+using FCore.Net.Security;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 
@@ -6,15 +7,51 @@ namespace FCore.AuthServer
 {
     /// <summary>
     /// Class representing a grant type whose parameters are passed to the token endpoint.
-    /// This is a descriptor only and it is not responsible for processing anything.
     /// </summary>
-    public class GrantType
+    public interface IGrantTypeProcessor
     {
-        public string Name { get; set; }
-        public string IdentifierName { get; set; }
-        public string PasscodeName { get; set; }
-        public List<string> OtherRequiredParameters { get; set; }
+        // Data properties     
+        string IdentifierName { get; set; }
+        string PasscodeName { get; set; }
+        List<string> OtherRequiredParameters { get; set; }
 
+        /* The following are processor functionality
+         */
+        
+        /// <summary>
+        /// Validates whether all required parameters were supplied in the request
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        ManagerResult ValidateRequest(HttpRequest request);
+
+        /// <summary>
+        /// Checks, for example, username-password
+        /// </summary>
+        /// <param name="identifierValue"></param>
+        /// <param name="passcodeValue"></param>
+        /// <returns></returns>
+        ManagerResult ValidateIdentifier(string identifierValue, string passcodeValue);
+
+        /// <summary>
+        /// Obtains additional info about the identifier
+        /// </summary>
+        /// <param name="identifierValue"></param>
+        /// <returns></returns>
+        List<KeyValuePair<string, string>> ObtainAdditionalClaims(string identifierValue);
+
+        IWebToken GenerateWebTokenObject(string identifierValue, List<KeyValuePair<string, string>> additionalClaims);
+
+        /// <summary>
+        /// Responsible for generating the object (containing the access token). It is given the identifierValue so that
+        /// any relevant info about the identifier we wish to include in the IAuthServerResponse will be returned.
+        /// </summary>
+        /// <param name="accessToken"></param>
+        /// <param name="identifierValue"></param>
+        /// <returns></returns>
+        IAuthServerResponse GenerateAuthServerResponse(string accessToken, string identifierValue);
+      
+        /*
         public GrantType()
         {
             OtherRequiredParameters = new List<string>();
@@ -59,5 +96,8 @@ namespace FCore.AuthServer
 
             return values;
         }
+
+        */
+    
     }
 }
