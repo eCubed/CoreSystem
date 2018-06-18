@@ -49,20 +49,25 @@ namespace FCore.AuthServer
                 var validateTokenRes = grantTypeProcessor.ValidateRequest(context.Request);
 
                 if (!validateTokenRes.Success)
+                {
                     await WebApiMiddlewareHelpers.WriteErrorResponseAsync(context, StatusCodes.Status400BadRequest, validateTokenRes.Errors.ToList().First());
+                    return;
+                }
 
                 // Validate the identifier
                 var validateIdentifierRes = grantTypeProcessor.ValidateIdentifier(context.Request.Form[grantTypeProcessor.IdentifierName],
                     context.Request.Form[grantTypeProcessor.PasscodeName]);
 
                 if (!validateIdentifierRes.Success)
+                {
                     await WebApiMiddlewareHelpers.WriteErrorResponseAsync(context, StatusCodes.Status401Unauthorized, validateIdentifierRes.Errors.ToList().First());
-
+                    return;
+                }
                 // Obtain Additional Claims
                 List<KeyValuePair<string, string>> additionalClaims = grantTypeProcessor.ObtainAdditionalClaims(context.Request.Form[grantTypeProcessor.IdentifierName]);
 
                 // Now, formulate the token object from the identifier value and the additional claims.
-                IWebToken token = grantTypeProcessor.GenerateWebTokenObject(context.Request.Form[grantTypeProcessor.IdentifierName], additionalClaims);
+                IWebToken token = grantTypeProcessor.GenerateWebTokenObject(TokenIssuerOptions, context.Request.Form[grantTypeProcessor.IdentifierName], additionalClaims);
 
                 string accessToken = token.GenerateToken(TokenIssuerOptions.CryptionKey);
 

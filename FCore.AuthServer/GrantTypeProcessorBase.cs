@@ -40,7 +40,7 @@ namespace FCore.AuthServer
             return new ManagerResult();
         }
 
-        public abstract IWebToken GenerateWebTokenObject(string identifierValue, List<KeyValuePair<string, string>> additionalClaims);
+        public abstract IWebToken GenerateWebTokenObject(TokenIssuerOptions tokenIssuerOptions, string identifierValue, List<KeyValuePair<string, string>> additionalClaims);
 
         public abstract List<KeyValuePair<string, string>> ObtainAdditionalClaims(string identifierValue);
 

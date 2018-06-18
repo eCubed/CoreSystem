@@ -4,6 +4,6 @@ namespace FCore.AuthServer
 {
     public class DefaultAuthServerResponse : AuthServerResponse
     {
-        List<string> Roles { get; set; }
+        public List<string> Roles { get; set; }
     }
 }

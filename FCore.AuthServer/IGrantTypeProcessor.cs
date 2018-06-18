@@ -40,7 +40,7 @@ namespace FCore.AuthServer
         /// <returns></returns>
         List<KeyValuePair<string, string>> ObtainAdditionalClaims(string identifierValue);
 
-        IWebToken GenerateWebTokenObject(string identifierValue, List<KeyValuePair<string, string>> additionalClaims);
+        IWebToken GenerateWebTokenObject(TokenIssuerOptions tokenIssuerOptions, string identifierValue, List<KeyValuePair<string, string>> additionalClaims);
 
         /// <summary>
         /// Responsible for generating the object (containing the access token). It is given the identifierValue so that

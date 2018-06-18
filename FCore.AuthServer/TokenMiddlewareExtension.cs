@@ -16,5 +16,10 @@ namespace FCore.AuthServer
         {
             app.UseMiddleware<TTokenIssuerMiddleware>(tokenIssuerOptions);
         }
+
+        public static void UseNewTokenIssuerMiddleware(this IApplicationBuilder app, TokenIssuerOptions tokenIssuerOptions)
+        {
+            app.UseMiddleware<NewTokenIssuerMiddleware>(tokenIssuerOptions);
+        }
     }
 }
