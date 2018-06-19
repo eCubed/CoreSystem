@@ -10,6 +10,10 @@ namespace FCore.AuthServerTest.Providers
             {
                 return new PasswordGrantTypeProcessor();
             }
+            else if (grantTypeName == "portal")
+            {
+                return new PortalGrantTypeProcessor();
+            }
 
             return null;
         }

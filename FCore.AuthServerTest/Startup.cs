@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using FCore.AuthServer;
 using FCore.AuthServerTest.Providers;
 using Microsoft.Extensions.Logging;
+using FCore.WebApiServerBase;
 
 namespace FCore.AuthServerTest
 {
@@ -70,6 +71,10 @@ namespace FCore.AuthServerTest
             tokenIssuerOptions.CryptionKey = "my-babys-got-a-secret";
 
             app.UseNewTokenIssuerMiddleware(tokenIssuerOptions);
+
+            app.UseMvc();
+
+            app.UseErrorWrappingMiddleware();
         }
     }
 }
