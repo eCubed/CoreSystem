@@ -17,7 +17,15 @@ namespace FCore.AuthServer
 
         /* The following are processor functionality
          */
-        
+
+        /// <summary>
+        /// Extracts the other required parameters from the request based on the grant type processor's
+        /// required parameters.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        List<KeyValuePair<string, string>> GetOtherRequiredParametersFromRequest(HttpRequest request);
+
         /// <summary>
         /// Validates whether all required parameters were supplied in the request
         /// </summary>
@@ -31,7 +39,7 @@ namespace FCore.AuthServer
         /// <param name="identifierValue"></param>
         /// <param name="passcodeValue"></param>
         /// <returns></returns>
-        ManagerResult ValidateIdentifier(string identifierValue, string passcodeValue);
+        ManagerResult ValidateIdentifier(string identifierValue, string passcodeValue, List<KeyValuePair<string, string>> otherRequiredParamValues);
 
         /// <summary>
         /// Obtains additional info about the identifier

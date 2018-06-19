@@ -3,6 +3,7 @@ using FCore.Foundations;
 using FCore.Net.Security;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 
 namespace FCore.AuthServerTest.Providers
@@ -48,8 +49,14 @@ namespace FCore.AuthServerTest.Providers
             return stuff;
         }
 
-        public override ManagerResult ValidateIdentifier(string identifierValue, string passcodeValue)
+        public override ManagerResult ValidateIdentifier(string identifierValue, string passcodeValue, List<KeyValuePair<string, string>> otherRequiredParamValues)
         {
+            //List<KeyValuePair<string, string>> extraParamValues = GetOtherRequiredParametersFromRequest()
+            string portalName = otherRequiredParamValues.SingleOrDefault(p => p.Key == "portal").Value;
+
+            if (portalName == "Death Star")
+                return new ManagerResult("invalid-portal");
+
             return new ManagerResult();
         }
     }

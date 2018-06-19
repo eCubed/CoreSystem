@@ -40,11 +40,26 @@ namespace FCore.AuthServer
             return new ManagerResult();
         }
 
+        public List<KeyValuePair<string, string>> GetOtherRequiredParametersFromRequest(HttpRequest request)
+        {
+            List<KeyValuePair<string, string>> otherRequiredParamValues = new List<KeyValuePair<string, string>>();
+
+            OtherRequiredParameters.ForEach(requiredParamName =>
+            {
+                if (request.Form.ContainsKey(requiredParamName))
+                {
+                    otherRequiredParamValues.Add(new KeyValuePair<string, string>(requiredParamName, request.Form[requiredParamName]));
+                }
+            });
+
+            return otherRequiredParamValues;
+        }
+
         public abstract IWebToken GenerateWebTokenObject(TokenIssuerOptions tokenIssuerOptions, string identifierValue, List<KeyValuePair<string, string>> additionalClaims);
 
         public abstract List<KeyValuePair<string, string>> ObtainAdditionalClaims(string identifierValue);
 
-        public abstract ManagerResult ValidateIdentifier(string identifierValue, string passcodeValue);
+        public abstract ManagerResult ValidateIdentifier(string identifierValue, string passcodeValue, List<KeyValuePair<string, string>> otherRequiredParamValues);
 
         public abstract IAuthServerResponse GenerateAuthServerResponse(string accessToken, string identifierValue);
     }

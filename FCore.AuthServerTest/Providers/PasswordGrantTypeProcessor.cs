@@ -54,7 +54,7 @@ namespace FCore.AuthServerTest.Providers
             return additionalClaims;
         }
 
-        public override ManagerResult ValidateIdentifier(string identifierValue, string passcodeValue)
+        public override ManagerResult ValidateIdentifier(string identifierValue, string passcodeValue, List<KeyValuePair<string, string>> otherRequiredParamValues)
         {
             return new ManagerResult();
         }

@@ -59,7 +59,7 @@ namespace FCore.AuthServer
 
                     // Validate the identifier
                     var validateIdentifierRes = grantTypeProcessor.ValidateIdentifier(context.Request.Form[grantTypeProcessor.IdentifierName],
-                        context.Request.Form[grantTypeProcessor.PasscodeName]);
+                        context.Request.Form[grantTypeProcessor.PasscodeName], grantTypeProcessor.GetOtherRequiredParametersFromRequest(context.Request));
 
                     if (!validateIdentifierRes.Success)
                     {
