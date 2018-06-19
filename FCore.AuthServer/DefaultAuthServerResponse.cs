@@ -2,7 +2,7 @@
 
 namespace FCore.AuthServer
 {
-    public class DefaultAuthServerResponse : AuthServerResponse
+    public class DefaultAuthServerResponse : BasicAuthServerResponse
     {
         public List<string> Roles { get; set; }
     }

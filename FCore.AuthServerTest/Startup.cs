@@ -70,7 +70,7 @@ namespace FCore.AuthServerTest
             tokenIssuerOptions.Issuer = "New FCore Issuer";
             tokenIssuerOptions.CryptionKey = "my-babys-got-a-secret";
 
-            app.UseNewTokenIssuerMiddleware(tokenIssuerOptions);
+            app.UseTokenIssuerMiddleware(tokenIssuerOptions);
 
             app.UseMvc();
 
