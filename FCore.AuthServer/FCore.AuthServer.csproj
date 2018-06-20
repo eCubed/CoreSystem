@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>eCubed</Authors>
     <Company>eCubed</Company>
     <Description>Foundations of a simple authorization server, including token-issuing middleware and interfaces prompt for providing validation of user credentials and implementation of a custom response object.</Description>
     <PackageTags>token token-issuing auth-server authentication webapi oauth</PackageTags>
     <Version>1.2.0</Version>
-    <PackageReleaseNotes>Updated to new cryptography and security, reworked</PackageReleaseNotes>
+    <PackageReleaseNotes>Updated to new cryptography and security. This system now allows for different grant types other than password and client. Implementor has a choice of what type of token is generated (JWT or otherwise).</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
