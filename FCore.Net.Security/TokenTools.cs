@@ -23,7 +23,7 @@ namespace FCore.Net.Security
 
         public static string GenerateAccessToken(string issuer, string username, List<string> roles, List<KeyValuePair<string, string>> additionalClaims, ICrypter crypter, string key)
         {
-            WebToken webToken = new WebToken();
+            WebToken webToken = new WebToken(crypter);            
             webToken.Issuer = issuer;
             webToken.CreatedDate = DateTime.Now;
             webToken.Claims.Add(new KeyValuePair<string, string>(ClaimTypes.Name, username));
@@ -32,7 +32,7 @@ namespace FCore.Net.Security
 
             additionalClaims.ForEach(claimToAdd => webToken.Claims.Add(claimToAdd));
 
-            return webToken.GenerateToken(crypter, key);
+            return webToken.GenerateToken(key);
         }
     }
 }

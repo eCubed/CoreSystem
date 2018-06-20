@@ -4,21 +4,17 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 
 namespace FCore.Net.Security
 {
-    public class JsonWebToken
+    public class JsonWebToken : WebTokenBase
     {
-        public List<KeyValuePair<string, string>> Claims { get; set; }
-
-        public JsonWebToken()
+        public JsonWebToken() : base()
         {
-            Claims = new List<KeyValuePair<string, string>>();
         }
 
         [JsonIgnore]
-        public string Issuer
+        public override string Issuer
         {
             set
             {
@@ -40,7 +36,7 @@ namespace FCore.Net.Security
         }
 
         [JsonIgnore]
-        public DateTime CreatedDate
+        public override DateTime CreatedDate
         {
             set
             {
@@ -61,7 +57,7 @@ namespace FCore.Net.Security
             }
         }
 
-        public string GenerateToken(string secret)
+        public override string GenerateToken(string secret)
         {
             string header = (new JsonWebTokenHeader() { Algorithm = "HS256", Type = "JWT" }).GetJsonSerialization();
             string payload = JsonConvert.SerializeObject(this);
@@ -71,7 +67,7 @@ namespace FCore.Net.Security
             return $"{encodedPortion}.{signature}";
         }
 
-        public static JsonWebToken Parse(string jwt, string secret)
+        public override IWebToken Parse(string jwt, string secret)
         {
             string headerJson = "";
             string payloadJson = "";
@@ -99,30 +95,6 @@ namespace FCore.Net.Security
             signature = jwtSplit[2];
 
             return JsonConvert.DeserializeObject<JsonWebToken>(payloadJson);
-        }
-
-
-        public void AddClaim(string claimType, string value)
-        {
-            Claims.Add(new KeyValuePair<string, string>(claimType, value));
-        }
-
-        public ClaimsPrincipal ConvertToClaimsPrincipal()
-        {
-            ClaimsPrincipal principal = new ClaimsPrincipal();
-
-            List<Claim> claims = new List<Claim>();
-
-            Claims.ToList().ForEach(kvp =>
-            {
-                claims.Add(new Claim(kvp.Key, kvp.Value));
-            });
-
-            ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims);
-
-            principal.AddIdentity(claimsIdentity);
-
-            return principal;
         }
     }
 }

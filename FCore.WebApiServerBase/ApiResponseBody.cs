@@ -2,7 +2,7 @@
 using Newtonsoft.Json.Serialization;
 using System.Collections.Generic;
 
-namespace FCore.ResourceServer
+namespace FCore.WebApiServerBase
 {
     public class ApiResponseBody<T>
     {

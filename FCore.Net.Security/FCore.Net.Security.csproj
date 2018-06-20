@@ -8,12 +8,12 @@
     <Copyright>2018</Copyright>
     <Description>This library is a dependency of the FCore.AuthServer and FCore.ResourceServer libraries. It contains a simple WebToken class that becomes the access token issued by the auth server, and passed as a Bearer token to authorized resource server calls.</Description>
     <PackageTags>webtoken jwt</PackageTags>
-    <PackageReleaseNotes>Fixes Jwt Parse error</PackageReleaseNotes>
-    <Version>1.1.1</Version>
+    <PackageReleaseNotes>Web tokens now abstracted for more flexible use in the auth and resource servers. The WebToken and the JsonWebToken may still be used as stand-alone classes as before.</PackageReleaseNotes>
+    <Version>1.2.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FCore.Cryptography" Version="1.0.2" />
+    <PackageReference Include="FCore.Cryptography" Version="1.2.0" />
     <PackageReference Include="FCore.Foundations" Version="1.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>

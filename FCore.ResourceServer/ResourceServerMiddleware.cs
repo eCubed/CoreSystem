@@ -1,87 +1,22 @@
 ﻿using FCore.Cryptography;
 using FCore.Net.Security;
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FCore.ResourceServer
 {
-    public class ResourceServerMiddleware
+    public class ResourceServerMiddleware : ResourceServerMiddlewareBase<WebToken>
     {
-        private RequestDelegate _next;
-        private ICrypter _crypter;
-        private ResourceServerOptions _resourceServerOptions;
+        private ICrypter Crypter;
 
         public ResourceServerMiddleware(RequestDelegate next, ICrypter crypter, ResourceServerOptions resourceServerOptions)
+            : base(next, resourceServerOptions)
         {
-            _next = next;
-            _crypter = crypter;
-            _resourceServerOptions = resourceServerOptions;
+            Crypter = crypter;
         }
 
-        public async Task Invoke(HttpContext context)
+        protected override WebToken CreateStarterTokenInstance()
         {
-            if (context.Request.Headers.ContainsKey("Authorization"))
-            {
-                string[] values = context.Request.Headers["Authorization"].ToString().Split(' ');
-
-                if (values.Length != 2)
-                {
-                    await ResourceServerMiddlewareHelpers.WriteErrorResponseAsync(context, StatusCodes.Status400BadRequest, ResourceServerMessages.InvalidAuthorizationHeader);
-                    return;
-                }
-
-                if (values.First() != "Bearer")
-                {
-                    await ResourceServerMiddlewareHelpers.WriteErrorResponseAsync(context, StatusCodes.Status400BadRequest, ResourceServerMessages.AuthorizationBearerRequired);
-                    return;
-                }
-
-                try
-                {
-                    string webTokenJsonString = _crypter.Decrypt(values[1], _resourceServerOptions.CryptionKey);
-                    WebToken webToken = JsonConvert.DeserializeObject<WebToken>(webTokenJsonString);
-
-                    if (webToken.Issuer != _resourceServerOptions.Issuer)
-                    {
-                        await ResourceServerMiddlewareHelpers.WriteErrorResponseAsync(context, StatusCodes.Status401Unauthorized, ResourceServerMessages.IssuersDoNotMatch);
-                        return;
-                    }
-
-                    DateTime tokenExpiration = webToken.CreatedDate.AddDays(_resourceServerOptions?.TokenDurationInDays ?? 14);
-
-                    if (DateTime.Now > tokenExpiration)
-                    {
-                        await ResourceServerMiddlewareHelpers.WriteErrorResponseAsync(context, StatusCodes.Status401Unauthorized, ResourceServerMessages.TokenExpired);
-                        return;
-                    }
-
-                    // Now, we have to write the claims to the ClaimsPrincipal!
-                    context.User = webToken.ConvertToClaimsPrincipal();
-                }
-                catch (Exception e)
-                {
-                    await ResourceServerMiddlewareHelpers.WriteErrorResponseAsync(context, StatusCodes.Status401Unauthorized, ResourceServerMessages.InvalidToken, e);
-                    return;
-                }
-            }
-
-            try
-            {
-                await _next.Invoke(context);
-            }
-            catch(InvalidOperationException e)
-            {
-                await ResourceServerMiddlewareHelpers.WriteErrorResponseAsync(context, StatusCodes.Status401Unauthorized, ResourceServerMessages.InsufficientCredentials, e);
-                return;
-            }
-            catch(Exception e)
-            {
-                await ResourceServerMiddlewareHelpers.WriteErrorResponseAsync(context, StatusCodes.Status500InternalServerError, ResourceServerMessages.ServerError, e);
-                return;
-            }
+           return new WebToken(Crypter);
         }
     }
 }

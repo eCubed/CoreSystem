@@ -1,4 +1,4 @@
-﻿namespace FCore.ResourceServer
+﻿namespace FCore.WebApiServerBase
 {
     public class ApiRequestBody<T>
     {
