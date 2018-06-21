@@ -2,6 +2,7 @@
 using FCore.WebApiServerBase;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,11 @@ namespace FCore.AuthServer
         {
             response.StatusCode = StatusCodes.Status200OK;
             response.ContentType = "application/json;charset=utf-8";
-            await response.WriteAsync(JsonConvert.SerializeObject(authServerResponse));
+            await response.WriteAsync(JsonConvert.SerializeObject(authServerResponse, new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            }));
         }
 
         public async Task Invoke(HttpContext context, IGrantTypeProcessorFactory grantTypeProcessorFactory)
