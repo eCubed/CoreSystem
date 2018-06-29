@@ -8,6 +8,8 @@ using Microsoft.Extensions.Logging;
 using FCore.ResourceServer;
 using FCore.WebApiServerBase;
 using FCore.Cryptography;
+using FCore.ResourceServerTest.Providers;
+using FCore.ResourceServerTest.Models;
 
 namespace FCore.ResourceServerTest
 {
@@ -48,6 +50,8 @@ namespace FCore.ResourceServerTest
             services.AddCors();
 
             services.AddSingleton<ICrypter, Crypt>();
+            services.AddTransient<IApiClientProvider<ApiClient>, ApiClientProvider>();
+            services.AddTransient<IApiClientHasher, ApiClientHasher>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,6 +70,8 @@ namespace FCore.ResourceServerTest
                 options.AllowAnyMethod();
                 options.AllowAnyHeader();
             });
+
+            app.UseApiKeyMiddleware<ApiClient>(new ApiKeyMiddlewareOptions());
 
             ResourceServerOptions rsOptions = new ResourceServerOptions();
             rsOptions.CryptionKey = "my-babys-got-a-secret";

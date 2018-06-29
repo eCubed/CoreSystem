@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -9,10 +10,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FCore.ResourceServer" Version="1.2.0" />
     <PackageReference Include="FCore.WebApiServerBase" Version="1.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FCore.ResourceServer\FCore.ResourceServer.csproj" />
   </ItemGroup>
 
 </Project>
