@@ -9,8 +9,8 @@
     <Copyright>2018</Copyright>
     <PackageTags>web-api webapi resource-server oauth token authorization</PackageTags>
     <NeutralLanguage></NeutralLanguage>
-    <Version>1.2.0</Version>
-    <PackageReleaseNotes>Adds Jwt middleware</PackageReleaseNotes>
+    <Version>1.2.1</Version>
+    <PackageReleaseNotes>Adds ApiKeyMiddleware</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
