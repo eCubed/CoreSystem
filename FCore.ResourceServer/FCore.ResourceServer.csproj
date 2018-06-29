@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Authors>eCubed</Authors>
     <Company>eCubed</Company>
     <Description>Base functionality for a simple resource server (Web API web application) including classes for consistent response objects and middleware for token validation</Description>
