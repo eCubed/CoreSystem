@@ -1,5 +1,4 @@
 ﻿using FCore.Foundations;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -93,13 +92,13 @@ namespace FCore.Interactions.Tagging
             return new ManagerResult<List<BasicListingViewModel<long>>>(tagList);
         }
 
-        private ManagerResult<List<TTagging>> SearchTaggings(string systemObjectName, string taggerId, List<string> keywords,
+        public ManagerResult<ResultSet<TTagging>> SearchTaggings(string systemObjectName, string taggerId, List<string> keywords,
             int page = 1, int pageSize = 10)
         {
             ISystemObject systemObject = GetTaggingStore().GetQueryableSystemObjects().SingleOrDefault(t => t.Name == systemObjectName);
 
             if (systemObject == null)
-                return new ManagerResult<List<TTagging>> (InteractionMessages.SystemObjectNotFound);
+                return new ManagerResult<ResultSet<TTagging>> (InteractionMessages.SystemObjectNotFound);
 
             var qTaggings = GetTaggingStore().GetQueryableTaggings().Where(tg => tg.SystemObjectId == systemObject.Id &&
                 tg.TaggerId == taggerId); // preliminary query
@@ -111,9 +110,11 @@ namespace FCore.Interactions.Tagging
             // This one below turns out to be an or search.
             //qTaggings = qTaggings.Where(tg => keywords.Contains(tg.Tag.Name)).GroupBy(tg => tg.RecordId).Select(g => g.First()).OrderBy(t => t.Tag.Name);
 
-            return new ManagerResult<List<TTagging>>(qTaggings.ToList());            
+            return new ManagerResult<ResultSet<TTagging>>(
+                ResultSetHelper.GetResults<TTagging, long>(qTaggings, page, pageSize));            
         }
 
+        /*
         public virtual ManagerResult<ResultSet<TProjection>> SearchByTags<TEntity, TProjection, TKey>(string systemObjectName, string taggerId, string searchText,
             Func<TTagging, TEntity> findById, Func<List<TEntity>, IOrderedQueryable<TEntity>> convertToOrderedQueryable,
             Func<TEntity, TProjection> convert, int page = 1, int pageSize = 10)
@@ -148,7 +149,7 @@ namespace FCore.Interactions.Tagging
 
             return new ManagerResult<ResultSet<TProjection>>(projectionsRS);
         }
-
+        */
 
         public virtual async Task<ManagerResult> DeleteTag(long taggingId, string taggerId)
         {
