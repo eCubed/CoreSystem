@@ -58,6 +58,12 @@ namespace FCore.Interactions.Tagging
 
                 if (tagging == null)
                 {
+                    tagging = new TTagging();
+                    tagging.RecordId = recordId;
+                    tagging.SystemObjectId = systemObject.Id;
+                    tagging.TaggerId = taggerId;
+                    tagging.TagId = tag.Id;
+
                     var res = DataUtils.CreateAsync(entity: tagging,
                         store: GetTaggingStore(),
                         findUniqueAsync: FindAsync).Result; // do nothing to the result. If it creates the tagging, good. If not, we didn't want it created anyway.

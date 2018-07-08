@@ -5,8 +5,8 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Declarations and Logic for data to accompany existing entities like comments, tags, likes, and some other social network functions. The intent is not to need to add an interaction data set for each entity, and not add properties to existing entities.</Description>
     <Copyright>2018</Copyright>
-    <PackageReleaseNotes>Fixes SearchTaggings function to now return a result set</PackageReleaseNotes>
-    <Version>1.0.2</Version>
+    <PackageReleaseNotes>Fixes tag function</PackageReleaseNotes>
+    <Version>1.0.3</Version>
   </PropertyGroup>
 
   <ItemGroup>

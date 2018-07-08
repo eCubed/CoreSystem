@@ -6,12 +6,12 @@
     <Description>Entity Framework implementation of FCore.Interactions</Description>
     <Copyright>2018</Copyright>
     <PackageReleaseNotes>Updates with FCore.Interactions</PackageReleaseNotes>
-    <Version>1.0.1</Version>
+    <Version>1.0.4</Version>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="FCore.EntityFramework" Version="1.0.0" />
-    <PackageReference Include="FCore.Interactions" Version="1.0.1" />
+    <PackageReference Include="FCore.Interactions" Version="1.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.2" />
   </ItemGroup>
 
