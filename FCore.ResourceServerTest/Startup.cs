@@ -34,7 +34,7 @@ namespace FCore.ResourceServerTest
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-
+            
             services.AddMvcCore().AddJsonFormatters(setupAction => {
                 setupAction.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 setupAction.DefaultValueHandling = DefaultValueHandling.Ignore;

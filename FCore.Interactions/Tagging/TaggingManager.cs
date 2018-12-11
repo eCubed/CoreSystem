@@ -78,6 +78,11 @@ namespace FCore.Interactions.Tagging
             return new ManagerResult(); // Not sure what tags these are.
         }
 
+        public virtual ManagerResult Tag(string systemObjectName, string recordId, string taggerId, List<string> tagStrings)
+        {
+            return Tag(systemObjectName, recordId, taggerId, tagStrings.Select(tag => new BasicListingViewModel<long> { Id = 0, Name = tag }).ToList());
+        }
+
         public virtual ManagerResult<List<BasicListingViewModel<long>>> GetTagsOfRecord(string systemObjectName, string recordId, string taggerId)
         {
             ISystemObject systemObject = GetTaggingStore().GetQueryableSystemObjects().SingleOrDefault(t => t.Name == systemObjectName);
@@ -98,6 +103,29 @@ namespace FCore.Interactions.Tagging
             return new ManagerResult<List<BasicListingViewModel<long>>>(tagList);
         }
 
+        public virtual void FillTagsOfRecord<TRecordKey>(string systemObject, IIdentifiable<TRecordKey> record, string taggerId = "")
+            where TRecordKey : struct
+        {
+            ITaggable taggable = record as ITaggable;
+
+            if (taggable != null)
+            {
+                var getTagsRes = GetTagsOfRecord(systemObject, record.Id.ToString(), taggerId);
+
+                if (getTagsRes.Success)
+                    taggable.Tags = getTagsRes.Data;
+            }
+        }
+
+        public virtual void FillTagsOfRecords<TRecordKey>(string systemObject, List<IIdentifiable<TRecordKey>> records, string taggerId = "")
+            where TRecordKey : struct
+        {
+            records.ForEach(record =>
+            {
+                FillTagsOfRecord(systemObject, record, taggerId);
+            });
+        }
+
         public ManagerResult<ResultSet<TTagging>> SearchTaggings(string systemObjectName, string taggerId, List<string> keywords,
             int page = 1, int pageSize = 10)
         {
@@ -106,8 +134,12 @@ namespace FCore.Interactions.Tagging
             if (systemObject == null)
                 return new ManagerResult<ResultSet<TTagging>> (InteractionMessages.SystemObjectNotFound);
 
-            var qTaggings = GetTaggingStore().GetQueryableTaggings().Where(tg => tg.SystemObjectId == systemObject.Id &&
-                tg.TaggerId == taggerId); // preliminary query
+            var qTaggings = GetTaggingStore().GetQueryableTaggings().Where(tg => tg.SystemObjectId == systemObject.Id);
+            
+            if (!string.IsNullOrEmpty(taggerId))
+            {
+                qTaggings = qTaggings.Where(tg => tg.TaggerId == taggerId);
+            }
 
             int keyWordsLength = keywords.Count();
             // filter by tags! GroupBy/First by record id because it will pull multiple entries with the same record id for each tag. This is an and search.
