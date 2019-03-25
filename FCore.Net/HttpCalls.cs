@@ -50,7 +50,7 @@ namespace FCore.Net
         public static async Task<TResponseData> PostAsync<TBody, TResponseData>(string url, TBody body, string acceptHeader = null,
             string bearerToken = null, List<KeyValuePair<string, string>> headers = null)
         {
-            var httpResponseMessage = await PostAsync(url, new JsonContent<TBody>(body));
+            var httpResponseMessage = await PostAsync(url, new JsonContent<TBody>(body), acceptHeader, bearerToken, headers);
 
             return await httpResponseMessage.ContentAsTypeAsync<TResponseData>();
         }

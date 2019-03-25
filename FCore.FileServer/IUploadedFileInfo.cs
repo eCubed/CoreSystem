@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FCore.FileServer
+﻿namespace FCore.FileServer
 {
     /// <summary>
     /// Represents information about the file saved as returned back to the uploader.
