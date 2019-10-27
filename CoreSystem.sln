@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29411.108
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreSystem.Documentation", "CoreSystem.Documentation\CoreSystem.Documentation.csproj", "{66CB798C-2747-45C2-B107-D371C75ED64B}"
 EndProject
@@ -80,6 +80,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FCore.AuthServerTest", "FCore.AuthServerTest\FCore.AuthServerTest.csproj", "{2C8F8E44-8A84-4E2D-A654-0D1B395C968C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FCore.Identity.EntityFramework", "FCore.Identity\FCore.Identity.EntityFramework.csproj", "{032F498C-14DD-43EA-B295-676E07F3815E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCore.Foundations.Tests", "FCore.Foundations.Tests\FCore.Foundations.Tests.csproj", "{F3E4958B-BE57-4F62-8ECD-D12A63142455}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -243,6 +245,10 @@ Global
 		{032F498C-14DD-43EA-B295-676E07F3815E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{032F498C-14DD-43EA-B295-676E07F3815E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{032F498C-14DD-43EA-B295-676E07F3815E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3E4958B-BE57-4F62-8ECD-D12A63142455}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3E4958B-BE57-4F62-8ECD-D12A63142455}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3E4958B-BE57-4F62-8ECD-D12A63142455}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3E4958B-BE57-4F62-8ECD-D12A63142455}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
