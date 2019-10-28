@@ -57,6 +57,8 @@ namespace FCore.Foundations
                     return new ManagerResult<TKey>(createRes.Errors);
             }
 
+            setNonViewModelData?.Invoke(newData);
+
             await store.CreateAsync(newData);
 
             return new ManagerResult<TKey>(newData.Id);
@@ -99,7 +101,7 @@ namespace FCore.Foundations
         #region Update
         public static async Task<ManagerResult> UpdateAsync<T, TKey, TViewModel>(TKey id, TViewModel viewModel, IAsyncStore<T, TKey> store,
             Func<TViewModel, Task<T>> findUniqueAsync = null, Func<T, ManagerResult> canUpdate = null,
-            Action<T> fillNewValues = null)
+            Action<T> setNonViewModelData = null)
             where T : class, IIdentifiable<TKey>
             where TViewModel : class, ISaveViewModel<T>
         {
@@ -123,8 +125,10 @@ namespace FCore.Foundations
                 if (!canUpdateRes.Success)
                     return canUpdateRes;
             }
+
+            viewModel.UpdateEntity(recordToUpdate);
             
-            fillNewValues?.Invoke(recordToUpdate);
+            setNonViewModelData?.Invoke(recordToUpdate);
                 
             await store.UpdateAsync(recordToUpdate);
            
