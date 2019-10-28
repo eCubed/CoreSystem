@@ -375,5 +375,21 @@ namespace FCore.Foundations
 
             return result;   
         }
+
+        public static string StripPunctuation(this string text)
+        {
+            var sb = new StringBuilder();
+            foreach (char c in text)
+            {
+                if (!char.IsPunctuation(c))
+                    sb.Append(c);
+            }
+            return sb.ToString();
+        }
+
+        public static string ToKebabCase(this string text)
+        {
+            return Regex.Replace(text.ToLower().StripPunctuation(), @"\s+", "-");
+        }
     }
 }

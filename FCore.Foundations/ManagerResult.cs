@@ -44,11 +44,6 @@ namespace FCore.Foundations
         {
             Data = data;
         }
-
-        public ManagerResult(TData data, params string[] errors) : base(errors)
-        {
-            Data = data;
-        }
     }
 
 }

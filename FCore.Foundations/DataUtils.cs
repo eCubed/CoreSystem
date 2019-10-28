@@ -33,51 +33,38 @@ namespace FCore.Foundations
             return new ManagerResult();
         }
 
-        public static async Task<ManagerResult> CreateAsync<T, TKey, TViewModel>(TViewModel viewModel, IAsyncStore<T, TKey> store,
-            Func<T, Task<T>> findUniqueAsync = null, Func<T, ManagerResult> canCreate = null, Action<T> setNonViewModelData = null)
+        public static async Task<ManagerResult<TKey>> CreateAsync<T, TKey, TViewModel>(TViewModel viewModel, IAsyncStore<T, TKey> store,
+            Func<TViewModel, Task<T>> findUniqueAsync = null, Func<T, ManagerResult> canCreate = null, Action<T> setNonViewModelData = null)
             where T : class, IIdentifiable<TKey>, new()
-            where TViewModel : class, IViewModel<T, TKey>
+            where TViewModel : class, ISaveViewModel<T>
         {
             T newData = new T();
-            viewModel.UpdateValues(newData);
+            viewModel.UpdateEntity(newData);
 
-            if (setNonViewModelData != null)
-                setNonViewModelData.Invoke(newData);
-            
-            var createRes = await CreateAsync(newData, store, findUniqueAsync, canCreate);
+            if (findUniqueAsync != null)
+            {
+                T duplicate = await findUniqueAsync.Invoke(viewModel);
 
-            if (!createRes.Success)
-                return createRes;
+                if (duplicate != null)
+                    return new ManagerResult<TKey>(ManagerErrors.DuplicateOnCreate);
+            }
 
-            viewModel.Id = newData.Id;
+            if (canCreate != null)
+            {
+                var createRes = canCreate.Invoke(newData);
 
-            return createRes;
-        }
+                if (!createRes.Success)
+                    return new ManagerResult<TKey>(createRes.Errors);
+            }
 
-        public static async Task<ManagerResult> CreateAsync<T, TKey, TViewModel, TArgs>(TViewModel viewModel, IAsyncStore<T, TKey> store,
-            Func<T, Task<T>> findUniqueAsync = null, Func<T, ManagerResult> canCreate = null, Action<T> setNonViewModelData = null, TArgs args = null)
-            where T : class, IIdentifiable<TKey>, new()
-            where TArgs : class, IViewModelArgs
-            where TViewModel : class, IViewModel<T, TKey, TArgs>
-        {
-            T newData = new T();
-            viewModel.UpdateValues(newData, args);
+            setNonViewModelData?.Invoke(newData);
 
-            if (setNonViewModelData != null)
-                setNonViewModelData.Invoke(newData);
+            await store.CreateAsync(newData);
 
-            var createRes = await CreateAsync(newData, store, findUniqueAsync, canCreate);
-
-            if (!createRes.Success)
-                return createRes;
-
-            viewModel.Id = newData.Id;
-
-            return createRes;
+            return new ManagerResult<TKey>(newData.Id);
         }
 
         #endregion Create
-
 
         #region Delete
         public static async Task<ManagerResult> DeleteAsync<T, TKey>(TKey id, IAsyncStore<T, TKey> store,
@@ -112,10 +99,11 @@ namespace FCore.Foundations
         #endregion Delete
 
         #region Update
-        public static async Task<ManagerResult> UpdateAsync<T, TKey>(TKey id, IAsyncStore<T, TKey> store,
-            Func<T, Task<T>> findUniqueAsync = null, Func<T, ManagerResult> canUpdate = null,
-            Action<T> fillNewValues = null)
+        public static async Task<ManagerResult> UpdateAsync<T, TKey, TViewModel>(TKey id, TViewModel viewModel, IAsyncStore<T, TKey> store,
+            Func<TViewModel, Task<T>> findUniqueAsync = null, Func<T, ManagerResult> canUpdate = null,
+            Action<T> setNonViewModelData = null)
             where T : class, IIdentifiable<TKey>
+            where TViewModel : class, ISaveViewModel<T>
         {
             T recordToUpdate = await store.FindByIdAsync(id);
 
@@ -124,7 +112,7 @@ namespace FCore.Foundations
 
             if (findUniqueAsync != null)
             {
-                T possibleDuplicate = await findUniqueAsync(recordToUpdate);
+                T possibleDuplicate = await findUniqueAsync(viewModel);
 
                 if ((possibleDuplicate != null) && (!possibleDuplicate.Id.Equals(recordToUpdate.Id)))
                     return new ManagerResult(ManagerErrors.DuplicateOnUpdate);
@@ -138,38 +126,13 @@ namespace FCore.Foundations
                     return canUpdateRes;
             }
 
-            // Now, we allow updating of the values!
-            if (fillNewValues != null)
-                fillNewValues.Invoke(recordToUpdate);
+            viewModel.UpdateEntity(recordToUpdate);
+            
+            setNonViewModelData?.Invoke(recordToUpdate);
                 
             await store.UpdateAsync(recordToUpdate);
            
             return new ManagerResult();
-        }
-
-        public static async Task<ManagerResult> UpdateAsync<T, TKey, TViewModel>(TViewModel viewModel, IAsyncStore<T, TKey> store,
-            Func<T, Task<T>> findUniqueAsync = null, Func<T, ManagerResult> canUpdate = null, Action<T> setNonViewModelData = null)
-            where T : class, IIdentifiable<TKey>, new()
-            where TViewModel : class, IViewModel<T, TKey>
-        {
-            return await UpdateAsync(viewModel.Id, store, findUniqueAsync, canUpdate,
-                fillNewValues: data => {
-                    viewModel.UpdateValues(data);
-                    setNonViewModelData?.Invoke(data);
-                });
-        }
-
-        public static async Task<ManagerResult> UpdateAsync<T, TKey, TViewModel, TArgs>(TViewModel viewModel, IAsyncStore<T, TKey> store,
-            Func<T, Task<T>> findUniqueAsync = null, Func<T, ManagerResult> canUpdate = null, Action<T> setNonViewModelData = null, TArgs args = null)
-            where T : class, IIdentifiable<TKey>, new()
-            where TArgs : class, IViewModelArgs
-            where TViewModel : class, IViewModel<T, TKey, TArgs>
-        {
-            return await UpdateAsync(viewModel.Id, store, findUniqueAsync, canUpdate,
-                fillNewValues: data => {
-                    viewModel.UpdateValues(data);
-                    setNonViewModelData?.Invoke(data);
-                });
         }
 
         #endregion Update
@@ -178,7 +141,7 @@ namespace FCore.Foundations
         public static async Task<ManagerResult<TViewModel>> GetOneRecordAsync<T, TKey, TViewModel>(TKey id, IAsyncStore<T, TKey> store,
             Func<T, ManagerResult> canGet = null)
             where T : class, IIdentifiable<TKey>, new()
-            where TViewModel : class, IViewModel<T, TKey>, new()
+            where TViewModel : class, IGetViewModel<T>, new()
         {
             T data = await store.FindByIdAsync(id);
 
@@ -193,19 +156,19 @@ namespace FCore.Foundations
             }
 
             TViewModel viewModel = new TViewModel();
-            viewModel.SetValues(data);
+            viewModel.FillViewModel(data);
 
             return new ManagerResult<TViewModel>(viewModel);
         }
 
         public static ResultSet<TViewModel> GetMany<T, TKey, TViewModel>(IQueryable<T> filteredQueryable, int page = 1, int pageSize = 10)
             where T : class, IIdentifiable<TKey>
-            where TViewModel : class, IViewModel<T, TKey>, new()
+            where TViewModel : class, IGetViewModel<T>, new()
         {
             return ResultSetHelper.Convert(ResultSetHelper.GetResults<T, TKey>(filteredQueryable, page, pageSize), data =>
             {
                 TViewModel viewModel = new TViewModel();
-                viewModel.SetValues(data);
+                viewModel.FillViewModel(data);
                 return viewModel;
             });
         }
